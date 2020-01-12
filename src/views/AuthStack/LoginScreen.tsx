@@ -4,6 +4,15 @@ import LoginModal from './conponents/LoginModal';
 
 function LoginScreen() {
     const [loginModalVisible, setLoginModalVisible] = useState(false);
+    const [password, setPassword] = useState('dakiiii');
+    const [email, setEmail] = useState('');
+    const props = {
+        password,
+        email,
+        setPassword,
+        setEmail,
+        visible: loginModalVisible,
+    };
     useEffect(() => {
         setLoginModalVisible(true);
     }, []);
@@ -15,7 +24,7 @@ function LoginScreen() {
                 alignItems: 'center',
                 justifyContent: 'center',
             }}>
-            <LoginModal visible={loginModalVisible} />
+            <LoginModal {...props} />
         </ImageBackground>
     );
 }

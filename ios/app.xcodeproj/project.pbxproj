@@ -20,6 +20,17 @@
 		674417DC7DA06EA88E79308A /* libPods-app-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8788F786ADC15B078956F9B1 /* libPods-app-tvOS.a */; };
 		A2E0DE7BA2AB6CEE86D43970 /* libPods-app-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41379E56D36294CE1CB97740 /* libPods-app-tvOSTests.a */; };
 		BD6B9200D67CE92F0913D467 /* libPods-app.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7575969C98CB4B0306608D78 /* libPods-app.a */; };
+		F74ACE571DDE4BD6A84F44FD /* palanquin-bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9A0A64BA95C4463BAE10E196 /* palanquin-bold.ttf */; };
+		75AB6D1544DD47CA8F88E28F /* palanquin-extralight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F40BE7F851B34E85A1406851 /* palanquin-extralight.ttf */; };
+		0C0ADFB2D8AC413995F6C09A /* palanquin-light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4FB32596FB3646EC9E4A98DF /* palanquin-light.ttf */; };
+		E7A152AC4F3944B3A1BB8956 /* palanquin-medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 98AE04CC6036482B8D20B4CD /* palanquin-medium.ttf */; };
+		BF975C32E02548D6856C2B20 /* palanquin-regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A78E406343F3436682517954 /* palanquin-regular.ttf */; };
+		EF72272EA46E4402B0E26BC3 /* palanquin-semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0A4A9CB0C35C437E86BF8327 /* palanquin-semibold.ttf */; };
+		EE9A3FB21FDE40D9AECB9679 /* palanquin-thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B4E214236FC64CF093FCEF71 /* palanquin-thin.ttf */; };
+		D344431AEF164BB3AAEB7231 /* palanquindark-bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9F3EEBA3254848608218CAAB /* palanquindark-bold.ttf */; };
+		F3BB447855D84263A0F11288 /* palanquindark-medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8C2704E713D14FC9BC70AEA7 /* palanquindark-medium.ttf */; };
+		C0329573716948218158D9E0 /* palanquindark-regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8F7F1EBBC8DC482A960C1446 /* palanquindark-regular.ttf */; };
+		09280CD0C615419B9D0AF38E /* palanquindark-semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 20F1D4AB56954EFD99F5B0F8 /* palanquindark-semibold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +78,17 @@
 		EA032D8D52FC42218146A43E /* Pods-app-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-app-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-app-tvOS/Pods-app-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
+		9A0A64BA95C4463BAE10E196 /* palanquin-bold.ttf */ = {isa = PBXFileReference; name = "palanquin-bold.ttf"; path = "../src/res/fonts/palanquin-bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F40BE7F851B34E85A1406851 /* palanquin-extralight.ttf */ = {isa = PBXFileReference; name = "palanquin-extralight.ttf"; path = "../src/res/fonts/palanquin-extralight.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		4FB32596FB3646EC9E4A98DF /* palanquin-light.ttf */ = {isa = PBXFileReference; name = "palanquin-light.ttf"; path = "../src/res/fonts/palanquin-light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		98AE04CC6036482B8D20B4CD /* palanquin-medium.ttf */ = {isa = PBXFileReference; name = "palanquin-medium.ttf"; path = "../src/res/fonts/palanquin-medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A78E406343F3436682517954 /* palanquin-regular.ttf */ = {isa = PBXFileReference; name = "palanquin-regular.ttf"; path = "../src/res/fonts/palanquin-regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0A4A9CB0C35C437E86BF8327 /* palanquin-semibold.ttf */ = {isa = PBXFileReference; name = "palanquin-semibold.ttf"; path = "../src/res/fonts/palanquin-semibold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		B4E214236FC64CF093FCEF71 /* palanquin-thin.ttf */ = {isa = PBXFileReference; name = "palanquin-thin.ttf"; path = "../src/res/fonts/palanquin-thin.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		9F3EEBA3254848608218CAAB /* palanquindark-bold.ttf */ = {isa = PBXFileReference; name = "palanquindark-bold.ttf"; path = "../src/res/fonts/palanquindark-bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		8C2704E713D14FC9BC70AEA7 /* palanquindark-medium.ttf */ = {isa = PBXFileReference; name = "palanquindark-medium.ttf"; path = "../src/res/fonts/palanquindark-medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		8F7F1EBBC8DC482A960C1446 /* palanquindark-regular.ttf */ = {isa = PBXFileReference; name = "palanquindark-regular.ttf"; path = "../src/res/fonts/palanquindark-regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		20F1D4AB56954EFD99F5B0F8 /* palanquindark-semibold.ttf */ = {isa = PBXFileReference; name = "palanquindark-semibold.ttf"; path = "../src/res/fonts/palanquindark-semibold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,6 +187,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				CDBBF247365C96B92771E86C /* Pods */,
+				83F8A2CA800444928F762F73 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -197,6 +220,25 @@
 			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
+		};
+		83F8A2CA800444928F762F73 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				9A0A64BA95C4463BAE10E196 /* palanquin-bold.ttf */,
+				F40BE7F851B34E85A1406851 /* palanquin-extralight.ttf */,
+				4FB32596FB3646EC9E4A98DF /* palanquin-light.ttf */,
+				98AE04CC6036482B8D20B4CD /* palanquin-medium.ttf */,
+				A78E406343F3436682517954 /* palanquin-regular.ttf */,
+				0A4A9CB0C35C437E86BF8327 /* palanquin-semibold.ttf */,
+				B4E214236FC64CF093FCEF71 /* palanquin-thin.ttf */,
+				9F3EEBA3254848608218CAAB /* palanquindark-bold.ttf */,
+				8C2704E713D14FC9BC70AEA7 /* palanquindark-medium.ttf */,
+				8F7F1EBBC8DC482A960C1446 /* palanquindark-regular.ttf */,
+				20F1D4AB56954EFD99F5B0F8 /* palanquindark-semibold.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -285,7 +327,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 940;
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
@@ -338,6 +380,17 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				F74ACE571DDE4BD6A84F44FD /* palanquin-bold.ttf in Resources */,
+				75AB6D1544DD47CA8F88E28F /* palanquin-extralight.ttf in Resources */,
+				0C0ADFB2D8AC413995F6C09A /* palanquin-light.ttf in Resources */,
+				E7A152AC4F3944B3A1BB8956 /* palanquin-medium.ttf in Resources */,
+				BF975C32E02548D6856C2B20 /* palanquin-regular.ttf in Resources */,
+				EF72272EA46E4402B0E26BC3 /* palanquin-semibold.ttf in Resources */,
+				EE9A3FB21FDE40D9AECB9679 /* palanquin-thin.ttf in Resources */,
+				D344431AEF164BB3AAEB7231 /* palanquindark-bold.ttf in Resources */,
+				F3BB447855D84263A0F11288 /* palanquindark-medium.ttf in Resources */,
+				C0329573716948218158D9E0 /* palanquindark-regular.ttf in Resources */,
+				09280CD0C615419B9D0AF38E /* palanquindark-semibold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
