@@ -1,6 +1,11 @@
 import {createStackNavigator} from 'react-navigation-stack';
-import HomeScreen from '../views/AppStack/HomeScreen';
+import HomeScreenDrawer from './HomeScreenDrawer';
 
-const AppStack = createStackNavigator({Home: HomeScreen});
+const AppStack = createStackNavigator(
+    {
+        Home: HomeScreenDrawer,
+    },
+    {},
+);
 
 export default AppStack;

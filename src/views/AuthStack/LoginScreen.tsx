@@ -1,32 +1,62 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, ImageBackground} from 'react-native';
-import LoginModal from './conponents/LoginModal';
+import LoginModal from './components/LoginModal';
+import service from '../../service';
+import {AppState} from '../../store';
+import {connect} from 'react-redux';
+import ErrorModal from './components/ErrorModal';
+import {Dispatch, AnyAction} from 'redux';
+import {NavigationStackProp} from 'react-navigation-stack';
+import {setToken} from '../../userReducer/actions';
 
-function LoginScreen() {
+interface Props {
+    loading: {[name: string]: boolean};
+    navigation: NavigationStackProp;
+    dispatch: Dispatch<AnyAction>;
+}
+
+function LoginScreen(p: Props) {
     const [loginModalVisible, setLoginModalVisible] = useState(false);
-    const [password, setPassword] = useState('dakiiii');
-    const [email, setEmail] = useState('');
+    const [error, setError] = useState();
+    const [password, setPassword] = useState('Petar123');
+    const [email, setEmail] = useState('petar@mundiala.com');
+    const onOkPress = () => {
+        setError(null);
+        setLoginModalVisible(true);
+    };
+    const onLoginPress = () => {
+        service
+            .login(email, password, true)
+            .then(res => {
+                p.dispatch(setToken(res.token));
+                p.navigation.navigate('App');
+            })
+            .catch(e => {
+                setLoginModalVisible(false);
+                setError(e);
+            });
+    };
     const props = {
         password,
         email,
         setPassword,
         setEmail,
+        onLoginPress,
         visible: loginModalVisible,
+        loading: p.loading,
     };
     useEffect(() => {
         setLoginModalVisible(true);
     }, []);
     return (
-        <ImageBackground
-            source={require('../../res/images/background.png')}
-            style={{
-                flex: 1,
-                alignItems: 'center',
-                justifyContent: 'center',
-            }}>
+        <>
             <LoginModal {...props} />
-        </ImageBackground>
+            <ErrorModal onOkPress={onOkPress} error={error} />
+        </>
     );
 }
 
-export default LoginScreen;
+const mapStateToProps = (state: AppState) => ({
+    loading: state.loading,
+});
+
+export default connect(mapStateToProps)(LoginScreen);

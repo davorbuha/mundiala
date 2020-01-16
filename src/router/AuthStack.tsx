@@ -3,7 +3,13 @@ import LoginScreen from '../views/AuthStack/LoginScreen';
 
 const AuthStack = createStackNavigator(
     {
-        Login: LoginScreen,
+        Login: {
+            screen: LoginScreen,
+            path: 'Login',
+            navigationOptions: {
+                cardStyle: {backgroundColor: 'transparent'},
+            },
+        },
     },
     {
         headerMode: 'none',

@@ -5,6 +5,7 @@ import {
     StatusBar,
     Text,
     StyleSheet,
+    ImageBackground,
 } from 'react-native';
 import {NavigationSwitchScreenProps} from 'react-navigation';
 import CustomSafeArea from '../components/SafeArea';
@@ -31,6 +32,7 @@ const style = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'grey',
+        opacity: 0.1,
         alignItems: 'center',
         justifyContent: 'center',
     },
