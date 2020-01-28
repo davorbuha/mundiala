@@ -8,7 +8,6 @@ class Organization {
     }
 
     static fromJSON(maybe: any): Organization {
-        console.log(maybe);
         if (typeof maybe.id !== 'number') {
             throw new Error('id is not number');
         }

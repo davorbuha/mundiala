@@ -6,7 +6,10 @@ import {connect} from 'react-redux';
 import ErrorModal from './components/ErrorModal';
 import {Dispatch, AnyAction} from 'redux';
 import {NavigationStackProp} from 'react-navigation-stack';
-import {setToken} from '../../userReducer/actions';
+import {setTokenAndOrganisation} from '../../userReducer/actions';
+import {storeCredentials, readCredentials} from '../../asyncStorage';
+import Credentials from '../../asyncStorage/credentials';
+import {AsyncStorage} from 'react-native';
 
 interface Props {
     loading: {[name: string]: boolean};
@@ -15,6 +18,48 @@ interface Props {
 }
 
 function LoginScreen(p: Props) {
+    useEffect(() => {
+        try {
+            readCredentials()
+                .then(credentials => {
+                    if (credentials.getToken()) {
+                        // service
+                        //     .checkToken(credentials.getToken(), true)
+                        //     .then(check => {
+                        //         if (!check) {
+                        //             p.dispatch(
+                        //                 setToken(credentials.getToken()),
+                        //             );
+                        //             p.navigation.navigate('App');
+                        //         } else {
+                        service
+                            .login(
+                                credentials.getEmail(),
+                                credentials.getPassword(),
+                                true,
+                            )
+                            .then(res => {
+                                storeCredentials(
+                                    new Credentials(email, password, res.token),
+                                ).then(() => {
+                                    p.dispatch(
+                                        setTokenAndOrganisation(
+                                            res.token,
+                                            res.organisations,
+                                        ),
+                                    );
+                                    p.navigation.navigate('App');
+                                });
+                            });
+                        // }
+                        // });
+                    }
+                })
+                .catch(() => setLoginModalVisible(true));
+        } catch (e) {
+            setLoginModalVisible(true);
+        }
+    }, []);
     const [loginModalVisible, setLoginModalVisible] = useState(false);
     const [error, setError] = useState();
     const [password, setPassword] = useState('Petar123');
@@ -27,8 +72,14 @@ function LoginScreen(p: Props) {
         service
             .login(email, password, true)
             .then(res => {
-                p.dispatch(setToken(res.token));
-                p.navigation.navigate('App');
+                storeCredentials(
+                    new Credentials(email, password, res.token),
+                ).then(() => {
+                    p.dispatch(
+                        setTokenAndOrganisation(res.token, res.organisations),
+                    );
+                    p.navigation.navigate('App');
+                });
             })
             .catch(e => {
                 setLoginModalVisible(false);
@@ -44,9 +95,6 @@ function LoginScreen(p: Props) {
         visible: loginModalVisible,
         loading: p.loading,
     };
-    useEffect(() => {
-        setLoginModalVisible(true);
-    }, []);
     return (
         <>
             <LoginModal {...props} />

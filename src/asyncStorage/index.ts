@@ -17,11 +17,7 @@ export async function storeCredentials(cred: Credentials): Promise<boolean> {
 }
 
 export async function readCredentials(): Promise<Credentials | null> {
-    try {
-        const storageRes = await AsyncStorage.getItem(credentialsKey);
-        const credentials = Credentials.fromJSON(JSON.parse(storageRes));
-        return credentials;
-    } catch (e) {
-        return null;
-    }
+    const storageRes = await AsyncStorage.getItem(credentialsKey);
+    const credentials = Credentials.fromJSON(JSON.parse(storageRes));
+    return credentials;
 }
