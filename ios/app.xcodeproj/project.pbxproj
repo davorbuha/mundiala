@@ -22,6 +22,7 @@
 		674417DC7DA06EA88E79308A /* libPods-app-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8788F786ADC15B078956F9B1 /* libPods-app-tvOS.a */; };
 		75AB6D1544DD47CA8F88E28F /* palanquin-extralight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F40BE7F851B34E85A1406851 /* palanquin-extralight.ttf */; };
 		A2E0DE7BA2AB6CEE86D43970 /* libPods-app-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41379E56D36294CE1CB97740 /* libPods-app-tvOSTests.a */; };
+		B9C19F7823E2105A00DC8F11 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B9C19F7723E2105A00DC8F11 /* GoogleService-Info.plist */; };
 		BD6B9200D67CE92F0913D467 /* libPods-app.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7575969C98CB4B0306608D78 /* libPods-app.a */; };
 		BF975C32E02548D6856C2B20 /* palanquin-regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A78E406343F3436682517954 /* palanquin-regular.ttf */; };
 		C0329573716948218158D9E0 /* palanquindark-regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8F7F1EBBC8DC482A960C1446 /* palanquindark-regular.ttf */; };
@@ -84,6 +85,8 @@
 		9F3EEBA3254848608218CAAB /* palanquindark-bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "palanquindark-bold.ttf"; path = "../src/res/fonts/palanquindark-bold.ttf"; sourceTree = "<group>"; };
 		A78E406343F3436682517954 /* palanquin-regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "palanquin-regular.ttf"; path = "../src/res/fonts/palanquin-regular.ttf"; sourceTree = "<group>"; };
 		B4E214236FC64CF093FCEF71 /* palanquin-thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "palanquin-thin.ttf"; path = "../src/res/fonts/palanquin-thin.ttf"; sourceTree = "<group>"; };
+		B9C19F7623E20D1F00DC8F11 /* app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = app.entitlements; path = app/app.entitlements; sourceTree = "<group>"; };
+		B9C19F7723E2105A00DC8F11 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CED1F15EB0732AF011CF3B95 /* Pods-app-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-app-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-app-tvOSTests/Pods-app-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		EA032D8D52FC42218146A43E /* Pods-app-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-app-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-app-tvOS/Pods-app-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -147,6 +150,8 @@
 		13B07FAE1A68108700A75B9A /* app */ = {
 			isa = PBXGroup;
 			children = (
+				B9C19F7723E2105A00DC8F11 /* GoogleService-Info.plist */,
+				B9C19F7623E20D1F00DC8F11 /* app.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -398,6 +403,7 @@
 				F3BB447855D84263A0F11288 /* palanquindark-medium.ttf in Resources */,
 				C0329573716948218158D9E0 /* palanquindark-regular.ttf in Resources */,
 				09280CD0C615419B9D0AF38E /* palanquindark-semibold.ttf in Resources */,
+				B9C19F7823E2105A00DC8F11 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -744,6 +750,7 @@
 			baseConfigurationReference = 3D0278684875CA03C13CF04C /* Pods-app.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = app/app.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -768,6 +775,7 @@
 			baseConfigurationReference = 0CBCA5DCAEEA16F1A8D492E5 /* Pods-app.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = app/app.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
