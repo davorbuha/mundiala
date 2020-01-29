@@ -101,6 +101,23 @@ class REST implements Service {
         return CalendarReply.fromJSON(res.data.data);
     }
 
+    public async getUserProfile(
+        token: string,
+        organisationId: number,
+    ): Promise<any> {
+        const data = {
+            method: 'profile',
+            token,
+            organisation_id: organisationId,
+        };
+
+        const res = await this.request({method: 'POST', data});
+        if (res.data.error !== '') {
+            throw new Error(res.data.error);
+        }
+        return res.data;
+    }
+
     private request(req: AxiosRequestConfig) {
         return this.client.request({...req, url: this.url});
     }

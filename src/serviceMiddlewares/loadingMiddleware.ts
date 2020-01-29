@@ -103,6 +103,21 @@ class LoadingMiddleware implements Service {
             throw e;
         }
     }
+
+    public async getUserProfile(
+        token: string,
+        organisationId: number,
+    ): Promise<any> {
+        try {
+            this.dispatch(startLoading(this.getUserProfile.name));
+            const res = await this.next.getUserProfile(token, organisationId);
+            this.dispatch(stopLoading(this.getUserProfile.name));
+            return res;
+        } catch (e) {
+            this.dispatch(stopLoading(this.getUserProfile.name));
+            throw e;
+        }
+    }
 }
 
 export default LoadingMiddleware;

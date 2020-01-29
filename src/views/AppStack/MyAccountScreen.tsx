@@ -6,8 +6,13 @@ import LogoTitle from './components/LogoTitle';
 import COLORS from '../../res/colors';
 import NavBarItem from '../../components/NavBarItem';
 import {View} from 'react-native';
+import service from '../../service';
+import {connect} from 'react-redux';
+import {AppState} from '../../store';
 
 interface Props {
+    token: string;
+    organisationId: number;
     navigation: StackNavigationProp;
 }
 
@@ -26,9 +31,21 @@ class MyAccountScreen extends Component<Props> {
         );
     }
 
+    public componentDidMount() {
+        const {token, organisationId} = this.props;
+        service
+            .getUserProfile(token, organisationId)
+            .then(res => console.log(res));
+    }
+
     public render() {
         return <View style={{flex: 1}}></View>;
     }
 }
 
-export default MyAccountScreen;
+const mapStateToProps = (state: AppState) => ({
+    token: state.user.token,
+    organisationId: state.user.organisations[0].id,
+});
+
+export default connect(mapStateToProps)(MyAccountScreen);

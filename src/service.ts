@@ -32,6 +32,7 @@ export interface Service {
         from: Moment,
         till: Moment,
     ): Promise<CalendarReply>;
+    getUserProfile(token: string, organisationId: number): Promise<any>;
 }
 
 const rest = new REST(client, config.BACKEND);

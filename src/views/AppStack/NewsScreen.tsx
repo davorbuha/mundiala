@@ -97,7 +97,7 @@ const RenderFlatListItem = (navigation: StackNavigationProp) => (
                 style={style.itemImage}
                 source={{
                     uri:
-                        'https://app.mundiala.com/upload/ourteam/news/' +
+                        'https://app.mundiala.com/upload/ourteam/news/small_' +
                         item.item.image,
                 }}
             />
