@@ -1,40 +1,40 @@
 {
-  "project_info": {
-    "project_number": "381424965895",
-    "firebase_url": "https://mundiala-app.firebaseio.com",
-    "project_id": "mundiala-app",
-    "storage_bucket": "mundiala-app.appspot.com"
-  },
-  "client": [
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:381424965895:android:2d36f8917573558dde8da2",
-        "android_client_info": {
-          "package_name": "com.mundiala.app"
-        }
-      },
-      "oauth_client": [
+    "project_info": {
+        "project_number": "381424965895",
+        "firebase_url": "https://mundiala-app.firebaseio.com",
+        "project_id": "mundiala-app",
+        "storage_bucket": "mundiala-app.appspot.com"
+    },
+    "client": [
         {
-          "client_id": "381424965895-4m6s64g2coqtarbvp67245e4qch21hjk.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCwBBsuoDyJrRSBkO1L_vrq9rEVzdXjUQo"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "381424965895-4m6s64g2coqtarbvp67245e4qch21hjk.apps.googleusercontent.com",
-              "client_type": 3
+            "client_info": {
+                "mobilesdk_app_id": "1:381424965895:android:2d36f8917573558dde8da2",
+                "android_client_info": {
+                    "package_name": "com.app"
+                }
+            },
+            "oauth_client": [
+                {
+                    "client_id": "381424965895-4m6s64g2coqtarbvp67245e4qch21hjk.apps.googleusercontent.com",
+                    "client_type": 3
+                }
+            ],
+            "api_key": [
+                {
+                    "current_key": "AIzaSyCwBBsuoDyJrRSBkO1L_vrq9rEVzdXjUQo"
+                }
+            ],
+            "services": {
+                "appinvite_service": {
+                    "other_platform_oauth_client": [
+                        {
+                            "client_id": "381424965895-4m6s64g2coqtarbvp67245e4qch21hjk.apps.googleusercontent.com",
+                            "client_type": 3
+                        }
+                    ]
+                }
             }
-          ]
         }
-      }
-    }
-  ],
-  "configuration_version": "1"
+    ],
+    "configuration_version": "1"
 }
