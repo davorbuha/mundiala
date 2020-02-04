@@ -7,6 +7,7 @@ import LoginReply from './types/login';
 import {NewsReply, NewsByIdReply} from './types/news';
 import {Moment} from 'moment';
 import {CalendarReply} from './types/calendar';
+import Account from './types/account';
 
 export interface Service {
     login(
@@ -32,10 +33,10 @@ export interface Service {
         from: Moment,
         till: Moment,
     ): Promise<CalendarReply>;
-    getUserProfile(token: string, organisationId: number): Promise<any>;
+    getUserProfile(token: string, organisationId: number): Promise<Account>;
 }
 
-const rest = new REST(client, config.BACKEND);
-const loadingMiddleware = new LoadingMiddleware(rest, store.dispatch);
+const rest: Service = new REST(client, config.BACKEND);
+const loadingMiddleware: Service = new LoadingMiddleware(rest, store.dispatch);
 
 export default loadingMiddleware;

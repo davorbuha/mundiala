@@ -5,6 +5,7 @@ import LoginReply from '../types/login';
 import {NewsReply, NewsByIdReply} from '../types/news';
 import {Moment} from 'moment';
 import {CalendarReply} from '../types/calendar';
+import Account from '../types/account';
 
 class LoadingMiddleware implements Service {
     private dispatch: Dispatch<AnyAction>;
@@ -107,7 +108,7 @@ class LoadingMiddleware implements Service {
     public async getUserProfile(
         token: string,
         organisationId: number,
-    ): Promise<any> {
+    ): Promise<Account> {
         try {
             this.dispatch(startLoading(this.getUserProfile.name));
             const res = await this.next.getUserProfile(token, organisationId);

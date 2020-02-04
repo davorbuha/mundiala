@@ -18,10 +18,12 @@ export const getNavigationOptionsWithAction = (
     backgroundColor,
     color,
     headerLeft,
+    style?,
 ) => ({
     headerTitle,
     headerStyle: {
         backgroundColor,
+        ...style,
     },
     headerTitleStyle: {
         color,

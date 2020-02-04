@@ -5,6 +5,7 @@ import Loading from '../components/Loading';
 import {NewsReply, NewsByIdReply} from '../types/news';
 import {Moment} from 'moment';
 import {CalendarReply} from '../types/calendar';
+import Account from '../types/account';
 
 class REST implements Service {
     private client: AxiosInstance;
@@ -104,7 +105,7 @@ class REST implements Service {
     public async getUserProfile(
         token: string,
         organisationId: number,
-    ): Promise<any> {
+    ): Promise<Account> {
         const data = {
             method: 'profile',
             token,
@@ -115,7 +116,7 @@ class REST implements Service {
         if (res.data.error !== '') {
             throw new Error(res.data.error);
         }
-        return res.data;
+        return Account.fromJSON(res.data.data);
     }
 
     private request(req: AxiosRequestConfig) {
