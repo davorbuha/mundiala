@@ -28,6 +28,7 @@ export const getNavigationOptionsWithAction = (
     headerTitleStyle: {
         color,
     },
+    headerTitleAlign: 'center',
     headerTintColor: color,
     headerLeft,
     headerRight: () => <View />,

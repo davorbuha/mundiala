@@ -1,4 +1,4 @@
-import {SET_TOKEN_AND_ORGANISATION, SET_ACCOUNT} from './actions';
+import {SET_TOKEN_AND_ORGANISATION, SET_ACCOUNT, SET_PASSWORD} from './actions';
 import Organization from '../types/organization';
 import Account from '../types/account';
 
@@ -6,12 +6,14 @@ const INITIAL_STATE: State = {
     token: '',
     organisations: [],
     account: null,
+    password: null,
 };
 
 export interface State {
     token: string;
     organisations: Organization[];
     account: Account;
+    password: string;
 }
 
 const userReducer = (state: State = INITIAL_STATE, action): State => {
@@ -26,6 +28,12 @@ const userReducer = (state: State = INITIAL_STATE, action): State => {
             return {
                 ...state,
                 account: action.account,
+            };
+
+        case SET_PASSWORD:
+            return {
+                ...state,
+                password: action.password,
             };
         default:
             return state;

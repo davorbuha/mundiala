@@ -3,6 +3,7 @@ import Account from '../types/account';
 
 export const SET_TOKEN_AND_ORGANISATION = 'SET_TOKEN_AND_ORGANISATION';
 export const SET_ACCOUNT = 'SET_ACCOUNT';
+export const SET_PASSWORD = 'SET_PASSWORD';
 
 export const setTokenAndOrganisation = (
     token: string,
@@ -16,4 +17,9 @@ export const setTokenAndOrganisation = (
 export const setAccount = (account: Account) => ({
     type: SET_ACCOUNT,
     account,
+});
+
+export const setPassword = (password: string) => ({
+    type: SET_PASSWORD,
+    password,
 });

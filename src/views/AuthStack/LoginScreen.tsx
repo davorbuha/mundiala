@@ -9,7 +9,7 @@ import {NavigationStackProp} from 'react-navigation-stack';
 import {setTokenAndOrganisation} from '../../userReducer/actions';
 import {storeCredentials, readCredentials} from '../../asyncStorage';
 import Credentials from '../../asyncStorage/credentials';
-import {AsyncStorage} from 'react-native';
+import {setPassword as setPasswordAction} from '../../userReducer/actions';
 
 interface Props {
     loading: {[name: string]: boolean};
@@ -23,15 +23,6 @@ function LoginScreen(p: Props) {
             readCredentials()
                 .then(credentials => {
                     if (credentials.getToken()) {
-                        // service
-                        //     .checkToken(credentials.getToken(), true)
-                        //     .then(check => {
-                        //         if (!check) {
-                        //             p.dispatch(
-                        //                 setToken(credentials.getToken()),
-                        //             );
-                        //             p.navigation.navigate('App');
-                        //         } else {
                         service
                             .login(
                                 credentials.getEmail(),
@@ -39,6 +30,11 @@ function LoginScreen(p: Props) {
                                 true,
                             )
                             .then(res => {
+                                p.dispatch(
+                                    setPasswordAction(
+                                        credentials.getPassword(),
+                                    ),
+                                );
                                 storeCredentials(
                                     new Credentials(email, password, res.token),
                                 ).then(() => {
@@ -50,9 +46,8 @@ function LoginScreen(p: Props) {
                                     );
                                     p.navigation.navigate('App');
                                 });
-                            });
-                        // }
-                        // });
+                            })
+                            .catch(() => setLoginModalVisible(true));
                     }
                 })
                 .catch(() => setLoginModalVisible(true));
@@ -72,6 +67,7 @@ function LoginScreen(p: Props) {
         service
             .login(email, password, true)
             .then(res => {
+                p.dispatch(setPasswordAction(password));
                 storeCredentials(
                     new Credentials(email, password, res.token),
                 ).then(() => {

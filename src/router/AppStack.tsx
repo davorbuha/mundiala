@@ -9,17 +9,39 @@ import {getNavigationOptionsWithAction} from './navigationHelpers';
 import LogoTitle from '../views/AppStack/components/LogoTitle';
 import COLORS from '../res/colors';
 import NavBarItem from '../components/NavBarItem';
+import PasswordScreen from '../views/AppStack/PasswordScreen';
 
-const AppStack = createStackNavigator({
-    Home: HomeScreenDrawer,
-    News: NewsScreen,
-    Calendar: CalendarScreen,
-    NewsDetails: NewsDetailsScreen,
-    MyAccount: {
-        path: 'MyAccount',
-        screen: MyAccountTabNavigatior,
-        navigationOptions: ({navigation}) =>
-            getNavigationOptionsWithAction(
+const AppStack = createStackNavigator(
+    {
+        Home: HomeScreenDrawer,
+        News: NewsScreen,
+        Calendar: CalendarScreen,
+        NewsDetails: NewsDetailsScreen,
+        MyAccount: {
+            path: 'MyAccount',
+            screen: MyAccountTabNavigatior,
+            navigationOptions: ({navigation}) =>
+                getNavigationOptionsWithAction(
+                    () => <LogoTitle />,
+                    COLORS.primary,
+                    'white',
+                    () => (
+                        <NavBarItem
+                            onPress={() => navigation.goBack()}
+                            iconName="arrow-left"
+                        />
+                    ),
+                    {
+                        shadowColor: 'transparent',
+                        elevation: 0,
+                    },
+                ),
+        },
+        PasswordScreen: PasswordScreen,
+    },
+    {
+        defaultNavigationOptions: ({navigation}) => {
+            return getNavigationOptionsWithAction(
                 () => <LogoTitle />,
                 COLORS.primary,
                 'white',
@@ -29,12 +51,9 @@ const AppStack = createStackNavigator({
                         iconName="arrow-left"
                     />
                 ),
-                {
-                    shadowColor: 'transparent',
-                    elevation: 0,
-                },
-            ),
+            );
+        },
     },
-});
+);
 
 export default AppStack;

@@ -19,7 +19,7 @@ export class NewsByIdReply {
     }
 
     public static fromJSON(maybe: any): NewsByIdReply {
-        const news = NewsById.fromJSON(maybe[0]);
+        const news = NewsById.fromJSON(maybe);
         return new NewsByIdReply(news);
     }
 }

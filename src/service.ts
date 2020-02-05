@@ -34,6 +34,11 @@ export interface Service {
         till: Moment,
     ): Promise<CalendarReply>;
     getUserProfile(token: string, organisationId: number): Promise<Account>;
+    changePassword(
+        token: string,
+        organisationId: number,
+        newPassword: string,
+    ): Promise<boolean>;
 }
 
 const rest: Service = new REST(client, config.BACKEND);

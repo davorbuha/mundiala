@@ -1,6 +1,11 @@
 import React, {Component} from 'react';
-import {View, Text, Dimensions, StyleSheet} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {
+    View,
+    Text,
+    Dimensions,
+    StyleSheet,
+    TouchableOpacity,
+} from 'react-native';
 import COLORS from '../../res/colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import SHADOWS from '../../res/shadows';

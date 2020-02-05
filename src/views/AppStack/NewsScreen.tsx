@@ -35,19 +35,6 @@ class NewsScreen extends Component<Props, State> {
     state = {
         data: undefined,
     };
-    static navigationOptions(p: any): NavigationStackOptions {
-        return getNavigationOptionsWithAction(
-            () => <LogoTitle />,
-            COLORS.primary,
-            'white',
-            () => (
-                <NavBarItem
-                    onPress={() => p.navigation.goBack()}
-                    iconName="arrow-left"
-                />
-            ),
-        );
-    }
     public componentDidMount() {
         const {organisations, token} = this.props;
         service

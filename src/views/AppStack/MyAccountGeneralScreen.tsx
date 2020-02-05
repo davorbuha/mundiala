@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {StackNavigationProp} from 'react-navigation-stack/lib/typescript/src/vendor/types';
 import {NavigationStackOptions} from 'react-navigation-stack';
 import COLORS from '../../res/colors';
-import {View, StyleSheet, Image} from 'react-native';
+import {View, StyleSheet, Image, Platform} from 'react-native';
 import service from '../../service';
 import {connect} from 'react-redux';
 import {AppState} from '../../store';
@@ -32,7 +32,9 @@ class MyAccountGeneralScreen extends Component<Props> {
         service
             .getUserProfile(token, organisationId)
             .then(res => this.props.dispatch(setAccount(res)))
-            .catch(() => {});
+            .catch(e => {
+                console.log(e);
+            });
     }
 
     public render() {
@@ -49,7 +51,7 @@ const renderTable = (account: Account) => {
         [
             'Profilna fotografija: ',
             <Image
-                resizeMode="stretch"
+                resizeMode="cover"
                 style={style.itemImage}
                 source={{
                     uri:
@@ -95,7 +97,7 @@ const style = StyleSheet.create({
         marginBottom: 16,
     },
     itemImage: {
-        borderRadius: 30,
+        borderRadius: Platform.OS === 'ios' ? 30 : 60,
         width: 60,
         height: 60,
         alignSelf: 'center',

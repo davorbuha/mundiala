@@ -75,9 +75,19 @@ function renderErrorText(error: Error | undefined): string {
     switch (error.message) {
         case ERROR_INVALID_LOGIN:
             return 'Pogrešno korisničko ime ili lozinka';
+        case CURRENT_PASSWORD_IS_NOT_CORRECT:
+            return 'Trenutna lozinka nije ispravna';
+        case PASSWORDS_NOT_MATCHING:
+            return 'Lozinke se ne podudaraju';
+        case PASSWORD_TOO_SHORT:
+            return 'Nova lozinka nije dovoljno dugačka (min. 5 znakova)';
         default:
             return error.message;
     }
 }
 
-const ERROR_INVALID_LOGIN = 'invalid_login';
+export const ERROR_INVALID_LOGIN = 'invalid_login';
+export const CURRENT_PASSWORD_IS_NOT_CORRECT =
+    'current_password_is_not_correct';
+export const PASSWORDS_NOT_MATCHING = 'passwords_not_matching';
+export const PASSWORD_TOO_SHORT = 'password_too_short';

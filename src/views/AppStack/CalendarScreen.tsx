@@ -128,28 +128,17 @@ class CalendarScreen extends Component<Props, State> {
         calendarDates: [],
         selectedDates: [],
     };
-    static navigationOptions(p: any): NavigationStackOptions {
-        return getNavigationOptionsWithAction(
-            () => <LogoTitle />,
-            COLORS.primary,
-            'white',
-            () => (
-                <NavBarItem
-                    onPress={() => p.navigation.goBack()}
-                    iconName="arrow-left"
-                />
-            ),
-        );
-    }
     onMonthChange = date => {
         service
             .getCalendar(
                 this.props.token,
                 this.props.organisationId,
-                moment(date.dateString).subtract(45, 'days'),
-                moment(date.dateString).add(15, 'days'),
+                moment(date.dateString).subtract(31, 'days'),
+                moment(date.dateString).add(31, 'days'),
             )
-            .then(res => this.setState({calendarDates: res.data}));
+            .then(res => {
+                this.setState({calendarDates: res.data});
+            });
     };
 
     componentDidMount() {
@@ -177,6 +166,7 @@ class CalendarScreen extends Component<Props, State> {
                     markingType="multi-dot"
                     onMonthChange={this.onMonthChange}
                     onDayPress={this.handleDayPress}
+                    onDayLongPress={this.handleDayPress}
                     markedDates={markedDates}
                 />
                 {renderSelectedDates(this.state.selectedDates)}
@@ -215,7 +205,7 @@ const theme = {
     textDayFontWeight: '300',
     textMonthFontWeight: 'bold',
     textDayHeaderFontWeight: '300',
-    textDayFontSize: 16,
+    textDayFontSize: 18,
     textMonthFontSize: 16,
     textDayHeaderFontSize: 16,
 };

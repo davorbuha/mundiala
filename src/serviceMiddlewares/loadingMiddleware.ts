@@ -119,6 +119,26 @@ class LoadingMiddleware implements Service {
             throw e;
         }
     }
+
+    public async changePassword(
+        token: string,
+        organisationId: number,
+        newPassword: string,
+    ): Promise<boolean> {
+        try {
+            this.dispatch(startLoading(this.changePassword.name));
+            const res = await this.next.changePassword(
+                token,
+                organisationId,
+                newPassword,
+            );
+            this.dispatch(stopLoading(this.changePassword.name));
+            return res;
+        } catch (e) {
+            this.dispatch(stopLoading(this.changePassword.name));
+            throw e;
+        }
+    }
 }
 
 export default LoadingMiddleware;

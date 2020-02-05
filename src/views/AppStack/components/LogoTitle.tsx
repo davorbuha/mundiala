@@ -9,7 +9,6 @@ function LogoTitle() {
                 width: 150,
                 height: 36,
                 resizeMode: 'contain',
-                alignSelf: 'center',
             }}
             source={require('../../../res/images/logo-login.png')}
         />

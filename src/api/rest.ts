@@ -119,8 +119,27 @@ class REST implements Service {
         return Account.fromJSON(res.data.data);
     }
 
-    private request(req: AxiosRequestConfig) {
-        return this.client.request({...req, url: this.url});
+    public async changePassword(
+        token: string,
+        organisationId: number,
+        newPassword: string,
+    ): Promise<boolean> {
+        const data = {
+            method: 'password-update',
+            token,
+            organisation_id: organisationId,
+            new_password: newPassword,
+        };
+
+        const res = await this.request({method: 'POST', data});
+        if (res.data.error) {
+            throw new Error(res.data.error);
+        }
+        return true;
+    }
+
+    private async request(req: AxiosRequestConfig) {
+        return await this.client.request({...req, url: this.url});
     }
 }
 

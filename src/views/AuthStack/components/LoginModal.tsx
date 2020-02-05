@@ -113,7 +113,7 @@ const style = StyleSheet.create({
     successButtonText: {
         color: COLORS.darkGrey,
         fontFamily: FONTS.regular,
-        fontSize: 20,
+        fontSize: 16,
     },
 });
 
