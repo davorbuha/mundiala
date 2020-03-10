@@ -21,3 +21,12 @@ export async function readCredentials(): Promise<Credentials | null> {
     const credentials = Credentials.fromJSON(JSON.parse(storageRes));
     return credentials;
 }
+
+export async function deleteCredentials(): Promise<boolean> {
+    try {
+        const del = await AsyncStorage.removeItem(credentialsKey);
+        return true;
+    } catch (e) {
+        return false;
+    }
+}

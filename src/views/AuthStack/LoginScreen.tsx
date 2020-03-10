@@ -6,7 +6,10 @@ import {connect} from 'react-redux';
 import ErrorModal from './components/ErrorModal';
 import {Dispatch, AnyAction} from 'redux';
 import {NavigationStackProp} from 'react-navigation-stack';
-import {setTokenAndOrganisation} from '../../userReducer/actions';
+import {
+    setTokenAndOrganisation,
+    setNotifications,
+} from '../../userReducer/actions';
 import {storeCredentials, readCredentials} from '../../asyncStorage';
 import Credentials from '../../asyncStorage/credentials';
 import {setPassword as setPasswordAction} from '../../userReducer/actions';
@@ -18,43 +21,6 @@ interface Props {
 }
 
 function LoginScreen(p: Props) {
-    useEffect(() => {
-        try {
-            readCredentials()
-                .then(credentials => {
-                    if (credentials.getToken()) {
-                        service
-                            .login(
-                                credentials.getEmail(),
-                                credentials.getPassword(),
-                                true,
-                            )
-                            .then(res => {
-                                p.dispatch(
-                                    setPasswordAction(
-                                        credentials.getPassword(),
-                                    ),
-                                );
-                                storeCredentials(
-                                    new Credentials(email, password, res.token),
-                                ).then(() => {
-                                    p.dispatch(
-                                        setTokenAndOrganisation(
-                                            res.token,
-                                            res.organisations,
-                                        ),
-                                    );
-                                    p.navigation.navigate('App');
-                                });
-                            })
-                            .catch(() => setLoginModalVisible(true));
-                    }
-                })
-                .catch(() => setLoginModalVisible(true));
-        } catch (e) {
-            setLoginModalVisible(true);
-        }
-    }, []);
     const [loginModalVisible, setLoginModalVisible] = useState(false);
     const [error, setError] = useState();
     const [password, setPassword] = useState('Petar123');
@@ -63,13 +29,15 @@ function LoginScreen(p: Props) {
         setError(null);
         setLoginModalVisible(true);
     };
+    useEffect(() => setLoginModalVisible(true), []);
     const onLoginPress = () => {
         service
             .login(email, password, true)
             .then(res => {
+                p.dispatch(setNotifications(true));
                 p.dispatch(setPasswordAction(password));
                 storeCredentials(
-                    new Credentials(email, password, res.token),
+                    new Credentials(email, password, res.token, true),
                 ).then(() => {
                     p.dispatch(
                         setTokenAndOrganisation(res.token, res.organisations),

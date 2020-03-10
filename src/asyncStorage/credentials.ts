@@ -2,11 +2,18 @@ class Credentials {
     private email: string;
     private password: string;
     private token: string;
+    private notifications: boolean;
 
-    constructor(email: string, password: string, token: string) {
+    constructor(
+        email: string,
+        password: string,
+        token: string,
+        notifications: boolean,
+    ) {
         this.email = email;
         this.password = password;
         this.token = token;
+        this.notifications = notifications;
     }
 
     public static fromJSON(maybe: any): Credentials {
@@ -19,8 +26,16 @@ class Credentials {
         if (typeof maybe.token !== 'string') {
             throw new Error('token is not string');
         }
+        if (typeof maybe.notifications !== 'boolean') {
+            throw new Error('notifications is not boolean');
+        }
 
-        return new Credentials(maybe.email, maybe.password, maybe.token);
+        return new Credentials(
+            maybe.email,
+            maybe.password,
+            maybe.token,
+            maybe.notifications,
+        );
     }
 
     public toJSON() {
@@ -28,6 +43,7 @@ class Credentials {
             email: this.email,
             password: this.password,
             token: this.token,
+            notifications: this.notifications,
         };
     }
 
@@ -41,6 +57,13 @@ class Credentials {
 
     public getToken() {
         return this.token;
+    }
+
+    public getNotifications() {
+        return this.notifications;
+    }
+    public setNotifications(b: boolean) {
+        this.notifications = b;
     }
 }
 

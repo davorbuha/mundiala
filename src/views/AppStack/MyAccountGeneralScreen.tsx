@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {StackNavigationProp} from 'react-navigation-stack/lib/typescript/src/vendor/types';
 import {NavigationStackOptions} from 'react-navigation-stack';
 import COLORS from '../../res/colors';
-import {View, StyleSheet, Image, Platform} from 'react-native';
+import {View, StyleSheet, Image, Platform, Text} from 'react-native';
 import service from '../../service';
 import {connect} from 'react-redux';
 import {AppState} from '../../store';
@@ -11,6 +11,8 @@ import FONTS from '../../res/fonts';
 import {Table, Rows} from 'react-native-table-component';
 import {Dispatch} from 'redux';
 import {setAccount} from '../../userReducer/actions';
+import CustomButton from '../../components/CustomButton';
+import {deleteCredentials} from '../../asyncStorage';
 
 interface Props {
     token: string;
@@ -33,7 +35,7 @@ class MyAccountGeneralScreen extends Component<Props> {
             .getUserProfile(token, organisationId)
             .then(res => this.props.dispatch(setAccount(res)))
             .catch(e => {
-                console.log(e);
+                this.props.navigation.goBack();
             });
     }
 
@@ -41,7 +43,25 @@ class MyAccountGeneralScreen extends Component<Props> {
         const {account} = this.props;
         if (!account) return null;
         return (
-            <View style={{flex: 1, padding: 20}}>{renderTable(account)}</View>
+            <View style={{flex: 1, padding: 20}}>
+                {renderTable(account)}
+                <CustomButton
+                    type="standard"
+                    onPress={async () => {
+                        await deleteCredentials();
+                        this.props.navigation.navigate('Auth');
+                    }}
+                    label={
+                        <Text
+                            style={{
+                                fontFamily: FONTS.bold,
+                                color: COLORS.white,
+                            }}>
+                            Logout
+                        </Text>
+                    }
+                />
+            </View>
         );
     }
 }

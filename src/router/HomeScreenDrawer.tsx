@@ -21,13 +21,13 @@ const homeDrawerIcon = ({tintColor}) => getDrawerIcon('home', tintColor);
 const userDrawerIcon = ({tintColor}) => getDrawerIcon('cog', tintColor);
 
 const homeNavOptions = getDrawerNavigationOptions(
-    'Home',
+    'Početna',
     COLORS.primary,
     'white',
     homeDrawerIcon,
 );
 const settingsNavOptions = getDrawerNavigationOptions(
-    'Settings',
+    'Postavke',
     COLORS.primary,
     'white',
     userDrawerIcon,

@@ -1,9 +1,19 @@
-import React, {useState} from 'react';
-import {View, Text, Switch, StyleSheet} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text, Switch, StyleSheet, AsyncStorage} from 'react-native';
 import FONTS from '../../res/fonts';
+import CustomButton from '../../components/CustomButton';
+import COLORS from '../../res/colors';
+import {connect} from 'react-redux';
+import {AppState} from '../../store';
+import {readCredentials, storeCredentials} from '../../asyncStorage';
 
 function SettingsScreen() {
-    const [notificationValue, setNotificationValue] = useState(true);
+    useEffect(() => {
+        readCredentials().then(cfg =>
+            setNotificationValue(cfg.getNotifications()),
+        );
+    }, []);
+    const [notificationValue, setNotificationValue] = useState(false);
     return (
         <View style={style.container}>
             <View style={style.row}>
@@ -13,6 +23,24 @@ function SettingsScreen() {
                     value={notificationValue}
                 />
             </View>
+            <CustomButton
+                type="standard"
+                onPress={() => {
+                    readCredentials().then(cfg => {
+                        cfg.setNotifications(notificationValue);
+                        storeCredentials(cfg);
+                    });
+                }}
+                label={
+                    <Text
+                        style={{
+                            fontFamily: FONTS.bold,
+                            color: COLORS.white,
+                        }}>
+                        Spremi
+                    </Text>
+                }
+            />
         </View>
     );
 }
@@ -29,6 +57,7 @@ const style = StyleSheet.create({
     },
     row: {
         width: '100%',
+        marginBottom: 16,
         justifyContent: 'space-around',
         flexDirection: 'row',
         alignItems: 'center',

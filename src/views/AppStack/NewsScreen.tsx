@@ -7,6 +7,7 @@ import {
     StyleSheet,
     Image,
     TouchableOpacity,
+    Platform,
 } from 'react-native';
 import {getNavigationOptionsWithAction} from '../../router/navigationHelpers';
 import LogoTitle from './components/LogoTitle';
@@ -129,7 +130,7 @@ const style = StyleSheet.create({
     itemImage: {
         width: 60,
         height: 60,
-        borderRadius: 30,
+        borderRadius: Platform.OS === 'ios' ? 30 : 60,
         marginRight: 16,
     },
     rowContainer: {

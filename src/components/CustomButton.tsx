@@ -12,7 +12,13 @@ interface Props {
 function CustomButton(p: Props) {
     return (
         <TouchableOpacity
-            style={p.type === 'success' ? style.successButton : null}
+            style={
+                p.type === 'success'
+                    ? style.successButton
+                    : p.type === 'standard'
+                    ? style.standardButton
+                    : null
+            }
             onPress={p.onPress}>
             {p.label}
         </TouchableOpacity>
@@ -24,6 +30,14 @@ const style = StyleSheet.create({
         width: '100%',
         height: 40,
         backgroundColor: COLORS.success,
+        borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    standardButton: {
+        width: '100%',
+        height: 40,
+        backgroundColor: COLORS.primary,
         borderRadius: 5,
         alignItems: 'center',
         justifyContent: 'center',
