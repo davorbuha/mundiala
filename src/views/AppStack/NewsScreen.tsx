@@ -9,11 +9,7 @@ import {
     TouchableOpacity,
     Platform,
 } from 'react-native';
-import {getNavigationOptionsWithAction} from '../../router/navigationHelpers';
-import LogoTitle from './components/LogoTitle';
 import COLORS from '../../res/colors';
-import NavBarItem from '../../components/NavBarItem';
-import {NavigationStackOptions} from 'react-navigation-stack';
 import service from '../../service';
 import {connect} from 'react-redux';
 import {AppState} from '../../store';
@@ -29,18 +25,34 @@ interface Props {
 }
 
 interface State {
+    page: number;
     data: NewsReply | undefined;
 }
 
 class NewsScreen extends Component<Props, State> {
     state = {
+        page: 0,
         data: undefined,
     };
     public componentDidMount() {
         const {organisations, token} = this.props;
         service
-            .getNews(organisations[0].id, token, 0, 10)
+            .getNews(organisations[0].id, token, this.state.page, 10)
             .then(res => this.setState({data: res}));
+    }
+    public onLoadMorePress = () => {
+        const {organisations, token} = this.props;
+        service
+            .getNews(organisations[0].id, token, this.state.page + 1, 10)
+            .then(res =>
+                this.setState(state => ({
+                    data: new NewsReply([...state.data.data, ...res.data]),
+                    page: state.page + 1,
+                })),
+            );
+    };
+    componentDidUpdate(prevprops, prevstate) {
+        console.log(prevstate, this.state);
     }
     public render() {
         if (!this.state.data) {
@@ -51,7 +63,9 @@ class NewsScreen extends Component<Props, State> {
                 <FlatList
                     showsVerticalScrollIndicator={false}
                     renderItem={RenderFlatListItem(this.props.navigation)}
-                    ListFooterComponent={RenderFooterComponent}
+                    ListFooterComponent={RenderFooterComponent(
+                        this.onLoadMorePress,
+                    )}
                     data={this.state.data.data}
                 />
             </View>
@@ -59,10 +73,12 @@ class NewsScreen extends Component<Props, State> {
     }
 }
 
-const RenderFooterComponent = () => {
+const RenderFooterComponent = (onLoadMorePress: () => void) => () => {
     return (
         <View style={style.loadMoreContainer}>
-            <TouchableOpacity style={style.loadMoreButton}>
+            <TouchableOpacity
+                onPress={onLoadMorePress}
+                style={style.loadMoreButton}>
                 <Text style={style.loadMoreText}>LOAD MORE</Text>
             </TouchableOpacity>
         </View>
@@ -105,7 +121,6 @@ const style = StyleSheet.create({
         width: '100%',
         alignItems: 'center',
         justifyContent: 'center',
-        marginBottom: 30,
     },
     loadMoreButton: {
         width: '100%',
