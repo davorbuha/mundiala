@@ -6,6 +6,7 @@ const COLORS = {
     darkGrey: '#484848',
     lightGrey: '#D3D3D3',
     lightGreyWithOpacity: 'rgba(211, 211, 211, 0.6)',
+    lightPrimary: '#60a9ad',
 };
 
 export default COLORS;

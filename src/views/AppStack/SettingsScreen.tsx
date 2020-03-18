@@ -4,10 +4,15 @@ import FONTS from '../../res/fonts';
 import CustomButton from '../../components/CustomButton';
 import COLORS from '../../res/colors';
 import {connect} from 'react-redux';
-import {AppState} from '../../store';
 import {readCredentials, storeCredentials} from '../../asyncStorage';
+import {AppState} from '../../store';
+import firebase from 'react-native-firebase';
 
-function SettingsScreen() {
+interface Props {
+    topics: string[];
+}
+
+function SettingsScreen(p: Props) {
     useEffect(() => {
         readCredentials().then(cfg =>
             setNotificationValue(cfg.getNotifications()),
@@ -27,6 +32,17 @@ function SettingsScreen() {
                 type="standard"
                 onPress={() => {
                     readCredentials().then(cfg => {
+                        if (notificationValue) {
+                            p.topics.forEach(topic => {
+                                firebase.messaging().subscribeToTopic(topic);
+                            });
+                        } else {
+                            p.topics.forEach(topic => {
+                                firebase
+                                    .messaging()
+                                    .unsubscribeFromTopic(topic);
+                            });
+                        }
                         cfg.setNotifications(notificationValue);
                         storeCredentials(cfg);
                     });
@@ -64,4 +80,8 @@ const style = StyleSheet.create({
     },
 });
 
-export default SettingsScreen;
+const mapStateToProps = (state: AppState) => ({
+    topics: state.user.topics,
+});
+
+export default connect(mapStateToProps)(SettingsScreen);

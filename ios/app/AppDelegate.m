@@ -12,6 +12,7 @@
 #import <React/RCTRootView.h>
 #import "RNFirebaseNotifications.h"
 #import <Firebase.h>
+#import "RNSplashScreen.h"
 
 @implementation AppDelegate
 
@@ -26,6 +27,7 @@
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"app"
                                             initialProperties:nil];
+  [RNSplashScreen showSplash:@"LaunchScreen" inRootView:rootView];
 
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
 

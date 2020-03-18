@@ -3,6 +3,7 @@ import {
     SET_ACCOUNT,
     SET_PASSWORD,
     SET_NOTIFICATIONS,
+    SET_PUSH_TOPICS,
 } from './actions';
 import Organization from '../types/organization';
 import Account from '../types/account';
@@ -13,6 +14,7 @@ const INITIAL_STATE: State = {
     account: null,
     password: null,
     notifications: null,
+    topics: [],
 };
 
 export interface State {
@@ -21,10 +23,16 @@ export interface State {
     account: Account;
     password: string;
     notifications: boolean;
+    topics: string[];
 }
 
 const userReducer = (state: State = INITIAL_STATE, action): State => {
     switch (action.type) {
+        case SET_PUSH_TOPICS:
+            return {
+                ...state,
+                topics: action.topics,
+            };
         case SET_TOKEN_AND_ORGANISATION:
             return {
                 ...state,

@@ -41,12 +41,14 @@ function LoginModal(p: Props) {
                     style={style.modalContainer}>
                     <View style={style.modalWrapper}>
                         <Image
-                            resizeMethod="scale"
+                            resizeMethod="auto"
                             resizeMode="contain"
                             style={{
+                                marginTop: 16,
+                                height: 50,
                                 width: Dimensions.get('screen').width * 0.5,
                             }}
-                            source={require('../../../res/images/logo-login.png')}></Image>
+                            source={require('../../../res/images/logo-login2.png')}></Image>
                         <Text
                             style={{
                                 fontFamily: FONTS.regular,

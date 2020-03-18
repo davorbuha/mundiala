@@ -1,5 +1,14 @@
-import {View} from 'react-native';
 import React from 'react';
+import {View} from 'react-native';
+import {
+    NavigationScreenConfig,
+    NavigationRoute,
+    NavigationParams,
+} from 'react-navigation';
+import {
+    StackNavigationOptions,
+    StackNavigationProp,
+} from 'react-navigation-stack/lib/typescript/src/vendor/types';
 
 export const getNavigationOptions = (title, backgroundColor, color) => ({
     title,
@@ -18,8 +27,13 @@ export const getNavigationOptionsWithAction = (
     backgroundColor,
     color,
     headerLeft,
+    headerRight,
     style?,
-) => ({
+): NavigationScreenConfig<
+    StackNavigationOptions,
+    StackNavigationProp<NavigationRoute<NavigationParams>, NavigationParams>,
+    unknown
+> => ({
     headerTitle,
     headerStyle: {
         backgroundColor,
@@ -31,7 +45,7 @@ export const getNavigationOptionsWithAction = (
     headerTitleAlign: 'center',
     headerTintColor: color,
     headerLeft,
-    headerRight: () => <View />,
+    headerRight,
 });
 
 export const getDrawerNavigationOptions = (

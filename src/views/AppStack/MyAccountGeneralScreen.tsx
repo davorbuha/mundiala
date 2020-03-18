@@ -13,6 +13,7 @@ import {Dispatch} from 'redux';
 import {setAccount} from '../../userReducer/actions';
 import CustomButton from '../../components/CustomButton';
 import {deleteCredentials} from '../../asyncStorage';
+import {showBackground} from '../../backgroundReducer/actions';
 
 interface Props {
     token: string;
@@ -48,6 +49,7 @@ class MyAccountGeneralScreen extends Component<Props> {
                 <CustomButton
                     type="standard"
                     onPress={async () => {
+                        this.props.dispatch(showBackground());
                         await deleteCredentials();
                         this.props.navigation.navigate('Auth');
                     }}

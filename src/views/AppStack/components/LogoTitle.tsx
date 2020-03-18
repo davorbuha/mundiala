@@ -7,10 +7,10 @@ function LogoTitle() {
             resizeMode="cover"
             style={{
                 width: 150,
-                height: 36,
+                height: 32,
                 resizeMode: 'contain',
             }}
-            source={require('../../../res/images/logo-login.png')}
+            source={require('../../../res/images/logo-login2.png')}
         />
     );
 }

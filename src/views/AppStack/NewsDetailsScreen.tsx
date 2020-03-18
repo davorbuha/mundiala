@@ -33,19 +33,6 @@ class NewsDetailsScreen extends Component<Props, State> {
             .getNewsById(this.props.token, id, organisationId)
             .then(res => this.setState({data: res.data}));
     }
-    static navigationOptions(p: Props): NavigationStackOptions {
-        return getNavigationOptionsWithAction(
-            () => <LogoTitle />,
-            COLORS.primary,
-            'white',
-            () => (
-                <NavBarItem
-                    onPress={() => p.navigation.goBack()}
-                    iconName="arrow-left"
-                />
-            ),
-        );
-    }
     public render() {
         const {data}: {data: NewsById} = this.state;
         if (!data) return null;

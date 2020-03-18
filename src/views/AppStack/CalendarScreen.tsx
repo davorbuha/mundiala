@@ -19,32 +19,32 @@ const {width} = Dimensions.get('screen');
 
 LocaleConfig.locales['hr'] = {
     monthNames: [
-        'Siječanj',
-        'Veljača',
-        'Ožujak',
-        'Travanj',
-        'Svibanj',
-        'Lipanj',
-        'Srpanj',
-        'Kolovoz',
-        'Rujan',
-        'Listopad',
-        'Studeni',
-        'Prosinac',
+        'siječanj',
+        'veljača',
+        'ožujak',
+        'travanj',
+        'svibanj',
+        'lipanj',
+        'srpanj',
+        'kolovoz',
+        'rujan',
+        'listopad',
+        'studeni',
+        'prosinac',
     ],
     monthNamesShort: [
-        'Sij.',
-        'Velj.',
-        'Ožu.',
-        'Trav.',
-        'Svi.',
-        'Lip.',
-        'Srp.',
-        'Kol.',
-        'Ruj.',
-        'Lis.',
-        'Stu.',
-        'Pros.',
+        'sij.',
+        'velj.',
+        'ožu.',
+        'trav.',
+        'svi.',
+        'lip.',
+        'srp.',
+        'kol.',
+        'ruj.',
+        'lis.',
+        'stu.',
+        'pros.',
     ],
     dayNames: [
         'Ponedjeljak',
@@ -69,6 +69,7 @@ interface Props {
 interface State {
     calendarDates: CalendarType[];
     selectedDates: CalendarType[];
+    fetched: boolean;
 }
 
 const prepareMarkedDates = (events: CalendarType[]) => {
@@ -102,7 +103,18 @@ const renderSelectedDates = (dates: CalendarType[]) => {
                 backgroundColor: item.color ? item.color : COLORS.primary,
             }}
         />,
-        item.date.format('YYYY.MM.DD'),
+        <View
+            style={{
+                width: '100%',
+                paddingLeft: 30,
+            }}>
+            <Text style={style.bodyTextBoldWithoutCenter}>
+                {item.date.format('DD.MM.YYYY')}
+            </Text>
+            <Text style={style.bodyTextWithoutCenter}>
+                {item.date.format('HH:mm')}
+            </Text>
+        </View>,
         item.title,
     ]);
     return (
@@ -114,6 +126,10 @@ const renderSelectedDates = (dates: CalendarType[]) => {
                     data={tableHead}
                 />
                 <Rows
+                    style={{
+                        borderTopColor: '#e5e6e9',
+                        borderTopWidth: 1,
+                    }}
                     widthArr={[10, width * 0.33 - 5, width * 0.66 - 5]}
                     textStyle={style.bodyText}
                     data={rowData}
@@ -127,6 +143,7 @@ class CalendarScreen extends Component<Props, State> {
     state: State = {
         calendarDates: [],
         selectedDates: [],
+        fetched: false,
     };
     onMonthChange = date => {
         service
@@ -147,16 +164,17 @@ class CalendarScreen extends Component<Props, State> {
             .getCalendar(
                 token,
                 organisationId,
-                moment().subtract(2, 'months'),
-                moment(),
+                moment().subtract(1, 'months'),
+                moment().add(1, 'months'),
             )
             .then(res => {
-                this.setState({calendarDates: res.data});
+                this.setState({calendarDates: res.data, fetched: true});
                 this.forceUpdate();
             })
             .catch(e => console.log(e));
     }
     public render() {
+        if (!this.state.fetched) return null;
         const markedDates = prepareMarkedDates(this.state.calendarDates);
         return (
             <View style={{flex: 1, backgroundColor: COLORS.white}}>
@@ -216,11 +234,15 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 const style = StyleSheet.create({
-    container: {marginTop: 20},
-    marker: {
+    container: {
         marginLeft: 10,
-        width: 10,
-        height: 40,
+        marginTop: 20,
+        borderBottomColor: '#e5e6e9',
+        borderBottomWidth: 1,
+    },
+    marker: {
+        width: 8,
+        height: 52,
     },
     titleText: {
         fontFamily: FONTS.bold,
@@ -232,6 +254,14 @@ const style = StyleSheet.create({
         fontFamily: FONTS.regular,
         fontSize: 14,
         textAlign: 'center',
+    },
+    bodyTextBoldWithoutCenter: {
+        fontFamily: FONTS.bold,
+        fontSize: 14,
+    },
+    bodyTextWithoutCenter: {
+        fontFamily: FONTS.regular,
+        fontSize: 14,
     },
 });
 

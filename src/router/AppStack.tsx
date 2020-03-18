@@ -10,50 +10,111 @@ import LogoTitle from '../views/AppStack/components/LogoTitle';
 import COLORS from '../res/colors';
 import NavBarItem from '../components/NavBarItem';
 import PasswordScreen from '../views/AppStack/PasswordScreen';
+import {createBottomTabNavigator} from 'react-navigation-tabs';
+import NewsStack from './NewsStack';
+import CalendarStack from './CalendarStack';
+import {StackActions, NavigationActions} from 'react-navigation';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import SettingsScreen from '../views/AppStack/SettingsScreen';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-const AppStack = createStackNavigator(
+const AppTabs = createBottomTabNavigator(
     {
-        Home: HomeScreenDrawer,
-        News: NewsScreen,
-        Calendar: CalendarScreen,
-        NewsDetails: NewsDetailsScreen,
-        MyAccount: {
-            path: 'MyAccount',
-            screen: MyAccountTabNavigatior,
-            navigationOptions: ({navigation}) =>
-                getNavigationOptionsWithAction(
-                    () => <LogoTitle />,
-                    COLORS.primary,
-                    'white',
-                    () => (
-                        <NavBarItem
-                            onPress={() => navigation.goBack()}
-                            iconName="arrow-left"
-                        />
-                    ),
-                    {
-                        shadowColor: 'transparent',
-                        elevation: 0,
-                    },
+        News: {
+            screen: NewsStack,
+            navigationOptions: {
+                tabBarLabel: ({focused}) => (
+                    <Icon
+                        name={'newspaper-o'}
+                        size={30}
+                        color={focused ? COLORS.success : 'white'}
+                    />
                 ),
+            },
         },
-        PasswordScreen: PasswordScreen,
+        Calendar: {
+            screen: CalendarStack,
+            navigationOptions: {
+                tabBarLabel: ({focused}) => (
+                    <Icon
+                        name={'calendar'}
+                        size={30}
+                        color={focused ? COLORS.success : 'white'}
+                    />
+                ),
+            },
+        },
+        SettingsScreen: {
+            screen: SettingsScreen,
+            navigationOptions: {
+                tabBarLabel: ({focused}) => (
+                    <Icon
+                        name={'cog'}
+                        size={30}
+                        color={focused ? COLORS.success : 'white'}
+                    />
+                ),
+            },
+        },
     },
     {
+        defaultNavigationOptions: {
+            tabBarOptions: {
+                style: {
+                    backgroundColor: COLORS.primary,
+                },
+            },
+        },
+    },
+);
+
+const HomeStack = createStackNavigator(
+    {
+        App: AppTabs,
+        MyAccount: MyAccountTabNavigatior,
+    },
+    {
+        initialRouteName: 'App',
         defaultNavigationOptions: ({navigation}) => {
             return getNavigationOptionsWithAction(
                 () => <LogoTitle />,
                 COLORS.primary,
                 'white',
-                () => (
-                    <NavBarItem
-                        onPress={() => navigation.goBack()}
-                        iconName="arrow-left"
-                    />
-                ),
+                () =>
+                    navigation.state.routes[0].routeName === 'General' ||
+                    navigation.state.routes[0].routes.length > 1 ? (
+                        <NavBarItem
+                            onPress={() => {
+                                navigation.dispatch(StackActions.pop({}));
+                            }}
+                            iconName="chevron-left"
+                        />
+                    ) : null,
+                () => {
+                    if (
+                        navigation.state.routes[0].routeName !== 'TabNavigatior'
+                    ) {
+                        return (
+                            <TouchableOpacity
+                                onPress={() => navigation.navigate('MyAccount')}
+                                style={{marginRight: 16}}>
+                                <FontAwesomeIcon
+                                    name="user"
+                                    color={'white'}
+                                    size={30}
+                                />
+                            </TouchableOpacity>
+                        );
+                    }
+                },
+                {
+                    shadowColor: 'transparent',
+                    elevation: 0,
+                },
             );
         },
     },
 );
 
-export default AppStack;
+export default HomeStack;

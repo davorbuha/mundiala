@@ -9,10 +9,13 @@ import {NavigationStackProp} from 'react-navigation-stack';
 import {
     setTokenAndOrganisation,
     setNotifications,
+    setPushTopics,
 } from '../../userReducer/actions';
 import {storeCredentials, readCredentials} from '../../asyncStorage';
 import Credentials from '../../asyncStorage/credentials';
 import {setPassword as setPasswordAction} from '../../userReducer/actions';
+import firebase from 'react-native-firebase';
+import {hideBackground} from '../../backgroundReducer/actions';
 
 interface Props {
     loading: {[name: string]: boolean};
@@ -34,6 +37,11 @@ function LoginScreen(p: Props) {
         service
             .login(email, password, true)
             .then(res => {
+                p.dispatch(hideBackground());
+                res.pushTopics.forEach(topic => {
+                    firebase.messaging().subscribeToTopic(topic);
+                });
+                p.dispatch(setPushTopics(res.pushTopics));
                 p.dispatch(setNotifications(true));
                 p.dispatch(setPasswordAction(password));
                 storeCredentials(

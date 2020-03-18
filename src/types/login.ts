@@ -6,15 +6,18 @@ class LoginReply {
     organisations: Organization[];
     token: string;
     tokenValidTill: Moment;
+    pushTopics: string[];
 
     constructor(
         organitazions: Organization[],
         token: string,
         tokenValidTill: Moment,
+        pushTopics: string[],
     ) {
         this.organisations = organitazions;
         this.token = token;
         this.tokenValidTill = tokenValidTill;
+        this.pushTopics = pushTopics;
     }
 
     static fromJSON(maybe): LoginReply {
@@ -35,7 +38,12 @@ class LoginReply {
             throw new Error('token valid till is not valid');
         }
 
-        return new LoginReply(organisations, maybe.token, tokenValidTill);
+        return new LoginReply(
+            organisations,
+            maybe.token,
+            tokenValidTill,
+            maybe.push_topics,
+        );
     }
 }
 

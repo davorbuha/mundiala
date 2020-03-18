@@ -5,6 +5,7 @@ export const SET_TOKEN_AND_ORGANISATION = 'SET_TOKEN_AND_ORGANISATION';
 export const SET_ACCOUNT = 'SET_ACCOUNT';
 export const SET_PASSWORD = 'SET_PASSWORD';
 export const SET_NOTIFICATIONS = 'SET_NOTIFICATIONS';
+export const SET_PUSH_TOPICS = 'SET_PUSH_TOPICS';
 
 export const setTokenAndOrganisation = (
     token: string,
@@ -13,6 +14,11 @@ export const setTokenAndOrganisation = (
     type: SET_TOKEN_AND_ORGANISATION,
     token,
     organisation,
+});
+
+export const setPushTopics = (topics: string[]) => ({
+    type: SET_PUSH_TOPICS,
+    topics,
 });
 
 export const setAccount = (account: Account) => ({
