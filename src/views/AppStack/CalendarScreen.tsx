@@ -1,19 +1,14 @@
 import React, {Component} from 'react';
 import {Text, View, ScrollView, Dimensions, StyleSheet} from 'react-native';
-import {getNavigationOptionsWithAction} from '../../router/navigationHelpers';
-import LogoTitle from './components/LogoTitle';
 import COLORS from '../../res/colors';
-import NavBarItem from '../../components/NavBarItem';
-import {NavigationStackOptions} from 'react-navigation-stack';
 import service from '../../service';
 import {connect} from 'react-redux';
 import {AppState} from '../../store';
 import moment from 'moment';
-import {Calendar} from 'react-native-calendars';
+import {Calendar, LocaleConfig} from '../../../libs/react-native-calendars';
 import {Calendar as CalendarType} from '../../types/calendar';
 import {Table, Row, Rows} from 'react-native-table-component';
 import FONTS from '../../res/fonts';
-import {LocaleConfig} from 'react-native-calendars';
 
 const {width} = Dimensions.get('screen');
 
@@ -47,15 +42,15 @@ LocaleConfig.locales['hr'] = {
         'pros.',
     ],
     dayNames: [
+        'Nedjelja',
         'Ponedjeljak',
         'Utorak',
         'Srijeda',
         'Četvrtak',
         'Petak',
         'Subota',
-        'Nedjelja',
     ],
-    dayNamesShort: ['P', 'U', 'S', 'Č', 'P', 'S', 'N'],
+    dayNamesShort: ['N', 'P', 'U', 'S', 'Č', 'P', 'S'],
 };
 
 LocaleConfig.defaultLocale = 'hr';
@@ -118,23 +113,27 @@ const renderSelectedDates = (dates: CalendarType[]) => {
         item.title,
     ]);
     return (
-        <View style={style.container}>
+        <View style={{flex: 1, marginLeft: 10, paddingTop: 20}}>
             <Table>
                 <Row
                     widthArr={[10, width * 0.33 - 5, width * 0.66 - 5]}
                     textStyle={style.titleText}
                     data={tableHead}
                 />
-                <Rows
-                    style={{
-                        borderTopColor: '#e5e6e9',
-                        borderTopWidth: 1,
-                    }}
-                    widthArr={[10, width * 0.33 - 5, width * 0.66 - 5]}
-                    textStyle={style.bodyText}
-                    data={rowData}
-                />
             </Table>
+            <ScrollView contentContainerStyle={style.container}>
+                <Table>
+                    <Rows
+                        style={{
+                            borderTopColor: '#e5e6e9',
+                            borderTopWidth: 1,
+                        }}
+                        widthArr={[10, width * 0.33 - 5, width * 0.66 - 5]}
+                        textStyle={style.bodyText}
+                        data={rowData}
+                    />
+                </Table>
+            </ScrollView>
         </View>
     );
 };
@@ -146,6 +145,8 @@ class CalendarScreen extends Component<Props, State> {
         fetched: false,
     };
     onMonthChange = date => {
+        console.log(date);
+        //
         service
             .getCalendar(
                 this.props.token,
@@ -154,7 +155,19 @@ class CalendarScreen extends Component<Props, State> {
                 moment(date.dateString).add(31, 'days'),
             )
             .then(res => {
-                this.setState({calendarDates: res.data});
+                this.setState({
+                    calendarDates: res.data,
+                    selectedDates: res.data
+                        .filter(item => {
+                            console.log(item.date.month(), date.month - 1);
+                            return item.date.get('month') === date.month - 1;
+                        })
+                        .sort(
+                            (a, b) =>
+                                (a.date.format('YYYYMMDD') as any) -
+                                (b.date.format('YYYYMMDD') as any),
+                        ),
+                });
             });
     };
 
@@ -168,7 +181,17 @@ class CalendarScreen extends Component<Props, State> {
                 moment().add(1, 'months'),
             )
             .then(res => {
-                this.setState({calendarDates: res.data, fetched: true});
+                this.setState({
+                    calendarDates: res.data,
+                    fetched: true,
+                    selectedDates: res.data
+                        .slice(0, 5)
+                        .sort(
+                            (a, b) =>
+                                (a.date.format('YYYYMMDD') as any) -
+                                (b.date.format('YYYYMMDD') as any),
+                        ),
+                });
                 this.forceUpdate();
             })
             .catch(e => console.log(e));
@@ -179,6 +202,7 @@ class CalendarScreen extends Component<Props, State> {
         return (
             <View style={{flex: 1, backgroundColor: COLORS.white}}>
                 <Calendar
+                    calendarHeight={{height: '40%'}}
                     hideExtraDays={true}
                     theme={theme}
                     markingType="multi-dot"
@@ -208,7 +232,7 @@ const theme = {
     textSectionTitleColor: '#b6c1cd',
     selectedDayBackgroundColor: '#00adf5',
     selectedDayTextColor: '#ffffff',
-    todayTextColor: '#00adf5',
+    todayTextColor: 'white',
     dayTextColor: '#2d4150',
     textDisabledColor: '#d9e1e8',
     dotColor: '#00adf5',
@@ -223,9 +247,9 @@ const theme = {
     textDayFontWeight: '300',
     textMonthFontWeight: 'bold',
     textDayHeaderFontWeight: '300',
-    textDayFontSize: 18,
-    textMonthFontSize: 16,
-    textDayHeaderFontSize: 16,
+    textDayFontSize: 14,
+    textMonthFontSize: 14,
+    textDayHeaderFontSize: 14,
 };
 
 const mapStateToProps = (state: AppState) => ({
@@ -235,8 +259,6 @@ const mapStateToProps = (state: AppState) => ({
 
 const style = StyleSheet.create({
     container: {
-        marginLeft: 10,
-        marginTop: 20,
         borderBottomColor: '#e5e6e9',
         borderBottomWidth: 1,
     },

@@ -26,8 +26,8 @@ interface Props {
 function LoginScreen(p: Props) {
     const [loginModalVisible, setLoginModalVisible] = useState(false);
     const [error, setError] = useState();
-    const [password, setPassword] = useState('Petar123');
-    const [email, setEmail] = useState('petar@mundiala.com');
+    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
     const onOkPress = () => {
         setError(null);
         setLoginModalVisible(true);
