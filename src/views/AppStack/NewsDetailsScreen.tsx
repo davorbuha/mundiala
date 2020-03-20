@@ -58,9 +58,11 @@ class NewsDetailsScreen extends Component<Props, State> {
                             {data.createdOn.format('YYYY.MM.DD HH:mm')}
                         </Text>
                     </View>
-                    <Text style={style.descriptionText}>
-                        {data.description}
-                    </Text>
+                    <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+                        <Text style={style.descriptionText}>
+                            {data.description}
+                        </Text>
+                    </View>
                 </View>
             </View>
         );
