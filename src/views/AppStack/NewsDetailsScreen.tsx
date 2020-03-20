@@ -11,6 +11,7 @@ import {connect} from 'react-redux';
 import {AppState} from '../../store';
 import {NewsById} from '../../types/news';
 import FONTS from '../../res/fonts';
+import {ScrollView} from 'react-native-gesture-handler';
 
 interface Props {
     token: string;
@@ -37,7 +38,7 @@ class NewsDetailsScreen extends Component<Props, State> {
         const {data}: {data: NewsById} = this.state;
         if (!data) return null;
         return (
-            <View>
+            <View style={{flex: 1}}>
                 <Image
                     resizeMode="stretch"
                     style={style.itemImage}
@@ -47,7 +48,12 @@ class NewsDetailsScreen extends Component<Props, State> {
                             data.image,
                     }}
                 />
-                <View style={[style.container, {padding: 16}]}>
+                <ScrollView
+                    style={{
+                        flex: 1,
+                    }}
+                    bounces={false}
+                    contentContainerStyle={[style.container, {padding: 16}]}>
                     <Text style={style.titleText}>{data.name}</Text>
                     <View style={style.aboutWrapper}>
                         <Text style={style.aboutText}>
@@ -63,19 +69,16 @@ class NewsDetailsScreen extends Component<Props, State> {
                             {data.description}
                         </Text>
                     </View>
-                </View>
+                </ScrollView>
             </View>
         );
     }
 }
 
 const style = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
     itemImage: {
         width: '100%',
-        height: '60%',
+        height: '40%',
     },
     aboutText: {
         color: COLORS.darkGrey,
