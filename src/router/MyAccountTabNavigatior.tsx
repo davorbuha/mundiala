@@ -14,14 +14,14 @@ const TabNavigatior = createMaterialTopTabNavigator(
     {
         tabBarOptions: {
             style: {
-                backgroundColor: COLORS.primary,
+                backgroundColor: '#f2f2f2',
             },
             indicatorStyle: {
-                backgroundColor: COLORS.white,
+                backgroundColor: COLORS.primary,
             },
             labelStyle: {
                 fontFamily: FONTS.bold,
-                color: COLORS.white,
+                color: COLORS.primary,
                 fontSize: 12,
             },
         },

@@ -9,6 +9,7 @@ import {
     StackNavigationOptions,
     StackNavigationProp,
 } from 'react-navigation-stack/lib/typescript/src/vendor/types';
+import COLORS from '../res/colors';
 
 export const getNavigationOptions = (title, backgroundColor, color) => ({
     title,
@@ -23,6 +24,7 @@ export const getNavigationOptions = (title, backgroundColor, color) => ({
 });
 
 export const getNavigationOptionsWithAction = (
+    navigation,
     headerTitle,
     backgroundColor,
     color,
@@ -33,20 +35,28 @@ export const getNavigationOptionsWithAction = (
     StackNavigationOptions,
     StackNavigationProp<NavigationRoute<NavigationParams>, NavigationParams>,
     unknown
-> => ({
-    headerTitle,
-    headerStyle: {
-        backgroundColor,
-        ...style,
-    },
-    headerTitleStyle: {
-        color,
-    },
-    headerTitleAlign: 'center',
-    headerTintColor: color,
-    headerLeft,
-    headerRight,
-});
+> => {
+    console.log(navigation);
+    return {
+        headerTitle,
+        headerStyle: {
+            backgroundColor,
+            borderBottomColor:
+                navigation.state.routeName === 'MyAccount'
+                    ? '#f2f2f2'
+                    : COLORS.primary,
+            borderBottomWidth: 1,
+            ...style,
+        },
+        headerTitleStyle: {
+            color,
+        },
+        headerTitleAlign: 'center',
+        headerTintColor: color,
+        headerLeft,
+        headerRight,
+    };
+};
 
 export const getDrawerNavigationOptions = (
     title,

@@ -26,10 +26,10 @@ const AppTabs = createBottomTabNavigator(
             navigationOptions: {
                 tabBarLabel: ({focused}) => (
                     <Icon
-                        style={{marginBottom: 16}}
+                        style={{marginBottom: 8}}
                         name={'newspaper-o'}
                         size={30}
-                        color={focused ? COLORS.success : 'white'}
+                        color={focused ? COLORS.success : COLORS.primary}
                     />
                 ),
             },
@@ -39,10 +39,10 @@ const AppTabs = createBottomTabNavigator(
             navigationOptions: {
                 tabBarLabel: ({focused}) => (
                     <Icon
-                        style={{marginBottom: 16}}
+                        style={{marginBottom: 8}}
                         name={'calendar'}
                         size={30}
-                        color={focused ? COLORS.success : 'white'}
+                        color={focused ? COLORS.success : COLORS.primary}
                     />
                 ),
             },
@@ -52,10 +52,10 @@ const AppTabs = createBottomTabNavigator(
             navigationOptions: {
                 tabBarLabel: ({focused}) => (
                     <Icon
-                        style={{marginBottom: 16}}
+                        style={{marginBottom: 8}}
                         name={'cog'}
                         size={30}
-                        color={focused ? COLORS.success : 'white'}
+                        color={focused ? COLORS.success : COLORS.primary}
                     />
                 ),
             },
@@ -65,9 +65,11 @@ const AppTabs = createBottomTabNavigator(
         defaultNavigationOptions: {
             tabBarOptions: {
                 style: {
+                    borderTopColor: COLORS.primary,
+                    borderTopWidth: 1,
                     justifyContent: 'center',
-                    height: 70,
-                    backgroundColor: COLORS.primary,
+                    height: 50,
+                    backgroundColor: '#f2f2f2',
                 },
             },
         },
@@ -83,8 +85,9 @@ const HomeStack = createStackNavigator(
         initialRouteName: 'App',
         defaultNavigationOptions: ({navigation}) => {
             return getNavigationOptionsWithAction(
+                navigation,
                 () => <LogoTitle />,
-                COLORS.primary,
+                '#f2f2f2',
                 'white',
                 () =>
                     navigation.state.routes[0].routeName === 'General' ||
@@ -106,7 +109,7 @@ const HomeStack = createStackNavigator(
                                 style={{marginRight: 16}}>
                                 <FontAwesomeIcon
                                     name="user"
-                                    color={'white'}
+                                    color={COLORS.primary}
                                     size={30}
                                 />
                             </TouchableOpacity>
