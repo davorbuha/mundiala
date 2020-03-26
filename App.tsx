@@ -4,6 +4,7 @@ import {Provider} from 'react-redux';
 import store from './src/store';
 import Background from './src/components/Background';
 import firebase from 'react-native-firebase';
+import {StatusBar} from 'react-native';
 
 function App() {
     useEffect(() => {
@@ -16,7 +17,13 @@ function App() {
     return (
         <Provider store={store}>
             <Background>
-                <Router />
+                <>
+                    <StatusBar
+                        barStyle="dark-content"
+                        backgroundColor={'#f2f2f2'}
+                    />
+                    <Router />
+                </>
             </Background>
         </Provider>
     );

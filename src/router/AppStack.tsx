@@ -26,7 +26,7 @@ const AppTabs = createBottomTabNavigator(
             navigationOptions: {
                 tabBarLabel: ({focused}) => (
                     <Icon
-                        style={{marginBottom: 8}}
+                        style={{marginBottom: 8, alignSelf: 'center'}}
                         name={'newspaper-o'}
                         size={30}
                         color={focused ? COLORS.success : COLORS.primary}
@@ -39,7 +39,7 @@ const AppTabs = createBottomTabNavigator(
             navigationOptions: {
                 tabBarLabel: ({focused}) => (
                     <Icon
-                        style={{marginBottom: 8}}
+                        style={{marginBottom: 8, alignSelf: 'center'}}
                         name={'calendar'}
                         size={30}
                         color={focused ? COLORS.success : COLORS.primary}
@@ -52,7 +52,7 @@ const AppTabs = createBottomTabNavigator(
             navigationOptions: {
                 tabBarLabel: ({focused}) => (
                     <Icon
-                        style={{marginBottom: 8}}
+                        style={{marginBottom: 8, alignSelf: 'center'}}
                         name={'cog'}
                         size={30}
                         color={focused ? COLORS.success : COLORS.primary}
