@@ -185,12 +185,13 @@ class CalendarScreen extends Component<Props, State> {
                     calendarDates: res.data,
                     fetched: true,
                     selectedDates: res.data
-                        .slice(0, 5)
+                        .filter(item => item.date.isSameOrAfter(moment()))
                         .sort(
                             (a, b) =>
                                 (a.date.format('YYYYMMDD') as any) -
                                 (b.date.format('YYYYMMDD') as any),
-                        ),
+                        )
+                        .slice(0, 5),
                 });
                 this.forceUpdate();
             })
