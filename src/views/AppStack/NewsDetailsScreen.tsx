@@ -12,6 +12,7 @@ import {AppState} from '../../store';
 import {NewsById} from '../../types/news';
 import FONTS from '../../res/fonts';
 import {ScrollView} from 'react-native-gesture-handler';
+import {buildUri} from './NewsScreen';
 
 interface Props {
     token: string;
@@ -42,11 +43,7 @@ class NewsDetailsScreen extends Component<Props, State> {
                 <Image
                     resizeMode="stretch"
                     style={style.itemImage}
-                    source={{
-                        uri:
-                            'https://app.mundiala.com/upload/ourteam/news/' +
-                            data.image,
-                    }}
+                    source={buildUri(data.image)}
                 />
                 <ScrollView
                     style={{
@@ -61,7 +58,7 @@ class NewsDetailsScreen extends Component<Props, State> {
                         </Text>
                         <Text style={style.aboutText}>
                             Objavljeno:{' '}
-                            {data.createdOn.format('YYYY.MM.DD HH:mm')}
+                            {data.createdOn.format('DD.MM.YYYY HH:mm')}
                         </Text>
                     </View>
                     <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>

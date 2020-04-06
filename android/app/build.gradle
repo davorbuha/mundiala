@@ -144,10 +144,10 @@ android {
     }
     signingConfigs {
         debug {
-            storeFile file('debug.keystore')
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
+            storeFile file('mundiala.keystore')
+            storePassword 'oFFice2020'
+            keyAlias 'mundiala'
+            keyPassword 'oFFice2020'
         }
     }
     buildTypes {

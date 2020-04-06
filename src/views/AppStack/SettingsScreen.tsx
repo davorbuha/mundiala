@@ -18,35 +18,36 @@ function SettingsScreen(p: Props) {
             setNotificationValue(cfg.getNotifications()),
         );
     }, []);
+    const handleNotificationChange = (val: boolean) => {
+        setNotificationValue(val);
+        if (val) {
+            p.topics.forEach(topic => {
+                firebase.messaging().subscribeToTopic(topic);
+            });
+        } else {
+            p.topics.forEach(topic => {
+                firebase.messaging().unsubscribeFromTopic(topic);
+            });
+        }
+        readCredentials().then(cfg => {
+            console.log(cfg);
+            cfg.setNotifications(val);
+            storeCredentials(cfg);
+        });
+    };
     const [notificationValue, setNotificationValue] = useState(false);
     return (
         <View style={style.container}>
             <View style={style.row}>
                 <Text style={style.text}>Notifikacije: </Text>
                 <Switch
-                    onValueChange={v => setNotificationValue(v)}
+                    onValueChange={handleNotificationChange}
                     value={notificationValue}
                 />
             </View>
-            <CustomButton
+            {/* <CustomButton
                 type="standard"
-                onPress={() => {
-                    readCredentials().then(cfg => {
-                        if (notificationValue) {
-                            p.topics.forEach(topic => {
-                                firebase.messaging().subscribeToTopic(topic);
-                            });
-                        } else {
-                            p.topics.forEach(topic => {
-                                firebase
-                                    .messaging()
-                                    .unsubscribeFromTopic(topic);
-                            });
-                        }
-                        cfg.setNotifications(notificationValue);
-                        storeCredentials(cfg);
-                    });
-                }}
+                onPress={}
                 label={
                     <Text
                         style={{
@@ -56,7 +57,7 @@ function SettingsScreen(p: Props) {
                         Spremi
                     </Text>
                 }
-            />
+            /> */}
         </View>
     );
 }

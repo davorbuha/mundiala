@@ -97,13 +97,9 @@ const RenderFlatListItem = (navigation: StackNavigationProp) => (
         }>
         <View style={style.rowContainer}>
             <Image
-                resizeMode="stretch"
+                resizeMode="cover"
                 style={style.itemImage}
-                source={{
-                    uri:
-                        'https://app.mundiala.com/upload/ourteam/news/small_' +
-                        item.item.image,
-                }}
+                source={buildUri(item.item.image)}
             />
             <View style={style.container}>
                 <Text style={style.itemTitle}>{item.item.name}</Text>
@@ -112,6 +108,14 @@ const RenderFlatListItem = (navigation: StackNavigationProp) => (
         </View>
     </TouchableOpacity>
 );
+
+export function buildUri(image: string | undefined) {
+    if (image)
+        return {
+            uri: 'https://app.mundiala.com/upload/ourteam/news/small_' + image,
+        };
+    return require('../../res/images/placeholder.png');
+}
 
 const style = StyleSheet.create({
     container: {
