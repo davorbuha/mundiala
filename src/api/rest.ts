@@ -1,11 +1,12 @@
 import {Service} from '../service';
 import {AxiosRequestConfig, AxiosInstance} from 'axios';
 import LoginReply from '../types/login';
-import Loading from '../components/Loading';
 import {NewsReply, NewsByIdReply} from '../types/news';
 import {Moment} from 'moment';
 import {CalendarReply} from '../types/calendar';
 import Account from '../types/account';
+import Billing from '../types/billing';
+import Season from '../types/season';
 
 class REST implements Service {
     private client: AxiosInstance;
@@ -136,6 +137,48 @@ class REST implements Service {
             throw new Error(res.data.error);
         }
         return true;
+    }
+
+    // {"method":" membership-fees",
+    //     "token": "{token_iz_login_metode}",
+    //     "organisation_id": {id_iz_ login_metode_iz_organisations_objekta,
+    //     "seasson_id": "{id_iz_seassons_metode}"
+    // }
+
+    public async getBilling(
+        token: string,
+        organisationId: number,
+        seasonId: number,
+    ): Promise<Billing[]> {
+        const data = {
+            method: 'membership-fees',
+            token,
+            organisation_id: organisationId,
+            seasong_id: seasonId,
+        };
+        const res = await this.request({method: 'POST', data});
+        return res.data.data.map(Billing.fromJSON);
+    }
+
+    // {"method": "seassons",
+    // "token": "{token_iz_login_metode}",
+    // "organisation_id": { id_iz_ login_metode_iz_organisations_objekta }
+
+    public async getSeasons(
+        token: string,
+        organisationId: number,
+    ): Promise<Season[]> {
+        const data = {
+            method: 'seassons',
+            token,
+            organisation_id: organisationId,
+        };
+        const res = await this.request({method: 'POST', data});
+        const seasonsToConvert = Object.keys(res.data.data).map(id => ({
+            id,
+            name: res.data.data[id],
+        }));
+        return seasonsToConvert.map(Season.fromJSON);
     }
 
     private async request(req: AxiosRequestConfig) {

@@ -18,6 +18,7 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import SettingsScreen from '../views/AppStack/SettingsScreen';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import BillingScreen from '../views/AppStack/BillingScreen';
 
 const AppTabs = createBottomTabNavigator(
     {
@@ -42,6 +43,19 @@ const AppTabs = createBottomTabNavigator(
                         style={{marginBottom: 8, alignSelf: 'center'}}
                         name={'calendar'}
                         size={30}
+                        color={focused ? COLORS.success : COLORS.primary}
+                    />
+                ),
+            },
+        },
+        Billing: {
+            screen: BillingScreen,
+            navigationOptions: {
+                tabBarLabel: ({focused}) => (
+                    <Icon
+                        style={{marginBottom: 6, alignSelf: 'center'}}
+                        name={'check-circle'}
+                        size={34}
                         color={focused ? COLORS.success : COLORS.primary}
                     />
                 ),

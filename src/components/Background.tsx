@@ -5,20 +5,23 @@ import {ImageBackground} from 'react-native';
 
 interface Props {
     visible: boolean;
-    children: JSX.Element;
 }
 
 function Background(p: Props) {
-    if (!p.visible) return p.children;
-    return (
-        <ImageBackground
-            style={{
-                flex: 1,
-            }}
-            source={require('../res/images/background.png')}>
-            {p.children}
-        </ImageBackground>
-    );
+    if (p.visible)
+        return (
+            <ImageBackground
+                style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                }}
+                source={require('../res/images/background.png')}
+            />
+        );
+    return null;
 }
 
 const mapStateToProps = (state: AppState) => ({

@@ -5,6 +5,7 @@ import store from './src/store';
 import Background from './src/components/Background';
 import firebase from 'react-native-firebase';
 import {StatusBar} from 'react-native';
+import Loading from './src/components/Loading';
 
 function App() {
     useEffect(() => {
@@ -16,15 +17,16 @@ function App() {
 
     return (
         <Provider store={store}>
-            <Background>
-                <>
+            <>
+                <Loading>
+                    <Background />
                     <StatusBar
                         barStyle="dark-content"
                         backgroundColor={'#f2f2f2'}
                     />
                     <Router />
-                </>
-            </Background>
+                </Loading>
+            </>
         </Provider>
     );
 }
@@ -48,9 +50,4 @@ async function requestPermission() {
         console.log('permission rejected');
     }
 }
-
-// async function getToken() {
-//     let fcmToken = await firebase.messaging().getToken();
-//     console.log('token ', fcmToken);
-// }
 export default App;

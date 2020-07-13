@@ -1,13 +1,5 @@
 import React, {Component} from 'react';
-import {
-    View,
-    Text,
-    TextInput,
-    StyleSheet,
-    Modal,
-    TouchableOpacity,
-    Dimensions,
-} from 'react-native';
+import {View, Text, TextInput, StyleSheet} from 'react-native';
 import {
     NavigationStackOptions,
     NavigationStackProp,
@@ -18,14 +10,13 @@ import Account from '../../types/account';
 import {Table, Rows} from 'react-native-table-component';
 import FONTS from '../../res/fonts';
 import COLORS from '../../res/colors';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 import CustomButton from '../../components/CustomButton';
 import SHADOWS from '../../res/shadows';
-import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 
 interface Props {
     navigation: NavigationStackProp;
     account: Account | undefined;
+    email: string;
 }
 
 interface State {
@@ -36,7 +27,7 @@ class MyAccountAccessInformationScreen extends Component<Props, State> {
     state: State = {
         showChangePasswordModal: false,
     };
-    static navigationOptions(p: Props): NavigationStackOptions {
+    static navigationOptions(): NavigationStackOptions {
         return {
             title: 'Pristupne informacije',
         };
@@ -46,7 +37,7 @@ class MyAccountAccessInformationScreen extends Component<Props, State> {
         if (!account) return null;
         return (
             <View style={{flex: 1, padding: 20}}>
-                {renderTable(account)}
+                {renderTable(account, this.props.email)}
                 <CustomButton
                     type="success"
                     label={
@@ -68,7 +59,7 @@ class MyAccountAccessInformationScreen extends Component<Props, State> {
     }
 }
 
-const renderTable = (account: Account) => {
+const renderTable = (account: Account, email: string) => {
     const rowData = [
         [
             'Ime',
@@ -91,7 +82,7 @@ const renderTable = (account: Account) => {
             <TextInput
                 style={[style.regularText, style.inputStyle]}
                 editable={false}
-                value={account.email}
+                value={email}
             />,
         ],
     ];
@@ -144,6 +135,7 @@ const style = StyleSheet.create({
 
 const mapStateToProps = (state: AppState) => ({
     account: state.user.account,
+    email: state.user.email,
 });
 
 export default connect(mapStateToProps)(MyAccountAccessInformationScreen);

@@ -4,9 +4,12 @@ import {
     SET_PASSWORD,
     SET_NOTIFICATIONS,
     SET_PUSH_TOPICS,
+    SET_USER_EMAIL,
+    SET_USER_BANNERS,
 } from './actions';
 import Organization from '../types/organization';
 import Account from '../types/account';
+import Banner from '../types/banner';
 
 const INITIAL_STATE: State = {
     token: '',
@@ -15,6 +18,8 @@ const INITIAL_STATE: State = {
     password: null,
     notifications: null,
     topics: [],
+    email: '',
+    banners: [],
 };
 
 export interface State {
@@ -24,6 +29,8 @@ export interface State {
     password: string;
     notifications: boolean;
     topics: string[];
+    email: string;
+    banners: Banner[];
 }
 
 const userReducer = (state: State = INITIAL_STATE, action): State => {
@@ -56,7 +63,16 @@ const userReducer = (state: State = INITIAL_STATE, action): State => {
                 ...state,
                 notifications: action.notif,
             };
-
+        case SET_USER_EMAIL:
+            return {
+                ...state,
+                email: action.email,
+            };
+        case SET_USER_BANNERS:
+            return {
+                ...state,
+                banners: action.banners,
+            };
         default:
             return state;
     }

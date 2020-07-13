@@ -1,5 +1,12 @@
 import React, {Component} from 'react';
-import {Text, View, ScrollView, Dimensions, StyleSheet} from 'react-native';
+import {
+    Text,
+    View,
+    ScrollView,
+    Dimensions,
+    StyleSheet,
+    Platform,
+} from 'react-native';
 import COLORS from '../../res/colors';
 import service from '../../service';
 import {connect} from 'react-redux';
@@ -107,13 +114,13 @@ const renderSelectedDates = (dates: CalendarType[]) => {
                 {item.date.format('DD.MM.YYYY')}
             </Text>
             <Text style={style.bodyTextWithoutCenter}>
-                {item.date.format('HH:mm')}
+                {item.ts.format('HH:mm')}
             </Text>
         </View>,
         item.title,
     ]);
     return (
-        <View style={{flex: 1, marginLeft: 10, paddingTop: 20}}>
+        <View style={{flex: 1, marginLeft: 10, paddingTop: 8}}>
             <Table>
                 <Row
                     widthArr={[10, width * 0.33 - 5, width * 0.66 - 5]}
@@ -145,7 +152,6 @@ class CalendarScreen extends Component<Props, State> {
         fetched: false,
     };
     onMonthChange = date => {
-        console.log(date);
         //
         service
             .getCalendar(
@@ -159,7 +165,6 @@ class CalendarScreen extends Component<Props, State> {
                     calendarDates: res.data,
                     selectedDates: res.data
                         .filter(item => {
-                            console.log(item.date.month(), date.month - 1);
                             return item.date.get('month') === date.month - 1;
                         })
                         .sort(
@@ -195,7 +200,7 @@ class CalendarScreen extends Component<Props, State> {
                 });
                 this.forceUpdate();
             })
-            .catch(e => console.log(e));
+            .catch();
     }
     public render() {
         if (!this.state.fetched) return null;
@@ -203,7 +208,9 @@ class CalendarScreen extends Component<Props, State> {
         return (
             <View style={{flex: 1, backgroundColor: COLORS.white}}>
                 <Calendar
-                    calendarHeight={{height: '40%'}}
+                    calendarHeight={{
+                        height: Platform.OS === 'ios' ? '40%' : '30%',
+                    }}
                     hideExtraDays={true}
                     theme={theme}
                     markingType="multi-dot"

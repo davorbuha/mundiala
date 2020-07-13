@@ -5,9 +5,10 @@ import {
     FlatList,
     ListRenderItemInfo,
     StyleSheet,
-    Image,
     TouchableOpacity,
-    Platform,
+    Image,
+    Dimensions,
+    Linking,
 } from 'react-native';
 import COLORS from '../../res/colors';
 import service from '../../service';
@@ -17,24 +18,33 @@ import Organization from '../../types/organization';
 import {NewsReply, News} from '../../types/news';
 import FONTS from '../../res/fonts';
 import {StackNavigationProp} from 'react-navigation-stack/lib/typescript/src/vendor/types';
+import {NavigationEvents} from 'react-navigation';
+import Banner from '../../types/banner';
+import SCImage from 'react-native-scalable-image';
 
 interface Props {
     organisations: Organization[];
     token: string;
     navigation: StackNavigationProp;
+    banners: Banner[];
 }
 
 interface State {
+    bannerIndex?: number;
     page: number;
     data: NewsReply | undefined;
 }
 
 class NewsScreen extends Component<Props, State> {
     state = {
+        bannerIndex: undefined,
         page: 0,
         data: undefined,
     };
     public componentDidMount() {
+        this.setState({
+            bannerIndex: Math.floor(Math.random() * this.props.banners.length),
+        });
         const {organisations, token} = this.props;
         service
             .getNews(organisations[0].id, token, this.state.page, 10)
@@ -51,15 +61,21 @@ class NewsScreen extends Component<Props, State> {
                 })),
             );
     };
-    componentDidUpdate(prevprops, prevstate) {
-        console.log(prevstate, this.state);
-    }
     public render() {
         if (!this.state.data) {
             return null;
         }
         return (
             <View style={style.container}>
+                <NavigationEvents
+                    onDidFocus={() => {
+                        this.setState({
+                            bannerIndex: Math.floor(
+                                Math.random() * this.props.banners.length,
+                            ),
+                        });
+                    }}
+                />
                 <FlatList
                     showsVerticalScrollIndicator={false}
                     renderItem={RenderFlatListItem(this.props.navigation)}
@@ -68,6 +84,24 @@ class NewsScreen extends Component<Props, State> {
                     )}
                     data={this.state.data.data}
                 />
+                {this.state.bannerIndex !== undefined &&
+                this.props.banners.length > 0 ? (
+                    <TouchableOpacity
+                        onPress={() =>
+                            Linking.openURL(
+                                this.props.banners[this.state.bannerIndex]
+                                    .action,
+                            )
+                        }>
+                        <SCImage
+                            width={Dimensions.get('window').width}
+                            source={{
+                                uri: this.props.banners[this.state.bannerIndex]
+                                    .banner,
+                            }}
+                        />
+                    </TouchableOpacity>
+                ) : null}
             </View>
         );
     }
@@ -97,7 +131,7 @@ const RenderFlatListItem = (navigation: StackNavigationProp) => (
         }>
         <View style={style.rowContainer}>
             <Image
-                resizeMode="cover"
+                resizeMode="contain"
                 style={style.itemImage}
                 source={buildUri(item.item.image)}
             />
@@ -121,6 +155,7 @@ const style = StyleSheet.create({
     container: {
         flex: 1,
     },
+    ad: {width: '100%'},
     loadMoreContainer: {
         width: '100%',
         alignItems: 'center',
@@ -139,6 +174,7 @@ const style = StyleSheet.create({
         color: COLORS.white,
     },
     itemTitle: {
+        lineHeight: 20,
         fontSize: 16,
         fontFamily: FONTS.bold,
     },
@@ -147,9 +183,9 @@ const style = StyleSheet.create({
         fontFamily: FONTS.regular,
     },
     itemImage: {
-        width: 60,
-        height: 60,
-        borderRadius: Platform.OS === 'ios' ? 30 : 60,
+        width: 80,
+        height: 80,
+        borderRadius: 5,
         marginRight: 16,
     },
     rowContainer: {
@@ -165,6 +201,7 @@ const style = StyleSheet.create({
 const mapStateToProps = (state: AppState) => ({
     token: state.user.token,
     organisations: state.user.organisations,
+    banners: state.user.banners,
 });
 
 export default connect(mapStateToProps)(NewsScreen);

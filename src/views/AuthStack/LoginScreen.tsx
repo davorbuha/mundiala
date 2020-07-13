@@ -10,6 +10,8 @@ import {
     setTokenAndOrganisation,
     setNotifications,
     setPushTopics,
+    setUserEmail,
+    setUserBanners,
 } from '../../userReducer/actions';
 import {storeCredentials, readCredentials} from '../../asyncStorage';
 import Credentials from '../../asyncStorage/credentials';
@@ -47,9 +49,11 @@ function LoginScreen(p: Props) {
                 storeCredentials(
                     new Credentials(email, password, res.token, true),
                 ).then(() => {
+                    p.dispatch(setUserEmail(email));
                     p.dispatch(
                         setTokenAndOrganisation(res.token, res.organisations),
                     );
+                    p.dispatch(setUserBanners(res.banners));
                     p.navigation.navigate('App');
                 });
             })

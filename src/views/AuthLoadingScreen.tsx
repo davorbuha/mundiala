@@ -17,6 +17,8 @@ import {
     setNotifications,
     setTokenAndOrganisation,
     setPushTopics,
+    setUserEmail,
+    setUserBanners,
 } from '../userReducer/actions';
 import {setPassword as setPasswordAction} from '../userReducer/actions';
 import Credentials from '../asyncStorage/credentials';
@@ -79,6 +81,10 @@ function AuthLoadingScreen(p: Props) {
                                             res.organisations,
                                         ),
                                     );
+                                    p.dispatch(
+                                        setUserEmail(credentials.getEmail()),
+                                    );
+                                    p.dispatch(setUserBanners(res.banners));
                                     p.dispatch(hideBackground());
                                     p.navigation.navigate('App');
                                     setTimeout(() => SplashScreen.hide(), 100);
@@ -90,7 +96,7 @@ function AuthLoadingScreen(p: Props) {
                             });
                     }
                 })
-                .catch(e => {
+                .catch(() => {
                     setTimeout(() => SplashScreen.hide(), 100);
                     p.navigation.navigate('Login');
                 });

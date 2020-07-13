@@ -6,6 +6,8 @@ import {NewsReply, NewsByIdReply} from '../types/news';
 import {Moment} from 'moment';
 import {CalendarReply} from '../types/calendar';
 import Account from '../types/account';
+import Billing from '../types/billing';
+import Season from '../types/season';
 
 class LoadingMiddleware implements Service {
     private dispatch: Dispatch<AnyAction>;
@@ -136,6 +138,39 @@ class LoadingMiddleware implements Service {
             return res;
         } catch (e) {
             this.dispatch(stopLoading(this.changePassword.name));
+            throw e;
+        }
+    }
+    public async getBilling(
+        token: string,
+        organisationId: number,
+        seasonId: number,
+    ): Promise<Billing[]> {
+        try {
+            this.dispatch(startLoading(this.getBilling.name));
+            const res = await this.next.getBilling(
+                token,
+                organisationId,
+                seasonId,
+            );
+            this.dispatch(stopLoading(this.getBilling.name));
+            return res;
+        } catch (e) {
+            this.dispatch(stopLoading(this.getBilling.name));
+            throw e;
+        }
+    }
+    public async getSeasons(
+        token: string,
+        organisationId: number,
+    ): Promise<Season[]> {
+        try {
+            this.dispatch(startLoading(this.getSeasons.name));
+            const res = await this.next.getSeasons(token, organisationId);
+            this.dispatch(stopLoading(this.getSeasons.name));
+            return res;
+        } catch (e) {
+            this.dispatch(stopLoading(this.getSeasons.name));
             throw e;
         }
     }

@@ -1,6 +1,6 @@
 import React, {Component, useEffect} from 'react';
 import {StackNavigationProp} from 'react-navigation-stack/lib/typescript/src/vendor/types';
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {View, Text, Image, StyleSheet, Dimensions} from 'react-native';
 import {NavigationStackOptions} from 'react-navigation-stack';
 import {getNavigationOptionsWithAction} from '../../router/navigationHelpers';
 import LogoTitle from './components/LogoTitle';
@@ -40,17 +40,13 @@ class NewsDetailsScreen extends Component<Props, State> {
         if (!data) return null;
         return (
             <View style={{flex: 1}}>
-                <Image
-                    resizeMode="stretch"
-                    style={style.itemImage}
-                    source={buildUri(data.image)}
-                />
+                <Image style={style.itemImage} source={buildUri(data.image)} />
                 <ScrollView
                     style={{
                         flex: 1,
                     }}
                     bounces={false}
-                    contentContainerStyle={[style.container, {padding: 16}]}>
+                    contentContainerStyle={[{padding: 16}]}>
                     <Text style={style.titleText}>{data.name}</Text>
                     <View style={style.aboutWrapper}>
                         <Text style={style.aboutText}>
@@ -71,11 +67,13 @@ class NewsDetailsScreen extends Component<Props, State> {
         );
     }
 }
+const win = Dimensions.get('window');
+
+const ratio = win.width / 541;
 
 const style = StyleSheet.create({
     itemImage: {
-        width: '100%',
-        height: '40%',
+        aspectRatio: 1, // <-- this
     },
     aboutText: {
         color: COLORS.darkGrey,

@@ -30,7 +30,6 @@ function SettingsScreen(p: Props) {
             });
         }
         readCredentials().then(cfg => {
-            console.log(cfg);
             cfg.setNotifications(val);
             storeCredentials(cfg);
         });
@@ -45,19 +44,6 @@ function SettingsScreen(p: Props) {
                     value={notificationValue}
                 />
             </View>
-            {/* <CustomButton
-                type="standard"
-                onPress={}
-                label={
-                    <Text
-                        style={{
-                            fontFamily: FONTS.bold,
-                            color: COLORS.white,
-                        }}>
-                        Spremi
-                    </Text>
-                }
-            /> */}
         </View>
     );
 }

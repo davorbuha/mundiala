@@ -36,7 +36,6 @@ export const getNavigationOptionsWithAction = (
     StackNavigationProp<NavigationRoute<NavigationParams>, NavigationParams>,
     unknown
 > => {
-    console.log(navigation);
     return {
         headerTitle,
         headerStyle: {
