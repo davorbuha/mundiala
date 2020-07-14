@@ -11,6 +11,7 @@ import BarcodeModal from '../../components/BarcodeModal';
 import EmailSentModal from '../../components/EmailSentModal';
 import {backgroundColor} from '../../../libs/react-native-calendars/src/style';
 import COLORS from '../../res/colors';
+import moment from 'moment';
 
 interface Props {
     token: string;
@@ -54,7 +55,21 @@ function BillingScreen(props: Props) {
                             s.value,
                         ),
                     ),
-            ).then(all => setBilling(all.flat()));
+            ).then(all => {
+                setBilling(
+                    all
+                        .flat()
+                        .sort(
+                            (a: Billing, b: Billing) =>
+                                (moment(a.paymentTill).format(
+                                    'YYYYMMDD',
+                                ) as any) -
+                                (moment(b.paymentTill).format(
+                                    'YYYYMMDD',
+                                ) as any),
+                        ),
+                );
+            });
         } else {
             service
                 .getBilling(
@@ -62,7 +77,19 @@ function BillingScreen(props: Props) {
                     props.organisations[0].id,
                     choosenSeason,
                 )
-                .then(setBilling);
+                .then(bill =>
+                    setBilling(
+                        bill.sort(
+                            (a: Billing, b: Billing) =>
+                                (moment(a.paymentTill).format(
+                                    'YYYYMMDD',
+                                ) as any) -
+                                (moment(b.paymentTill).format(
+                                    'YYYYMMDD',
+                                ) as any),
+                        ),
+                    ),
+                );
         }
     }, [choosenSeason, seasons, props.token, props.organisations]);
     return (

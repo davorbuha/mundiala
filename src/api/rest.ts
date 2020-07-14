@@ -154,9 +154,11 @@ class REST implements Service {
             method: 'membership-fees',
             token,
             organisation_id: organisationId,
-            seasong_id: seasonId,
+            seasson_id: seasonId,
         };
+
         const res = await this.request({method: 'POST', data});
+        console.log(res);
         return res.data.data.map(Billing.fromJSON);
     }
 
@@ -182,7 +184,11 @@ class REST implements Service {
     }
 
     private async request(req: AxiosRequestConfig) {
-        return await this.client.request({...req, url: this.url});
+        return await this.client.request({
+            ...req,
+            headers: {'User-Agent': 'YOUR-SERVICE-NAME'},
+            url: this.url,
+        });
     }
 }
 
