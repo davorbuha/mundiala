@@ -14,7 +14,6 @@ function BarcodeModal(props: Props) {
     React.useEffect(() => {
         if (props.barcode)
             RNFetchBlob.fetch('GET', props.barcode).then(res => {
-                console.log(res);
                 setData(res.data);
             });
     }, [props.barcode]);

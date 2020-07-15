@@ -158,7 +158,6 @@ class REST implements Service {
         };
 
         const res = await this.request({method: 'POST', data});
-        console.log(res);
         return res.data.data.map(Billing.fromJSON);
     }
 

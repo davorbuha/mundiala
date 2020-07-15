@@ -13,7 +13,6 @@ const DefaultModalContent: React.FC<Props> = () => (
 );
 
 function EmailSentModal(props: any) {
-    console.log(props.visible);
     return (
         <Modal onBackdropPress={props.close} isVisible={props.visible}>
             <DefaultModalContent onPress={props.close} />

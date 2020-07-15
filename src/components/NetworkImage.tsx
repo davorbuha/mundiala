@@ -28,9 +28,7 @@ const NetworkImage: SFC<INetworkImage> = ({uri, targetHeight, maxWidth}) => {
                 setWidth(width);
                 setHeight(height);
             },
-            (error: any) => {
-                console.log('error', error);
-            },
+            (error: any) => {},
         );
     }
     function adjustView(e) {
