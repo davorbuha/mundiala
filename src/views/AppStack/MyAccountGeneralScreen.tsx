@@ -47,7 +47,7 @@ class MyAccountGeneralScreen extends Component<Props> {
             <View style={{flex: 1, padding: 20}}>
                 {renderTable(account)}
                 <CustomButton
-                    type="standard"
+                    type="success"
                     onPress={async () => {
                         this.props.dispatch(showBackground());
                         await deleteCredentials();
@@ -57,7 +57,8 @@ class MyAccountGeneralScreen extends Component<Props> {
                         <Text
                             style={{
                                 fontFamily: FONTS.bold,
-                                color: COLORS.white,
+                                fontSize: 14,
+                                color: COLORS.darkGrey,
                             }}>
                             Logout
                         </Text>

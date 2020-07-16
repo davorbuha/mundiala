@@ -1,31 +1,40 @@
-import React, {useState, useEffect} from 'react';
-import {View, Text, Switch, StyleSheet, AsyncStorage} from 'react-native';
+import React from 'react';
+import {View, Text, Switch, StyleSheet} from 'react-native';
 import FONTS from '../../res/fonts';
-import CustomButton from '../../components/CustomButton';
-import COLORS from '../../res/colors';
 import {connect} from 'react-redux';
 import {readCredentials, storeCredentials} from '../../asyncStorage';
 import {AppState} from '../../store';
 import firebase from 'react-native-firebase';
+import {NavigationStackOptions} from 'react-navigation-stack';
 
 interface Props {
     topics: string[];
 }
 
-function SettingsScreen(p: Props) {
-    useEffect(() => {
+interface State {
+    notificationValue: boolean;
+}
+
+class SettingsScreen extends React.Component<Props, State> {
+    state: State = {notificationValue: false};
+    static navigationOptions(): NavigationStackOptions {
+        return {
+            title: 'Postavke',
+        };
+    }
+    public componentDidMount() {
         readCredentials().then(cfg =>
-            setNotificationValue(cfg.getNotifications()),
+            this.setState({notificationValue: cfg.getNotifications()}),
         );
-    }, []);
-    const handleNotificationChange = (val: boolean) => {
-        setNotificationValue(val);
+    }
+    public handleNotificationChange = (val: boolean) => {
+        this.setState({notificationValue: val});
         if (val) {
-            p.topics.forEach(topic => {
+            this.props.topics.forEach(topic => {
                 firebase.messaging().subscribeToTopic(topic);
             });
         } else {
-            p.topics.forEach(topic => {
+            this.props.topics.forEach(topic => {
                 firebase.messaging().unsubscribeFromTopic(topic);
             });
         }
@@ -34,18 +43,19 @@ function SettingsScreen(p: Props) {
             storeCredentials(cfg);
         });
     };
-    const [notificationValue, setNotificationValue] = useState(false);
-    return (
-        <View style={style.container}>
-            <View style={style.row}>
-                <Text style={style.text}>Notifikacije: </Text>
-                <Switch
-                    onValueChange={handleNotificationChange}
-                    value={notificationValue}
-                />
+    public render() {
+        return (
+            <View style={style.container}>
+                <View style={style.row}>
+                    <Text style={style.text}>Notifikacije: </Text>
+                    <Switch
+                        onValueChange={this.handleNotificationChange}
+                        value={this.state.notificationValue}
+                    />
+                </View>
             </View>
-        </View>
-    );
+        );
+    }
 }
 
 const style = StyleSheet.create({

@@ -5,11 +5,13 @@ import COLORS from '../res/colors';
 import FONTS from '../res/fonts';
 import {createStackNavigator} from 'react-navigation-stack';
 import PasswordScreen from '../views/AppStack/PasswordScreen';
+import SettingsScreen from '../views/AppStack/SettingsScreen';
 
 const TabNavigatior = createMaterialTopTabNavigator(
     {
         General: MyAccountGeneralScreen,
         AccessInformation: MyAccountAccessInformationScreen,
+        Settings: SettingsScreen,
     },
     {
         tabBarOptions: {

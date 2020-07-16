@@ -1,23 +1,20 @@
 import React from 'react';
 import {createStackNavigator} from 'react-navigation-stack';
-import HomeScreenDrawer from './HomeScreenDrawer';
-import NewsScreen from '../views/AppStack/NewsScreen';
-import CalendarScreen from '../views/AppStack/CalendarScreen';
-import NewsDetailsScreen from '../views/AppStack/NewsDetailsScreen';
+import {Text, View} from 'react-native';
 import MyAccountTabNavigatior from './MyAccountTabNavigatior';
 import {getNavigationOptionsWithAction} from './navigationHelpers';
 import LogoTitle from '../views/AppStack/components/LogoTitle';
 import COLORS from '../res/colors';
 import NavBarItem from '../components/NavBarItem';
-import PasswordScreen from '../views/AppStack/PasswordScreen';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import NewsStack from './NewsStack';
 import CalendarStack from './CalendarStack';
-import {StackActions, NavigationActions} from 'react-navigation';
+import {StackActions} from 'react-navigation';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import SettingsScreen from '../views/AppStack/SettingsScreen';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import BillingScreen from '../views/AppStack/BillingScreen';
 
 const AppTabs = createBottomTabNavigator(
@@ -26,12 +23,23 @@ const AppTabs = createBottomTabNavigator(
             screen: NewsStack,
             navigationOptions: {
                 tabBarLabel: ({focused}) => (
-                    <Icon
-                        style={{marginBottom: 8, alignSelf: 'center'}}
-                        name={'newspaper-o'}
-                        size={30}
-                        color={focused ? COLORS.success : COLORS.primary}
-                    />
+                    <View style={{bottom: -3}}>
+                        <Icon
+                            style={{alignSelf: 'center'}}
+                            name={'newspaper-o'}
+                            size={30}
+                            color={focused ? COLORS.success : COLORS.primary}
+                        />
+                        <Text
+                            style={{
+                                fontSize: 12,
+                                color: focused
+                                    ? COLORS.success
+                                    : COLORS.primary,
+                            }}>
+                            Novosti
+                        </Text>
+                    </View>
                 ),
             },
         },
@@ -39,12 +47,23 @@ const AppTabs = createBottomTabNavigator(
             screen: CalendarStack,
             navigationOptions: {
                 tabBarLabel: ({focused}) => (
-                    <Icon
-                        style={{marginBottom: 8, alignSelf: 'center'}}
-                        name={'calendar'}
-                        size={30}
-                        color={focused ? COLORS.success : COLORS.primary}
-                    />
+                    <View style={{bottom: -3}}>
+                        <Icon
+                            style={{marginBottom: 2, alignSelf: 'center'}}
+                            name={'calendar'}
+                            size={28}
+                            color={focused ? COLORS.success : COLORS.primary}
+                        />
+                        <Text
+                            style={{
+                                fontSize: 12,
+                                color: focused
+                                    ? COLORS.success
+                                    : COLORS.primary,
+                            }}>
+                            Kalendar
+                        </Text>
+                    </View>
                 ),
             },
         },
@@ -52,28 +71,39 @@ const AppTabs = createBottomTabNavigator(
             screen: BillingScreen,
             navigationOptions: {
                 tabBarLabel: ({focused}) => (
-                    <Icon
-                        style={{marginBottom: 6, alignSelf: 'center'}}
-                        name={'check-circle'}
-                        size={34}
-                        color={focused ? COLORS.success : COLORS.primary}
-                    />
+                    <View style={{bottom: -3}}>
+                        <MaterialIcons
+                            style={{alignSelf: 'center', bottom: -4}}
+                            name={'local-atm'}
+                            size={38}
+                            color={focused ? COLORS.success : COLORS.primary}
+                        />
+                        <Text
+                            style={{
+                                fontSize: 12,
+                                color: focused
+                                    ? COLORS.success
+                                    : COLORS.primary,
+                            }}>
+                            Kalendar
+                        </Text>
+                    </View>
                 ),
             },
         },
-        SettingsScreen: {
-            screen: SettingsScreen,
-            navigationOptions: {
-                tabBarLabel: ({focused}) => (
-                    <Icon
-                        style={{marginBottom: 8, alignSelf: 'center'}}
-                        name={'cog'}
-                        size={30}
-                        color={focused ? COLORS.success : COLORS.primary}
-                    />
-                ),
-            },
-        },
+        // SettingsScreen: {
+        //     screen: SettingsScreen,
+        //     navigationOptions: {
+        //         tabBarLabel: ({focused}) => (
+        //             <Icon
+        //                 style={{marginBottom: 8, alignSelf: 'center'}}
+        //                 name={'cog'}
+        //                 size={30}
+        //                 color={focused ? COLORS.success : COLORS.primary}
+        //             />
+        //         ),
+        //     },
+        // },
     },
     {
         defaultNavigationOptions: {

@@ -1,5 +1,12 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, StyleSheet, Animated} from 'react-native';
+import {
+    View,
+    Text,
+    TouchableOpacity,
+    StyleSheet,
+    Animated,
+    Button,
+} from 'react-native';
 import Billing from '../types/billing';
 import RenderStatus from './RenderStatus';
 import FONTS from '../res/fonts';
@@ -9,6 +16,7 @@ import moment from 'moment';
 import Axios from 'axios';
 import {useDispatch} from 'react-redux';
 import {startLoading, stopLoading} from '../loadingReducer/actions';
+import CustomButton from '../components/CustomButton';
 
 interface Props {
     item: Billing;
@@ -25,18 +33,18 @@ function BillingRow({
     showBarcode,
     showEmailSentModal,
 }: Props) {
-    const height = React.useRef(new Animated.Value(64));
+    const height = React.useRef(new Animated.Value(46));
     const dispatch = useDispatch();
     React.useEffect(() => {
         if (activeBill === item.month) {
             Animated.timing(height.current, {
-                toValue: 280,
+                toValue: 370,
                 duration: 500,
             }).start();
         } else {
-            if (height.current !== new Animated.Value(64)) {
+            if (height.current !== new Animated.Value(46)) {
                 Animated.timing(height.current, {
-                    toValue: 64,
+                    toValue: 46,
                     duration: 500,
                 }).start();
             }
@@ -75,57 +83,74 @@ function BillingRow({
             {activeBill === item.month ? (
                 <Animated.View
                     style={{
-                        ...style.expanded,
                         opacity: height.current.interpolate({
-                            inputRange: [64, 280],
+                            inputRange: [46, 370],
                             outputRange: [0, 1],
                         }),
                     }}>
-                    <View>
-                        <Text style={style.strong}>PRIMATELJ:</Text>
-                        {item.to.split(', ').map((s, i, arr) => (
-                            <Text key={`${i}PRIMATELJ`} style={style.regular}>
-                                {s}
-                                {i + 1 !== arr.length ? ', ' : null}
+                    <View style={style.expanded}>
+                        <View>
+                            <Text style={style.strong}>PRIMATELJ:</Text>
+                            {item.to.split(', ').map((s, i, arr) => (
+                                <Text
+                                    key={`${i}PRIMATELJ`}
+                                    style={style.regular}>
+                                    {s}
+                                    {i + 1 !== arr.length ? ', ' : null}
+                                </Text>
+                            ))}
+                            <Text style={style.strong}>IBAN:</Text>
+                            <Text style={style.regular}>{item.iban}</Text>
+                            <Text style={style.strong}>
+                                MODEL I POZIV NA BROJ:
                             </Text>
-                        ))}
-                        <Text style={style.strong}>IBAN:</Text>
-                        <Text style={style.regular}>{item.iban}</Text>
-                        <Text style={style.strong}>MODEL I POZIV NA BROJ:</Text>
-                        <Text style={style.regular}>
-                            {item.paymentModel + ' ' + item.paymentCode}
-                        </Text>
-                        <Text style={style.strong}>OPIS PLAĆANJA:</Text>
-                        <Text style={style.regular}>{item.description}</Text>
+                            <Text style={style.regular}>
+                                {item.paymentModel + ' ' + item.paymentCode}
+                            </Text>
+                            <Text style={style.strong}>OPIS PLAĆANJA:</Text>
+                            <Text style={style.regular}>
+                                {item.description}
+                            </Text>
+                        </View>
+                        <View>
+                            <Text style={style.strong}>IZNOS PLAĆANJA</Text>
+                            <Text style={style.regular}>{item.price}</Text>
+                            <Text style={style.strong}>DOSPIJEĆE PLAĆANJA</Text>
+                            <Text style={style.regular}>
+                                {moment(item.paymentTill).format('DD.MM.YYYY')}
+                            </Text>
+                            {/* {item.status === 'payed' ? <><Text style={style.strong}>DOSPIJEĆE PLAĆANJA</Text>
+                            <Text style={style.regular}>
+                                {moment(item.).format('DD.MM.YYYY')}
+                            </Text></>} */}
+                        </View>
                     </View>
-                    <View>
-                        <Text style={style.strong}>IZNOS PLAĆANJA</Text>
-                        <Text style={style.regular}>{item.price}</Text>
-                        <Text style={style.strong}>DOSPIJEĆE PLAĆANJA</Text>
-                        <Text style={style.regular}>
-                            {moment(item.paymentTill).format('DD.MM.YYYY')}
-                        </Text>
-                        <TouchableOpacity
-                            onPress={() => showBarcode(item.barcode)}>
-                            <Text style={style.strong}>BARCODE</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
+                    <CustomButton
+                        type="standard"
+                        label={<Text style={style.button}>BARCODE</Text>}
+                        onPress={() => showBarcode(item.barcode)}
+                    />
+                    <View style={{marginVertical: 12}}>
+                        <CustomButton
+                            type="standard"
+                            label={
+                                <Text style={style.button}>
+                                    POŠALJI UPLATNICU NA MAIL
+                                </Text>
+                            }
                             onPress={() => {
                                 dispatch(startLoading('email'));
-                                Axios.request({url: item.sendEmail}).then(
-                                    () => {
+                                Axios.request({url: item.sendEmail})
+                                    .then(() => {
                                         dispatch(stopLoading('email'));
                                         setTimeout(
                                             () => showEmailSentModal(),
                                             1000,
                                         );
-                                    },
-                                );
-                            }}>
-                            <Text style={style.strong}>
-                                POŠALJI UPLATNICU NA EMAIL
-                            </Text>
-                        </TouchableOpacity>
+                                    })
+                                    .catch(() => {});
+                            }}
+                        />
                     </View>
                 </Animated.View>
             ) : null}
@@ -136,7 +161,7 @@ function BillingRow({
 const style = StyleSheet.create({
     container: {
         paddingHorizontal: 16,
-        borderBottomColor: COLORS.darkGrey,
+        borderBottomColor: COLORS.lightGrey,
         borderBottomWidth: 1,
         justifyContent: 'center',
     },
@@ -151,12 +176,19 @@ const style = StyleSheet.create({
         fontSize: 14,
         fontFamily: FONTS.bold,
     },
+    button: {
+        color: COLORS.white,
+        lineHeight: 20,
+        fontSize: 14,
+        fontFamily: FONTS.bold,
+    },
     regular: {
         lineHeight: 18,
         fontSize: 14,
         fontFamily: FONTS.regular,
     },
     expanded: {
+        marginBottom: 10,
         flexDirection: 'row',
     },
 });

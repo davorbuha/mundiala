@@ -9,7 +9,6 @@ import {connect} from 'react-redux';
 import BillingRow from '../../components/BillingRow';
 import BarcodeModal from '../../components/BarcodeModal';
 import EmailSentModal from '../../components/EmailSentModal';
-import {backgroundColor} from '../../../libs/react-native-calendars/src/style';
 import COLORS from '../../res/colors';
 import moment from 'moment';
 
@@ -108,12 +107,12 @@ function BillingScreen(props: Props) {
                 containerStyle={{height: 40}}
                 style={{
                     backgroundColor: '#f2f2f2',
-                    borderBottomColor: COLORS.darkGrey,
+                    borderBottomColor: COLORS.lightGrey,
                     borderBottomWidth: 1,
                 }}
                 dropDownStyle={{
                     backgroundColor: '#f2f2f2',
-                    borderBottomColor: COLORS.darkGrey,
+                    borderBottomColor: COLORS.lightGrey,
                     borderBottomWidth: 1,
                 }}
                 itemStyle={{
