@@ -23,7 +23,7 @@ const AppTabs = createBottomTabNavigator(
             screen: NewsStack,
             navigationOptions: {
                 tabBarLabel: ({focused}) => (
-                    <View style={{bottom: -3}}>
+                    <View style={{marginBottom: 6, bottom: -3}}>
                         <Icon
                             style={{alignSelf: 'center'}}
                             name={'newspaper-o'}
@@ -47,7 +47,7 @@ const AppTabs = createBottomTabNavigator(
             screen: CalendarStack,
             navigationOptions: {
                 tabBarLabel: ({focused}) => (
-                    <View style={{bottom: -3}}>
+                    <View style={{marginBottom: 6, bottom: -3}}>
                         <Icon
                             style={{marginBottom: 2, alignSelf: 'center'}}
                             name={'calendar'}
@@ -71,7 +71,7 @@ const AppTabs = createBottomTabNavigator(
             screen: BillingScreen,
             navigationOptions: {
                 tabBarLabel: ({focused}) => (
-                    <View style={{bottom: -3}}>
+                    <View style={{marginBottom: 6, bottom: -3}}>
                         <MaterialIcons
                             style={{alignSelf: 'center', bottom: -4}}
                             name={'local-atm'}
@@ -85,7 +85,7 @@ const AppTabs = createBottomTabNavigator(
                                     ? COLORS.success
                                     : COLORS.primary,
                             }}>
-                            Kalendar
+                            Članarina
                         </Text>
                     </View>
                 ),
@@ -112,7 +112,7 @@ const AppTabs = createBottomTabNavigator(
                     borderTopColor: COLORS.primary,
                     borderTopWidth: 1,
                     justifyContent: 'center',
-                    height: 50,
+                    height: 55,
                     backgroundColor: '#f2f2f2',
                 },
             },

@@ -15,14 +15,14 @@ function RenderStatus(props: Props) {
                 <FontAwesome
                     name={'check-circle'}
                     size={22}
-                    color={COLORS.primary}
+                    color={COLORS.success}
                 />
             );
         case 'not_payed':
             return (
                 <FontAwesome
                     size={20}
-                    color={'#990000'}
+                    color={'#be0000'}
                     name="exclamation-triangle"
                 />
             );

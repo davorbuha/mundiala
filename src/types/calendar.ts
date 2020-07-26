@@ -8,6 +8,10 @@ export class Calendar {
     title: string;
     ts: Moment;
     type: string;
+    location: string;
+    description: string;
+    categoryName: string;
+    activityTypeName: string;
 
     constructor(
         color: string,
@@ -16,6 +20,10 @@ export class Calendar {
         title: string,
         ts: Moment,
         type: string,
+        location: string,
+        description: string,
+        categoryName: string,
+        activityTypeName: string,
     ) {
         this.color = color;
         this.date = date;
@@ -23,6 +31,10 @@ export class Calendar {
         this.title = title;
         this.ts = ts;
         this.type = type;
+        this.location = location;
+        this.description = description;
+        this.categoryName = categoryName;
+        this.activityTypeName = activityTypeName;
     }
 
     public static fromJSON(maybe: any): Calendar {
@@ -55,6 +67,10 @@ export class Calendar {
             maybe.title,
             ts,
             maybe.type,
+            maybe.location,
+            maybe.description,
+            maybe.category_name,
+            maybe.activity_type_name,
         );
     }
 }

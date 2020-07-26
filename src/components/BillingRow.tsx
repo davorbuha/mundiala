@@ -2,10 +2,9 @@ import React from 'react';
 import {
     View,
     Text,
-    TouchableOpacity,
+    TouchableHighlight,
     StyleSheet,
     Animated,
-    Button,
 } from 'react-native';
 import Billing from '../types/billing';
 import RenderStatus from './RenderStatus';
@@ -38,7 +37,7 @@ function BillingRow({
     React.useEffect(() => {
         if (activeBill === item.month) {
             Animated.timing(height.current, {
-                toValue: 370,
+                toValue: 420,
                 duration: 500,
             }).start();
         } else {
@@ -52,39 +51,49 @@ function BillingRow({
     }, [activeBill, item]);
     return (
         <Animated.View style={{...style.container, height: height.current}}>
-            <View style={style.rowWrapper}>
-                <Text style={{fontFamily: FONTS.regular}}>{item.month}</Text>
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                    }}>
-                    <TouchableOpacity
+            <TouchableHighlight
+                style={{
+                    height: 46,
+                    justifyContent: 'center',
+                }}
+                underlayColor={COLORS.lightGrey}
+                onPress={() => {
+                    if (activeBill === item.month) {
+                        setActiveBill(undefined);
+                    } else {
+                        setActiveBill(item.month);
+                    }
+                }}>
+                <View style={style.rowWrapper}>
+                    <Text style={{fontFamily: FONTS.regular}}>
+                        {item.month}
+                    </Text>
+                    <View
                         style={{
                             flexDirection: 'row',
                             alignItems: 'center',
-                        }}
-                        onPress={() => {
-                            if (activeBill === item.month) {
-                                setActiveBill(undefined);
-                            } else {
-                                setActiveBill(item.month);
-                            }
                         }}>
-                        <RenderStatus status={item.status} />
-                        <MaterialIcons
-                            size={18}
-                            style={{marginLeft: 6}}
-                            name={'expand-more'}
-                        />
-                    </TouchableOpacity>
+                        <View
+                            style={{
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                            }}>
+                            <RenderStatus status={item.status} />
+                            <MaterialIcons
+                                size={18}
+                                style={{marginLeft: 6}}
+                                name={'expand-more'}
+                            />
+                        </View>
+                    </View>
                 </View>
-            </View>
+            </TouchableHighlight>
             {activeBill === item.month ? (
                 <Animated.View
                     style={{
+                        paddingHorizontal: 16,
                         opacity: height.current.interpolate({
-                            inputRange: [46, 370],
+                            inputRange: [46, 420],
                             outputRange: [0, 1],
                         }),
                     }}>
@@ -111,6 +120,14 @@ function BillingRow({
                             <Text style={style.regular}>
                                 {item.description}
                             </Text>
+                            <Text style={style.strong}>STATUS:</Text>
+                            <Text style={style.regular}>
+                                {item.status === 'payed'
+                                    ? 'Plaćeno'
+                                    : item.status === 'not_payed'
+                                    ? 'Nije plaćeno'
+                                    : 'Nije dospjeloo'}
+                            </Text>
                         </View>
                         <View>
                             <Text style={style.strong}>IZNOS PLAĆANJA</Text>
@@ -127,7 +144,9 @@ function BillingRow({
                     </View>
                     <CustomButton
                         type="standard"
-                        label={<Text style={style.button}>BARCODE</Text>}
+                        label={
+                            <Text style={style.button}>PRIKAŽI 2D BARCODE</Text>
+                        }
                         onPress={() => showBarcode(item.barcode)}
                     />
                     <View style={{marginVertical: 12}}>
@@ -160,12 +179,12 @@ function BillingRow({
 
 const style = StyleSheet.create({
     container: {
-        paddingHorizontal: 16,
         borderBottomColor: COLORS.lightGrey,
         borderBottomWidth: 1,
         justifyContent: 'center',
     },
     rowWrapper: {
+        paddingHorizontal: 16,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',

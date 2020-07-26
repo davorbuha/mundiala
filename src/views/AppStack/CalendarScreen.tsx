@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useState, useEffect} from 'react';
 import {
     Text,
     View,
@@ -6,7 +6,9 @@ import {
     Dimensions,
     StyleSheet,
     Platform,
+    TouchableHighlight,
 } from 'react-native';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import COLORS from '../../res/colors';
 import service from '../../service';
 import {connect} from 'react-redux';
@@ -14,7 +16,7 @@ import {AppState} from '../../store';
 import moment from 'moment';
 import {Calendar, LocaleConfig} from '../../../libs/react-native-calendars';
 import {Calendar as CalendarType} from '../../types/calendar';
-import {Table, Row, Rows} from 'react-native-table-component';
+import {Table, Row} from 'react-native-table-component';
 import FONTS from '../../res/fonts';
 
 const {width} = Dimensions.get('screen');
@@ -94,14 +96,23 @@ const prepareMarkedDates = (events: CalendarType[]) => {
     return markedDates;
 };
 
-const tableHead = ['', 'DATUM', 'DOGAĐAJ'];
+const tableHead = ['', 'DATUM', 'DOGAĐAJ', ''];
 
-const renderSelectedDates = (dates: CalendarType[]) => {
+interface RenderSelectedDatesProps {
+    dates: CalendarType[];
+}
+
+const RenderSelectedDates = ({dates}: RenderSelectedDatesProps) => {
+    useEffect(() => {
+        setSelectedDate(undefined);
+    }, [dates]);
+    const [selectedDate, setSelectedDate] = useState<number | undefined>();
     if (dates.length === 0) return null;
-    const rowData = dates.map(item => [
+    const rowData = dates.map((item, i) => [
         <View
             style={{
-                ...style.marker,
+                width: 8,
+                height: i === selectedDate ? 130 : 52,
                 backgroundColor: item.color ? item.color : COLORS.primary,
             }}
         />,
@@ -117,28 +128,79 @@ const renderSelectedDates = (dates: CalendarType[]) => {
                 {item.ts.format('HH:mm')}
             </Text>
         </View>,
-        item.title,
+        i === selectedDate ? (
+            <View style={{alignSelf: 'center'}}>
+                <Text style={style.bodyTextWithoutCenter}>{item.title}</Text>
+                <Text style={style.bodyTextWithoutCenter}>
+                    Vrsta aktivnosti: {item.activityTypeName}
+                </Text>
+                <Text style={style.bodyTextWithoutCenter}>
+                    Kategorija: {item.categoryName}
+                </Text>
+                <Text style={style.bodyTextWithoutCenter}>
+                    Lokacija: {item.location}
+                </Text>
+                <Text style={style.bodyTextWithoutCenter}>
+                    Detalji: {item.description}
+                </Text>
+            </View>
+        ) : (
+            item.title
+        ),
+        i === selectedDate ? (
+            <MaterialIcons
+                style={{marginRight: 0, alignSelf: 'flex-start'}}
+                color={'#00000'}
+                size={20}
+                name={'expand-less'}
+            />
+        ) : (
+            <MaterialIcons
+                style={{marginRight: 0, alignSelf: 'flex-start'}}
+                color={'#00000'}
+                size={20}
+                name={'expand-more'}
+            />
+        ),
     ]);
     return (
         <View style={{flex: 1, marginLeft: 10, paddingTop: 8}}>
             <Table>
                 <Row
-                    widthArr={[10, width * 0.33 - 5, width * 0.66 - 5]}
+                    widthArr={[10, width * 0.33 - 20, width * 0.66 - 20, 30]}
                     textStyle={style.titleText}
                     data={tableHead}
                 />
             </Table>
             <ScrollView contentContainerStyle={style.container}>
                 <Table>
-                    <Rows
-                        style={{
-                            borderTopColor: '#e5e6e9',
-                            borderTopWidth: 1,
-                        }}
-                        widthArr={[10, width * 0.33 - 5, width * 0.66 - 5]}
-                        textStyle={style.bodyText}
-                        data={rowData}
-                    />
+                    {rowData.map((item, i) => (
+                        <TouchableHighlight
+                            onPress={() => {
+                                if (i === selectedDate) {
+                                    setSelectedDate(undefined);
+                                } else {
+                                    setSelectedDate(i);
+                                }
+                            }}
+                            key={'row' + i}
+                            underlayColor={COLORS.lightGrey}>
+                            <Row
+                                style={{
+                                    borderTopColor: '#e5e6e9',
+                                    borderTopWidth: 1,
+                                }}
+                                widthArr={[
+                                    10,
+                                    width * 0.33 - 20,
+                                    width * 0.66 - 20,
+                                    30,
+                                ]}
+                                textStyle={style.bodyText}
+                                data={item}
+                            />
+                        </TouchableHighlight>
+                    ))}
                 </Table>
             </ScrollView>
         </View>
@@ -219,7 +281,7 @@ class CalendarScreen extends Component<Props, State> {
                     onDayLongPress={this.handleDayPress}
                     markedDates={markedDates}
                 />
-                {renderSelectedDates(this.state.selectedDates)}
+                <RenderSelectedDates dates={this.state.selectedDates} />
             </View>
         );
     }
@@ -269,10 +331,6 @@ const style = StyleSheet.create({
     container: {
         borderBottomColor: '#e5e6e9',
         borderBottomWidth: 1,
-    },
-    marker: {
-        width: 8,
-        height: 52,
     },
     titleText: {
         fontFamily: FONTS.bold,

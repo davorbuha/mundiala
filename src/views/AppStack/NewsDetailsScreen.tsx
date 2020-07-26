@@ -40,27 +40,35 @@ class NewsDetailsScreen extends Component<Props, State> {
         if (!data) return null;
         return (
             <View style={{flex: 1}}>
-                <Image style={style.itemImage} source={buildUri(data.image)} />
                 <ScrollView
                     style={{
                         flex: 1,
                     }}
-                    bounces={false}
-                    contentContainerStyle={[{padding: 16}]}>
-                    <Text style={style.titleText}>{data.name}</Text>
-                    <View style={style.aboutWrapper}>
-                        <Text style={style.aboutText}>
-                            Autor: {data.authorName}
-                        </Text>
-                        <Text style={style.aboutText}>
-                            Objavljeno:{' '}
-                            {data.createdOn.format('DD.MM.YYYY HH:mm')}
-                        </Text>
-                    </View>
-                    <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-                        <Text style={style.descriptionText}>
-                            {data.description}
-                        </Text>
+                    bounces={false}>
+                    <Image
+                        style={style.itemImage}
+                        source={buildUri(data.image)}
+                    />
+                    <View style={{padding: 16}}>
+                        <Text style={style.titleText}>{data.name}</Text>
+                        <View style={style.aboutWrapper}>
+                            <Text style={style.aboutText}>
+                                Autor: {data.authorName}
+                            </Text>
+                            <Text style={style.aboutText}>
+                                Objavljeno:{' '}
+                                {data.createdOn.format('DD.MM.YYYY HH:mm')}
+                            </Text>
+                        </View>
+                        <View
+                            style={{
+                                flexDirection: 'row',
+                                flexWrap: 'wrap',
+                            }}>
+                            <Text style={style.descriptionText}>
+                                {data.description}
+                            </Text>
+                        </View>
                     </View>
                 </ScrollView>
             </View>

@@ -106,7 +106,7 @@ function BillingScreen(props: Props) {
                 defaultValue={choosenSeason}
                 containerStyle={{height: 40}}
                 style={{
-                    backgroundColor: '#f2f2f2',
+                    backgroundColor: COLORS.lightGrey,
                     borderBottomColor: COLORS.lightGrey,
                     borderBottomWidth: 1,
                 }}

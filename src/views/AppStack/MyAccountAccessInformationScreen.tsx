@@ -63,27 +63,19 @@ const renderTable = (account: Account, email: string) => {
     const rowData = [
         [
             'Ime',
-            <TextInput
-                style={[style.regularText, style.inputStyle]}
-                editable={false}
-                value={account.firstName}
-            />,
+            <Text style={[style.regularText, style.inputStyle]}>
+                {account.firstName}
+            </Text>,
         ],
         [
             'Prezime',
-            <TextInput
-                style={[style.regularText, style.inputStyle]}
-                editable={false}
-                value={account.lastName}
-            />,
+            <Text style={[style.regularText, style.inputStyle]}>
+                {account.lastName}
+            </Text>,
         ],
         [
             'Email',
-            <TextInput
-                style={[style.regularText, style.inputStyle]}
-                editable={false}
-                value={email}
-            />,
+            <Text style={[style.regularText, style.inputStyle]}>{email}</Text>,
         ],
     ];
     return (
@@ -102,12 +94,12 @@ const style = StyleSheet.create({
         textAlign: 'center',
     },
     inputStyle: {
-        borderColor: COLORS.darkGrey,
-        borderWidth: 1,
-        marginRight: 40,
-        width: '100%',
-        backgroundColor: COLORS.lightGrey,
-        borderRadius: 4,
+        // borderColor: COLORS.darkGrey,
+        // borderWidth: 1,
+        // marginRight: 40,
+        // width: '100%',
+        // backgroundColor: COLORS.lightGrey,
+        // borderRadius: 4,
     },
     container: {
         flex: 1,
