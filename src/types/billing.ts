@@ -26,6 +26,7 @@ class Billing {
     paymentModel: string;
     paymentCode: string;
     barcode: string;
+    paidOn: string;
 
     constructor(
         title: string,
@@ -42,6 +43,7 @@ class Billing {
         paymentModel: string,
         paymentCode: string,
         barcode: string,
+        paidOn: string,
     ) {
         this.title = title;
         this.status = status;
@@ -57,6 +59,7 @@ class Billing {
         this.paymentModel = paymentModel;
         this.paymentCode = paymentCode;
         this.barcode = barcode;
+        this.paidOn = paidOn;
     }
 
     public static fromJSON(maybe: any): Billing {
@@ -75,6 +78,7 @@ class Billing {
             maybe.payment_data.payment_model,
             maybe.payment_data.payment_code,
             maybe.payment_data.barcode,
+            maybe.payment_data.paid_on,
         );
     }
 }

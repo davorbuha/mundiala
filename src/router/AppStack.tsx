@@ -32,6 +32,7 @@ const AppTabs = createBottomTabNavigator(
                         />
                         <Text
                             style={{
+                                alignSelf: 'center',
                                 fontSize: 12,
                                 color: focused
                                     ? COLORS.success
@@ -56,6 +57,7 @@ const AppTabs = createBottomTabNavigator(
                         />
                         <Text
                             style={{
+                                alignSelf: 'center',
                                 fontSize: 12,
                                 color: focused
                                     ? COLORS.success
@@ -80,6 +82,7 @@ const AppTabs = createBottomTabNavigator(
                         />
                         <Text
                             style={{
+                                alignSelf: 'center',
                                 fontSize: 12,
                                 color: focused
                                     ? COLORS.success
