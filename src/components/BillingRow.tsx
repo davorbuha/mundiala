@@ -82,7 +82,11 @@ function BillingRow({
                             <MaterialIcons
                                 size={18}
                                 style={{marginLeft: 6}}
-                                name={'expand-more'}
+                                name={
+                                    activeBill === item.month
+                                        ? 'expand-less'
+                                        : 'expand-more'
+                                }
                             />
                         </View>
                     </View>
