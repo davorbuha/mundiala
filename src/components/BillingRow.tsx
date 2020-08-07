@@ -142,10 +142,18 @@ function BillingRow({
                             <Text style={style.regular}>
                                 {moment(item.paymentTill).format('DD.MM.YYYY')}
                             </Text>
-                            <Text style={style.strong}>DATUM PLAĆANJA:</Text>
-                            <Text style={style.regular}>
-                                {moment(item.paidOn).format('DD.MM.YYYY')}
-                            </Text>
+                            {item.paidOn ? (
+                                <>
+                                    <Text style={style.strong}>
+                                        DATUM PLAĆANJA:
+                                    </Text>
+                                    <Text style={style.regular}>
+                                        {moment(item.paidOn).format(
+                                            'DD.MM.YYYY',
+                                        )}
+                                    </Text>
+                                </>
+                            ) : null}
                             {/* {item.status === 'payed' ? <><Text style={style.strong}>DOSPIJEĆE PLAĆANJA</Text>
                             <Text style={style.regular}>
                                 {moment(item.).format('DD.MM.YYYY')}
