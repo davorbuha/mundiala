@@ -9,6 +9,8 @@ import {
     Image,
     Dimensions,
     Linking,
+    AppState as RNAppState,
+    RefreshControl,
 } from 'react-native';
 import COLORS from '../../res/colors';
 import service from '../../service';
@@ -30,6 +32,7 @@ interface Props {
 }
 
 interface State {
+    refreshing: boolean;
     bannerIndex?: number;
     page: number;
     data: NewsReply | undefined;
@@ -37,11 +40,17 @@ interface State {
 
 class NewsScreen extends Component<Props, State> {
     state = {
+        refreshing: false,
         bannerIndex: undefined,
         page: 0,
         data: undefined,
     };
     public componentDidMount() {
+        RNAppState.addEventListener('change', () => {
+            service
+                .getNews(organisations[0].id, token, this.state.page, 10)
+                .then(res => this.setState({data: res}));
+        });
         this.setState({
             bannerIndex: Math.floor(Math.random() * this.props.banners.length),
         });
@@ -50,6 +59,14 @@ class NewsScreen extends Component<Props, State> {
             .getNews(organisations[0].id, token, this.state.page, 10)
             .then(res => this.setState({data: res}));
     }
+    public onRefresh = () => {
+        const {organisations, token} = this.props;
+        this.setState({refreshing: true});
+        service
+            .getNews(organisations[0].id, token, this.state.page, 10)
+            .then(res => this.setState({data: res, refreshing: false}));
+    };
+
     public onLoadMorePress = () => {
         const {organisations, token} = this.props;
         service
@@ -77,6 +94,12 @@ class NewsScreen extends Component<Props, State> {
                     }}
                 />
                 <FlatList
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.refreshing}
+                            onRefresh={this.onRefresh}
+                        />
+                    }
                     showsVerticalScrollIndicator={false}
                     renderItem={RenderFlatListItem(this.props.navigation)}
                     ListFooterComponent={RenderFooterComponent(

@@ -26,6 +26,7 @@ function BillingScreen(props: Props) {
     const [seasons, setSeasons] = React.useState<DropdownElement[]>([
         {label: 'Prikaži sve', value: -1},
     ]);
+    const [pickerOpen, setPickerOpen] = React.useState(false);
     const [barcode, setBarcode] = React.useState<string | undefined>();
     const [emailSentModal, setEmailSentModal] = React.useState(false);
     const [activeBill, setActiveBill] = React.useState<string>();
@@ -102,6 +103,8 @@ function BillingScreen(props: Props) {
                 visible={emailSentModal}
             />
             <DropDownPicker
+                onOpen={() => setPickerOpen(true)}
+                onClose={() => setPickerOpen(false)}
                 items={seasons}
                 defaultValue={choosenSeason}
                 containerStyle={{height: 40}}
@@ -110,8 +113,10 @@ function BillingScreen(props: Props) {
                     borderBottomColor: COLORS.lightGrey,
                     borderBottomWidth: 1,
                 }}
+                dropDownMaxHeight={140}
                 dropDownStyle={{
-                    backgroundColor: '#f2f2f2',
+                    minHeight: 140,
+                    backgroundColor: '#E8E8E8',
                     borderBottomColor: COLORS.lightGrey,
                     borderBottomWidth: 1,
                 }}
@@ -120,6 +125,7 @@ function BillingScreen(props: Props) {
                 }}
                 onChangeItem={item => setChoosenSeason(item.value)}
             />
+            {pickerOpen && <View style={{height: 150}} />}
             <ScrollView>
                 {billing.map((item, i) => (
                     <BillingRow

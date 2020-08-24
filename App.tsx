@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+import {Text, Platform} from 'react-native';
 import Router from './src/router';
 import {Provider} from 'react-redux';
 import store from './src/store';
@@ -7,12 +8,54 @@ import firebase from 'react-native-firebase';
 import {StatusBar} from 'react-native';
 import Loading from './src/components/Loading';
 
+Text.defaultProps = Text.defaultProps || {};
+Text.defaultProps.allowFontScaling = false;
+
 function App() {
     useEffect(() => {
         checkPermission();
-        firebase.notifications().onNotification(notification => {
-            firebase.notifications().displayNotification(notification);
-        });
+        const channel = new firebase.notifications.Android.Channel(
+            'mundiala',
+            'mundiala',
+            firebase.notifications.Android.Importance.Max,
+        ).setDescription('A natural description of the channel');
+        firebase.notifications().android.createChannel(channel);
+        this.unsubscribeFromNotificationListener = firebase
+            .notifications()
+            .onNotification(notification => {
+                if (Platform.OS === 'android') {
+                    const localNotification = new firebase.notifications.Notification()
+                        .setSound('default')
+                        .setNotificationId(notification.notificationId)
+                        .setTitle(notification.title)
+                        .setSubtitle(notification.subtitle)
+                        .setBody(notification.body)
+                        .setData(notification.data)
+                        .android.setChannelId('mundiala') // e.g. the id you chose above
+                        .android.setSmallIcon('ic_launcher') // create this icon in Android Studio
+                        .android.setPriority(
+                            firebase.notifications.Android.Priority.High,
+                        );
+
+                    firebase
+                        .notifications()
+                        .displayNotification(localNotification)
+                        .catch(err => console.error(err));
+                } else if (Platform.OS === 'ios') {
+                    const localNotification = new firebase.notifications.Notification()
+                        .setNotificationId(notification.notificationId)
+                        .setTitle(notification.title)
+                        .setSubtitle(notification.subtitle)
+                        .setBody(notification.body)
+                        .setData(notification.data)
+                        .ios.setBadge(notification.ios.badge);
+
+                    firebase
+                        .notifications()
+                        .displayNotification(localNotification)
+                        .catch(err => console.error(err));
+                }
+            });
     }, []);
 
     return (

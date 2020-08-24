@@ -63,6 +63,7 @@ class Billing {
     }
 
     public static fromJSON(maybe: any): Billing {
+        console.log(maybe);
         return new Billing(
             maybe.title,
             maybe.status,

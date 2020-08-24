@@ -5771,10 +5771,10 @@ react-native-calendars@^1.259.0:
     prop-types "^15.5.10"
     xdate "^0.8.0"
 
-react-native-dropdown-picker@^3.1.8:
-  version "3.1.8"
-  resolved "https://registry.yarnpkg.com/react-native-dropdown-picker/-/react-native-dropdown-picker-3.1.8.tgz#d2fed5fd78b3aa39fceeed82a18d873af7d26fde"
-  integrity sha512-YvpDv343s402VgKXHzqjn/Hhhzm/JyI5Dsp1UFqV4T/7sf0Rd/uvi8qeBqJz6tGt971tUuL9dG/lQCMZPszCYQ==
+react-native-dropdown-picker@3.1.11:
+  version "3.1.11"
+  resolved "https://registry.yarnpkg.com/react-native-dropdown-picker/-/react-native-dropdown-picker-3.1.11.tgz#663efcef168e7e56bb34fb8e1d54bc5e2de82b22"
+  integrity sha512-2dY5Kt9iVN/IXSfruU89rIEM0WXjfspKuJ/hVobaHYiTzJ2gy7xHRakUYkbDrsWrMgAq7+Q+iTp3c92CQjnTWg==
   dependencies:
     prop-types "^15.7.2"
     react-native-vector-icons "^7.0.0"
@@ -5838,6 +5838,11 @@ react-native-scalable-image@^1.0.0:
   integrity sha512-tOxHGQUN83MTmQB4ghoQkibqOdGiX4JQEmeyEv96MKWO/x8T2PJv84ECUos9hD3blPRQwVwSpAid1PPPhrVEaw==
   dependencies:
     debounce "^1.2.0"
+
+react-native-selectme@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/react-native-selectme/-/react-native-selectme-1.2.3.tgz#08b34a8603abf40c29e9d1ab14d79c6a939902ff"
+  integrity sha1-CLNKhgOr9Awp6dGrFNecapOZAv8=
 
 react-native-splash-screen@^3.2.0:
   version "3.2.0"
