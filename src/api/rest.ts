@@ -7,6 +7,7 @@ import {CalendarReply} from '../types/calendar';
 import Account from '../types/account';
 import Billing from '../types/billing';
 import Season from '../types/season';
+import Presence from '../types/presence';
 
 class REST implements Service {
     private client: AxiosInstance;
@@ -27,6 +28,26 @@ class REST implements Service {
         }
         const loginReply = LoginReply.fromJSON(res.data);
         return loginReply;
+    }
+
+    public async getPresence(
+        token: string,
+        organisationId: number,
+        seassonId: number,
+    ): Promise<Presence> {
+        const data = {
+            method: 'presence',
+            token,
+            organisation_id: organisationId,
+            seasson_id: seassonId,
+        };
+        console.log(data);
+        const res = await this.request({method: 'POST', data});
+        console.log(res);
+        if (res.data.error !== '') {
+            throw new Error(res.data.error);
+        }
+        return Presence.fromJSON(res.data.data);
     }
 
     public async checkToken(token: string): Promise<boolean> {

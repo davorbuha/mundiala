@@ -31,7 +31,7 @@ function RenderStatus(props: Props) {
                 <FontAwesome size={20} color={COLORS.darkGrey} name="clock-o" />
             );
         case 'free':
-            return <FontAwesome size={22} color={COLORS.success} name="gift" />;
+            return <FontAwesome size={22} color={COLORS.primary} name="gift" />;
         default:
             return null;
     }

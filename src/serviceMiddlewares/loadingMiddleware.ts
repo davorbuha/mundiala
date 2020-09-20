@@ -8,6 +8,7 @@ import {CalendarReply} from '../types/calendar';
 import Account from '../types/account';
 import Billing from '../types/billing';
 import Season from '../types/season';
+import Presence from '../types/presence';
 
 class LoadingMiddleware implements Service {
     private dispatch: Dispatch<AnyAction>;
@@ -43,6 +44,23 @@ class LoadingMiddleware implements Service {
             return res;
         } catch (e) {
             loading && this.dispatch(stopLoading(this.checkToken.name));
+            throw e;
+        }
+    }
+
+    public async getPresence(
+        token: string,
+        organisationId: number,
+        seassonId: number,
+    ): Promise<Presence> {
+        let res;
+        try {
+            this.dispatch(startLoading(this.getPresence.name));
+            res = await this.next.getPresence(token, organisationId, seassonId);
+            this.dispatch(stopLoading(this.getPresence.name));
+            return res;
+        } catch (e) {
+            this.dispatch(stopLoading(this.getPresence.name));
             throw e;
         }
     }

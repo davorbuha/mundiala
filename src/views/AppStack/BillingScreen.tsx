@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import {View, ScrollView} from 'react-native';
 import service from '../../service';
@@ -32,6 +33,7 @@ function BillingScreen(props: Props) {
     const [activeBill, setActiveBill] = React.useState<string>();
     const [choosenSeason, setChoosenSeason] = React.useState<number>(-1);
     const [billing, setBilling] = React.useState<Billing[]>([]);
+
     React.useEffect(() => {
         service
             .getSeasons(props.token, props.organisations[0].id)
@@ -43,6 +45,7 @@ function BillingScreen(props: Props) {
             )
             .catch();
     }, []);
+
     React.useEffect(() => {
         if (choosenSeason === -1) {
             Promise.all(

@@ -10,6 +10,7 @@ import {CalendarReply} from './types/calendar';
 import Account from './types/account';
 import Billing from './types/billing';
 import Season from './types/season';
+import Presence from './types/presence';
 
 export interface Service {
     login(
@@ -46,8 +47,12 @@ export interface Service {
         organisationId: number,
         seassonId: number,
     ): Promise<Billing[]>;
-
     getSeasons(token: string, organisationId: number): Promise<Season[]>;
+    getPresence(
+        token: string,
+        organisationId: number,
+        seassonId: number,
+    ): Promise<Presence>;
 }
 
 const rest: Service = new REST(client, config.BACKEND);

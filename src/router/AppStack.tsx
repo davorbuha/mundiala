@@ -12,10 +12,10 @@ import CalendarStack from './CalendarStack';
 import {StackActions} from 'react-navigation';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import SettingsScreen from '../views/AppStack/SettingsScreen';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import BillingScreen from '../views/AppStack/BillingScreen';
+import PresenceScreen from '../views/AppStack/PresenceScreen';
 
 const AppTabs = createBottomTabNavigator(
     {
@@ -64,6 +64,31 @@ const AppTabs = createBottomTabNavigator(
                                     : COLORS.primary,
                             }}>
                             Kalendar
+                        </Text>
+                    </View>
+                ),
+            },
+        },
+        Pressence: {
+            screen: PresenceScreen,
+            navigationOptions: {
+                tabBarLabel: ({focused}) => (
+                    <View style={{marginBottom: 6, bottom: -5}}>
+                        <MaterialIcons
+                            style={{alignSelf: 'center', bottom: -4}}
+                            name={'event-available'}
+                            size={38}
+                            color={focused ? COLORS.success : COLORS.primary}
+                        />
+                        <Text
+                            style={{
+                                alignSelf: 'center',
+                                fontSize: 12,
+                                color: focused
+                                    ? COLORS.success
+                                    : COLORS.primary,
+                            }}>
+                            Prisutnost
                         </Text>
                     </View>
                 ),
