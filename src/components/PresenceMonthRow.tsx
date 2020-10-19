@@ -36,7 +36,6 @@ function PresenceMonthRow(props: Props) {
                 numOfRows++;
             }
             const toValue = numOfRows * 50 + 46;
-            console.log(numOfRows);
             Animated.timing(height.current, {
                 toValue: toValue,
                 duration: 500,

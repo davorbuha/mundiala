@@ -41,9 +41,7 @@ class REST implements Service {
             organisation_id: organisationId,
             seasson_id: seassonId,
         };
-        console.log(data);
         const res = await this.request({method: 'POST', data});
-        console.log(res);
         if (res.data.error !== '') {
             throw new Error(res.data.error);
         }

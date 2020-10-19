@@ -25,7 +25,7 @@ interface DropdownElement {
 
 function BillingScreen(props: Props) {
     const [seasons, setSeasons] = React.useState<DropdownElement[]>([
-        {label: 'Prikaži sve', value: -1},
+        {label: 'Sve sezone', value: -1},
     ]);
     const [pickerOpen, setPickerOpen] = React.useState(false);
     const [barcode, setBarcode] = React.useState<string | undefined>();

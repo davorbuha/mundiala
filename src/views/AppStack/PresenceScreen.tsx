@@ -1,11 +1,12 @@
 /* eslint-disable react-native/no-inline-styles */
-import moment, {months} from 'moment';
+import moment from 'moment';
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import {ScrollView, Text, View} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {connect} from 'react-redux';
 import PresenceMonthRow from '../../components/PresenceMonthRow';
+import TotalPresence from '../../components/TotalPresence';
 import COLORS from '../../res/colors';
 import service from '../../service';
 import {AppState} from '../../store';
@@ -31,7 +32,7 @@ function PresenceScreen(props: Props) {
         string | undefined
     >();
     const [seasons, setSeasons] = React.useState<DropdownElement[]>([
-        {label: 'Prikaži sve', value: -1},
+        {label: 'Sve sezone', value: -1},
     ]);
     // React.useEffect(() => {
     //     console.log(presence);
@@ -82,7 +83,7 @@ function PresenceScreen(props: Props) {
                     new Presence(
                         months,
                         presentCount,
-                        presentPercentage.toFixed(2).toString(),
+                        presentPercentage.toFixed(0).toString(),
                         sumCount,
                     ),
                 );
@@ -105,7 +106,7 @@ function PresenceScreen(props: Props) {
                 onClose={() => setPickerOpen(false)}
                 items={seasons}
                 defaultValue={choosenSeason}
-                containerStyle={{height: 40, width: '70%'}}
+                containerStyle={{height: 40, width: '100%'}}
                 style={{
                     backgroundColor: COLORS.lightGrey,
                     borderBottomColor: COLORS.lightGrey,
@@ -123,27 +124,19 @@ function PresenceScreen(props: Props) {
                 }}
                 onChangeItem={item => setChoosenSeason(item.value)}
             />
-            {pickerOpen && <View style={{height: 150}} />}
+            {pickerOpen && <View style={{height: 140}} />}
             {presence ? (
                 <>
                     <View
                         style={{
-                            position: 'absolute',
-                            right: 0,
-                            height: 40,
-                            width: '30%',
+                            height: 100,
+                            width: '100%',
                             justifyContent: 'center',
-                            alignItems: 'center',
-                            backgroundColor: COLORS.primary,
+                            paddingHorizontal: 16,
+                            backgroundColor: '#f2f2f2',
                         }}>
                         {presence ? (
-                            <Text style={{color: COLORS.white}}>
-                                <Text style={{fontWeight: '700'}}>
-                                    {presence.presentPercentage}%
-                                </Text>
-                                {'  '}
-                                {presence.presentCount}/{presence.sumCount}
-                            </Text>
+                            <TotalPresence presence={presence} />
                         ) : null}
                     </View>
                     <ScrollView>
