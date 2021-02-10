@@ -22,7 +22,7 @@ function TotalPresence({presence}: Props) {
                 color={COLORS.success}
                 shadowColor="#999"
                 bgColor="#fff">
-                <Text style={{fontSize: 14}}>
+                <Text style={{fontSize: 18}}>
                     {presence.presentPercentage}%
                 </Text>
             </ProgressCircle>

@@ -57,7 +57,7 @@ function App() {
                 }
             });
     }, []);
-
+    console.log('tu sammmmm');
     return (
         <Provider store={store}>
             <>

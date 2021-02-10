@@ -17,6 +17,7 @@ class REST implements Service {
         this.url = url;
     }
     public async login(email: string, password: string) {
+        console.log("tuuuu")
         const data = {
             method: 'login',
             email,
@@ -26,6 +27,7 @@ class REST implements Service {
         if (res.data.error !== '') {
             throw new Error(res.data.error);
         }
+        console.log(res)
         const loginReply = LoginReply.fromJSON(res.data);
         return loginReply;
     }
