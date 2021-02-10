@@ -12,6 +12,8 @@ target 'app' do
   pod 'Firebase/Core', '~> 6.14.0'
   pod 'Firebase/Messaging'
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'appTests' do
     inherit! :complete
     # Pods for testing
