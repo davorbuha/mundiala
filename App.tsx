@@ -22,7 +22,7 @@ function App() {
         firebase.notifications().android.createChannel(channel);
         this.unsubscribeFromNotificationListener = firebase
             .notifications()
-            .onNotification(notification => {
+            .onNotification((notification) => {
                 if (Platform.OS === 'android') {
                     const localNotification = new firebase.notifications.Notification()
                         .setSound('default')
@@ -40,7 +40,7 @@ function App() {
                     firebase
                         .notifications()
                         .displayNotification(localNotification)
-                        .catch(err => console.error(err));
+                        .catch((err) => console.error(err));
                 } else if (Platform.OS === 'ios') {
                     const localNotification = new firebase.notifications.Notification()
                         .setNotificationId(notification.notificationId)
@@ -53,7 +53,7 @@ function App() {
                     firebase
                         .notifications()
                         .displayNotification(localNotification)
-                        .catch(err => console.error(err));
+                        .catch((err) => console.error(err));
                 }
             });
     }, []);
@@ -62,12 +62,14 @@ function App() {
         <Provider store={store}>
             <>
                 <Loading>
-                    <Background />
-                    <StatusBar
-                        barStyle="dark-content"
-                        backgroundColor={'#f2f2f2'}
-                    />
-                    <Router />
+                    <>
+                        <Background />
+                        <StatusBar
+                            barStyle="dark-content"
+                            backgroundColor={'#f2f2f2'}
+                        />
+                        <Router />
+                    </>
                 </Loading>
             </>
         </Provider>
