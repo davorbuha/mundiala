@@ -1,15 +1,13 @@
 import React, {useEffect} from 'react';
-import {
-    View,
-    ActivityIndicator,
-    StatusBar,
-    Text,
-    StyleSheet,
-    ImageBackground,
-} from 'react-native';
+import {View, ActivityIndicator, StatusBar, StyleSheet} from 'react-native';
 import {NavigationSwitchScreenProps} from 'react-navigation';
 import CustomSafeArea from '../components/SafeArea';
-import {readCredentials, storeCredentials} from '../asyncStorage';
+import {
+    readCredentials,
+    readNotifications,
+    storeCredentials,
+    storeNotifications,
+} from '../asyncStorage';
 import service from '../service';
 import {Dispatch} from 'redux';
 import {connect} from 'react-redux';
@@ -19,6 +17,9 @@ import {
     setPushTopics,
     setUserEmail,
     setUserBanners,
+    setAdmin,
+    setPushTopicNames,
+    setRPN,
 } from '../userReducer/actions';
 import {setPassword as setPasswordAction} from '../userReducer/actions';
 import Credentials from '../asyncStorage/credentials';
@@ -34,7 +35,7 @@ function AuthLoadingScreen(p: Props) {
     useEffect(() => {
         try {
             readCredentials()
-                .then(credentials => {
+                .then((credentials) => {
                     if (credentials.getToken()) {
                         service
                             .login(
@@ -42,20 +43,52 @@ function AuthLoadingScreen(p: Props) {
                                 credentials.getPassword(),
                                 true,
                             )
-                            .then(res => {
-                                if (credentials.getNotifications()) {
-                                    res.pushTopics.forEach(topic => {
-                                        firebase
-                                            .messaging()
-                                            .subscribeToTopic(topic);
-                                    });
-                                } else {
-                                    res.pushTopics.forEach(topic => {
-                                        firebase
-                                            .messaging()
-                                            .unsubscribeFromTopic(topic);
-                                    });
+                            .then(async (res) => {
+                                const n = await readNotifications();
+                                if (!n || Object.keys(n).length === 0) {
+                                    await storeNotifications(
+                                        res.rpn.reduce(
+                                            (prev, curr) => ({
+                                                ...prev,
+                                                [curr.value]: true,
+                                            }),
+                                            {},
+                                        ),
+                                    );
                                 }
+                                p.dispatch(setRPN(res.rpn));
+                                p.dispatch(
+                                    setPushTopicNames(res.pushTopicNames),
+                                );
+                                if (res.profilType === 'admin') {
+                                    p.dispatch(setAdmin());
+                                }
+                                const notif = await readNotifications();
+                                console.log(notif);
+                                Object.keys(notif).forEach((key) => {
+                                    if (notif[key]) {
+                                        firebase
+                                            .messaging()
+                                            .subscribeToTopic(key);
+                                    } else {
+                                        firebase
+                                            .messaging()
+                                            .unsubscribeFromTopic(key);
+                                    }
+                                });
+                                // if (credentials.getNotifications()) {
+                                //     res.pushTopics.forEach((topic) => {
+                                //         firebase
+                                //             .messaging()
+                                //             .subscribeToTopic(topic);
+                                //     });
+                                // } else {
+                                //     res.pushTopics.forEach((topic) => {
+                                //         firebase
+                                //             .messaging()
+                                //             .unsubscribeFromTopic(topic);
+                                //     });
+                                // }
                                 p.dispatch(
                                     setNotifications(
                                         credentials.getNotifications(),

@@ -12,8 +12,15 @@ import {
     setPushTopics,
     setUserEmail,
     setUserBanners,
+    setAdmin,
+    setPushTopicNames,
+    setRPN,
 } from '../../userReducer/actions';
-import {storeCredentials, readCredentials} from '../../asyncStorage';
+import {
+    readNotifications,
+    storeCredentials,
+    storeNotifications,
+} from '../../asyncStorage';
 import Credentials from '../../asyncStorage/credentials';
 import {setPassword as setPasswordAction} from '../../userReducer/actions';
 import firebase from 'react-native-firebase';
@@ -35,12 +42,48 @@ function LoginScreen(p: Props) {
         setLoginModalVisible(true);
     };
     useEffect(() => setLoginModalVisible(true), []);
+    const onRegisterPress = (mail: string, then: () => void) => {
+        service.signUp(mail).then((res) => {
+            if (res.data.error) {
+                const err: any = new Error(res.data.error);
+                setLoginModalVisible(false);
+                setError(err);
+            } else {
+                then();
+            }
+        }).catch;
+    };
     const onLoginPress = () => {
         service
             .login(email, password, true)
-            .then(res => {
+            .then(async (res) => {
+                const n = await readNotifications();
+                if (!n || Object.keys(n).length === 0) {
+                    await storeNotifications(
+                        res.rpn.reduce(
+                            (prev, curr) => ({
+                                ...prev,
+                                [curr.value]: true,
+                            }),
+                            {},
+                        ),
+                    );
+                }
+                p.dispatch(setRPN(res.rpn));
+                p.dispatch(setPushTopicNames(res.pushTopicNames));
+                if (res.profilType === 'admin') {
+                    p.dispatch(setAdmin());
+                }
+                const notif = await readNotifications();
+                Object.keys(notif).forEach((key) => {
+                    if (notif[key]) {
+                        firebase.messaging().subscribeToTopic(key);
+                    } else {
+                        firebase.messaging().unsubscribeFromTopic(key);
+                    }
+                });
                 p.dispatch(hideBackground());
-                res.pushTopics.forEach(topic => {
+                res.pushTopics.forEach((topic) => {
                     firebase.messaging().subscribeToTopic(topic);
                 });
                 p.dispatch(setPushTopics(res.pushTopics));
@@ -57,7 +100,7 @@ function LoginScreen(p: Props) {
                     p.navigation.navigate('App');
                 });
             })
-            .catch(e => {
+            .catch((e) => {
                 setLoginModalVisible(false);
                 setError(e);
             });
@@ -70,6 +113,7 @@ function LoginScreen(p: Props) {
         onLoginPress,
         visible: loginModalVisible,
         loading: p.loading,
+        onRegisterPress,
     };
     return (
         <>

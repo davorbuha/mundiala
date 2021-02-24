@@ -7,6 +7,7 @@ import Background from './src/components/Background';
 import firebase from 'react-native-firebase';
 import {StatusBar} from 'react-native';
 import Loading from './src/components/Loading';
+import {readNotifications} from './src/asyncStorage';
 
 Text.defaultProps = Text.defaultProps || {};
 Text.defaultProps.allowFontScaling = false;
@@ -57,21 +58,18 @@ function App() {
                 }
             });
     }, []);
-    console.log('tu sammmmm');
     return (
         <Provider store={store}>
-            <>
-                <Loading>
-                    <>
-                        <Background />
-                        <StatusBar
-                            barStyle="dark-content"
-                            backgroundColor={'#f2f2f2'}
-                        />
-                        <Router />
-                    </>
-                </Loading>
-            </>
+            <Loading>
+                <>
+                    <Background />
+                    <StatusBar
+                        barStyle="dark-content"
+                        backgroundColor={'#f2f2f2'}
+                    />
+                    <Router />
+                </>
+            </Loading>
         </Provider>
     );
 }

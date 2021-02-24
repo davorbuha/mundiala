@@ -31,11 +31,7 @@ export const getNavigationOptionsWithAction = (
     headerLeft,
     headerRight,
     style?,
-): NavigationScreenConfig<
-    StackNavigationOptions,
-    StackNavigationProp<NavigationRoute<NavigationParams>, NavigationParams>,
-    unknown
-> => {
+): NavigationScreenConfig<any, any> => {
     return {
         headerTitle,
         headerStyle: {

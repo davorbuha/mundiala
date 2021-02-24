@@ -8,6 +8,8 @@ import Account from '../types/account';
 import Billing from '../types/billing';
 import Season from '../types/season';
 import Presence from '../types/presence';
+import CreateEvent from '../types/createEvent';
+import Category from '../types/category';
 
 class REST implements Service {
     private client: AxiosInstance;
@@ -17,7 +19,6 @@ class REST implements Service {
         this.url = url;
     }
     public async login(email: string, password: string) {
-        console.log("tuuuu")
         const data = {
             method: 'login',
             email,
@@ -27,9 +28,16 @@ class REST implements Service {
         if (res.data.error !== '') {
             throw new Error(res.data.error);
         }
-        console.log(res)
         const loginReply = LoginReply.fromJSON(res.data);
         return loginReply;
+    }
+
+    public async signUp(email: string) {
+        const data = {
+            merhod: 'sign-up',
+            email,
+        };
+        return await this.request({method: 'POST', data});
     }
 
     public async getPresence(
@@ -182,6 +190,60 @@ class REST implements Service {
         return res.data.data.map(Billing.fromJSON);
     }
 
+    public async getCategories(
+        token: string,
+        organisationId: number,
+    ): Promise<Category[]> {
+        const data = {
+            method: 'categories',
+            token,
+            organisation_id: organisationId,
+        };
+        const res = await this.request({method: 'POST', data});
+        return Object.keys(res.data.data).map(
+            (key) => new Category(parseInt(key, 10), res.data.data[key]),
+        );
+    }
+
+    // {"method":"create-event", "token":"{token_iz_login_metode}", "organisation_id":{id_iz_
+    // login_metode_iz_organisations_objekta, "category_id":"{id_kategorije}", "date":"2019-08-01",
+    // "time":"15:00", "seasson_id":"{id_iz_seassons_metode}", "event_type":"event ili training",
+    // "title":"naslov eventa", "description":"opis eventa"}
+
+    public async createEvent(
+        cEvent: CreateEvent,
+        organisationId: number,
+        token: string,
+    ) {
+        const data = {
+            method: 'create-event',
+            token,
+            organisation_id: organisationId,
+            ...cEvent.toJSON(),
+        };
+        await this.request({method: 'POST', data});
+        return;
+    }
+
+    public async sendPush(
+        token: string,
+        organisationId: number,
+        topic: string,
+        title: string,
+        body: string,
+    ): Promise<void> {
+        const data = {
+            method: 'push-send',
+            token,
+            organisation_id: organisationId,
+            topic,
+            title,
+            body,
+        };
+        await this.request({method: 'POST', data});
+        return;
+    }
+
     // {"method": "seassons",
     // "token": "{token_iz_login_metode}",
     // "organisation_id": { id_iz_ login_metode_iz_organisations_objekta }
@@ -196,7 +258,7 @@ class REST implements Service {
             organisation_id: organisationId,
         };
         const res = await this.request({method: 'POST', data});
-        const seasonsToConvert = Object.keys(res.data.data).map(id => ({
+        const seasonsToConvert = Object.keys(res.data.data).map((id) => ({
             id,
             name: res.data.data[id],
         }));

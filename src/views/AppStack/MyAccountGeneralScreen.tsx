@@ -34,15 +34,37 @@ class MyAccountGeneralScreen extends Component<Props> {
         const {token, organisationId} = this.props;
         service
             .getUserProfile(token, organisationId)
-            .then(res => this.props.dispatch(setAccount(res)))
-            .catch(e => {
+            .then((res) => this.props.dispatch(setAccount(res)))
+            .catch(() => {
                 this.props.navigation.goBack();
             });
     }
 
     public render() {
         const {account} = this.props;
-        if (!account) return null;
+        if (!account)
+            return (
+                <View style={{flex: 1, padding: 20}}>
+                    <CustomButton
+                        type="success"
+                        onPress={async () => {
+                            this.props.dispatch(showBackground());
+                            await deleteCredentials();
+                            this.props.navigation.navigate('Auth');
+                        }}
+                        label={
+                            <Text
+                                style={{
+                                    fontFamily: FONTS.bold,
+                                    fontSize: 14,
+                                    color: COLORS.darkGrey,
+                                }}>
+                                Logout
+                            </Text>
+                        }
+                    />
+                </View>
+            );
         return (
             <View style={{flex: 1, padding: 20}}>
                 {renderTable(account)}

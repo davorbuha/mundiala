@@ -17,7 +17,7 @@ function CustomButton(p: Props) {
                     ? style.successButton
                     : p.type === 'standard'
                     ? style.standardButton
-                    : null
+                    : style.cancelButton
             }
             onPress={p.onPress}>
             {p.label}
@@ -38,6 +38,14 @@ const style = StyleSheet.create({
         width: '100%',
         height: 40,
         backgroundColor: COLORS.primary,
+        borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    cancelButton: {
+        width: '100%',
+        height: 40,
+        backgroundColor: COLORS.lightGrey,
         borderRadius: 5,
         alignItems: 'center',
         justifyContent: 'center',

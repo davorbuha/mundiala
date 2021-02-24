@@ -11,6 +11,8 @@ import Account from './types/account';
 import Billing from './types/billing';
 import Season from './types/season';
 import Presence from './types/presence';
+import CreateEvent from './types/createEvent';
+import Category from './types/category';
 
 export interface Service {
     login(
@@ -18,6 +20,7 @@ export interface Service {
         password: string,
         loading: boolean,
     ): Promise<LoginReply>;
+    signUp(email: string): Promise<any>;
     checkToken(token: string, loading: boolean): Promise<boolean>;
     getNews(
         organisationId: number,
@@ -53,6 +56,19 @@ export interface Service {
         organisationId: number,
         seassonId: number,
     ): Promise<Presence>;
+    createEvent(
+        cEvent: CreateEvent,
+        organisationId: number,
+        token: string,
+    ): Promise<void>;
+    getCategories(token: string, organisationId: number): Promise<Category[]>;
+    sendPush(
+        token: string,
+        organisationId: number,
+        topic: string,
+        title: string,
+        body: string,
+    ): Promise<void>;
 }
 
 const rest: Service = new REST(client, config.BACKEND);

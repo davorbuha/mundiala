@@ -23,65 +23,160 @@ interface Props {
     visible: boolean;
     onLoginPress: () => void;
     loading: {[name: string]: boolean};
+    onRegisterPress: (email: string, then: () => void) => void;
 }
 
-const buttonLabel = (loading: boolean) => {
+interface LoginModalContentProps extends Props {
+    onRegisterPress: () => void;
+}
+
+interface RegisterModalContentProps {
+    onBackPress: () => void;
+    onRegisterPress: (email: string, then: () => void) => void;
+}
+
+const buttonLabel = (loading: boolean, title?: string) => {
     if (loading) {
         return <ActivityIndicator size="small" />;
     }
-    return <Text style={style.successButtonText}>Prijavi se</Text>;
+    return (
+        <Text style={style.successButtonText}>
+            {title ? title : 'Prijavi se'}
+        </Text>
+    );
 };
 
+function RegisterModalContent(p: RegisterModalContentProps) {
+    const [email, setEmail] = React.useState('');
+    const [loading] = React.useState(false);
+    return (
+        <View style={style.modalWrapper}>
+            <Image
+                resizeMethod="auto"
+                resizeMode="contain"
+                style={{
+                    marginTop: 16,
+                    height: 50,
+                    width: Dimensions.get('screen').width * 0.5,
+                }}
+                source={require('../../../res/images/logo-login2.png')}></Image>
+            <Text
+                style={{
+                    fontFamily: FONTS.regular,
+                    color: COLORS.white,
+                    fontSize: 20,
+                    marginBottom: 20,
+                }}>
+                Registracija
+            </Text>
+            <TextInput
+                placeholder="Email"
+                autoCorrect={false}
+                autoCompleteType="off"
+                autoCapitalize="none"
+                style={style.textInput}
+                value={email}
+                onChangeText={setEmail}
+            />
+            <CustomButton
+                type="success"
+                label={buttonLabel(loading, 'Registriraj se')}
+                onPress={() => p.onRegisterPress(email, () => p.onBackPress())}
+            />
+            <View style={{marginTop: 16, width: '100%'}}>
+                <CustomButton
+                    type="cancel"
+                    label={buttonLabel(loading, 'Nazad')}
+                    onPress={p.onBackPress}
+                />
+            </View>
+        </View>
+    );
+}
+
+function LoginModalContent(p: LoginModalContentProps) {
+    return (
+        <View style={style.modalWrapper}>
+            <Image
+                resizeMethod="auto"
+                resizeMode="contain"
+                style={{
+                    marginTop: 16,
+                    height: 50,
+                    width: Dimensions.get('screen').width * 0.5,
+                }}
+                source={require('../../../res/images/logo-login2.png')}></Image>
+            <Text
+                style={{
+                    fontFamily: FONTS.regular,
+                    color: COLORS.white,
+                    fontSize: 20,
+                    marginBottom: 20,
+                }}>
+                Prijava
+            </Text>
+            <TextInput
+                placeholder="Email"
+                autoCorrect={false}
+                autoCompleteType="off"
+                autoCapitalize="none"
+                style={style.textInput}
+                value={p.email}
+                onChangeText={p.setEmail}
+            />
+            <TextInput
+                placeholder="Lozinka"
+                textContentType="password"
+                secureTextEntry={true}
+                autoCorrect={false}
+                autoCompleteType="off"
+                autoCapitalize="none"
+                style={style.textInput}
+                value={p.password}
+                onChangeText={p.setPassword}
+            />
+            <CustomButton
+                type="success"
+                label={buttonLabel(p.loading.login)}
+                onPress={p.onLoginPress}
+            />
+            <View style={{marginTop: 16, width: '100%'}}>
+                <CustomButton
+                    type="cancel"
+                    label={
+                        <Text style={style.successButtonText}>
+                            Registriraj se
+                        </Text>
+                    }
+                    onPress={p.onRegisterPress}
+                />
+            </View>
+        </View>
+    );
+}
+
 function LoginModal(p: Props) {
+    const [isLogin, setIsLogin] = React.useState(true);
+    const onRegisterPress = () => {
+        setIsLogin(false);
+    };
     return (
         <Modal animationType="slide" transparent visible={p.visible}>
             <DismissKeyboard>
                 <KeyboardAvoidingView
                     behavior="height"
                     style={style.modalContainer}>
-                    <View style={style.modalWrapper}>
-                        <Image
-                            resizeMethod="auto"
-                            resizeMode="contain"
-                            style={{
-                                marginTop: 16,
-                                height: 50,
-                                width: Dimensions.get('screen').width * 0.5,
-                            }}
-                            source={require('../../../res/images/logo-login2.png')}></Image>
-                        <Text
-                            style={{
-                                fontFamily: FONTS.regular,
-                                color: COLORS.white,
-                                fontSize: 20,
-                                marginBottom: 20,
-                            }}>
-                            Prijava
-                        </Text>
-                        <TextInput
-                            autoCorrect={false}
-                            autoCompleteType="off"
-                            autoCapitalize="none"
-                            style={style.textInput}
-                            value={p.email}
-                            onChangeText={p.setEmail}
+                    {isLogin ? (
+                        <LoginModalContent
+                            {...p}
+                            onRegisterPress={onRegisterPress}
                         />
-                        <TextInput
-                            textContentType="password"
-                            secureTextEntry={true}
-                            autoCorrect={false}
-                            autoCompleteType="off"
-                            autoCapitalize="none"
-                            style={style.textInput}
-                            value={p.password}
-                            onChangeText={p.setPassword}
+                    ) : (
+                        <RegisterModalContent
+                            onRegisterPress={p.onRegisterPress}
+                            onBackPress={() => setIsLogin(true)}
                         />
-                        <CustomButton
-                            type="success"
-                            label={buttonLabel(p.loading.login)}
-                            onPress={p.onLoginPress}
-                        />
-                    </View>
+                    )}
                 </KeyboardAvoidingView>
             </DismissKeyboard>
         </Modal>

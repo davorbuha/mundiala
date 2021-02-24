@@ -6,10 +6,14 @@ import {
     SET_PUSH_TOPICS,
     SET_USER_EMAIL,
     SET_USER_BANNERS,
+    SET_ADMIN,
+    SET_PUSH_TOPIC_NAME,
+    SET_RPN,
 } from './actions';
 import Organization from '../types/organization';
 import Account from '../types/account';
 import Banner from '../types/banner';
+import {PushTopicName} from '../types/login';
 
 const INITIAL_STATE: State = {
     token: '',
@@ -20,6 +24,9 @@ const INITIAL_STATE: State = {
     topics: [],
     email: '',
     banners: [],
+    admin: false,
+    ptn: [],
+    rpn: [],
 };
 
 export interface State {
@@ -31,6 +38,9 @@ export interface State {
     topics: string[];
     email: string;
     banners: Banner[];
+    admin: boolean;
+    ptn: PushTopicName[];
+    rpn: PushTopicName[];
 }
 
 const userReducer = (state: State = INITIAL_STATE, action): State => {
@@ -73,6 +83,12 @@ const userReducer = (state: State = INITIAL_STATE, action): State => {
                 ...state,
                 banners: action.banners,
             };
+        case SET_ADMIN:
+            return {...state, admin: true};
+        case SET_PUSH_TOPIC_NAME:
+            return {...state, ptn: action.ptn};
+        case SET_RPN:
+            return {...state, rpn: action.rpn};
         default:
             return state;
     }

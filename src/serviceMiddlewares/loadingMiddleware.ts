@@ -9,6 +9,8 @@ import Account from '../types/account';
 import Billing from '../types/billing';
 import Season from '../types/season';
 import Presence from '../types/presence';
+import CreateEvent from '../types/createEvent';
+import Category from '../types/category';
 
 class LoadingMiddleware implements Service {
     private dispatch: Dispatch<AnyAction>;
@@ -33,6 +35,10 @@ class LoadingMiddleware implements Service {
             throw e;
         }
         return res;
+    }
+
+    public async signUp(email: string): Promise<any> {
+        return await this.next.signUp(email);
     }
 
     public async checkToken(token: string, loading: boolean): Promise<boolean> {
@@ -191,6 +197,31 @@ class LoadingMiddleware implements Service {
             this.dispatch(stopLoading(this.getSeasons.name));
             throw e;
         }
+    }
+
+    public async createEvent(
+        cEvent: CreateEvent,
+        organisationId: number,
+        token: string,
+    ): Promise<void> {
+        return this.next.createEvent(cEvent, organisationId, token);
+    }
+
+    public async getCategories(
+        token: string,
+        organisationId: number,
+    ): Promise<Category[]> {
+        return this.next.getCategories(token, organisationId);
+    }
+
+    public async sendPush(
+        token: string,
+        organisationId: number,
+        topic: string,
+        title: string,
+        body: string,
+    ): Promise<void> {
+        return this.next.sendPush(token, organisationId, topic, title, body)
     }
 }
 
