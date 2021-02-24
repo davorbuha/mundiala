@@ -37,10 +37,10 @@ function BillingScreen(props: Props) {
     React.useEffect(() => {
         service
             .getSeasons(props.token, props.organisations[0].id)
-            .then(res =>
+            .then((res) =>
                 setSeasons([
                     ...seasons,
-                    ...res.map(item => ({value: item.id, label: item.name})),
+                    ...res.map((item) => ({value: item.id, label: item.name})),
                 ]),
             )
             .catch();
@@ -50,24 +50,25 @@ function BillingScreen(props: Props) {
         if (choosenSeason === -1) {
             Promise.all(
                 seasons
-                    .filter(item => item.value !== -1)
-                    .map(s =>
+                    .filter((item) => item.value !== -1)
+                    .map((s) =>
                         service.getBilling(
                             props.token,
                             props.organisations[0].id,
                             s.value,
                         ),
                     ),
-            ).then(all => {
+            ).then((all) => {
+                console.log(all.flat());
                 setBilling(
                     all
                         .flat()
                         .sort(
                             (a: Billing, b: Billing) =>
-                                (moment(a.paymentTill).format(
+                                (moment(b.paymentTill, 'YYYY-MM-DD').format(
                                     'YYYYMMDD',
                                 ) as any) -
-                                (moment(b.paymentTill).format(
+                                (moment(a.paymentTill, 'YYYY-MM-DD').format(
                                     'YYYYMMDD',
                                 ) as any),
                         ),
@@ -80,7 +81,7 @@ function BillingScreen(props: Props) {
                     props.organisations[0].id,
                     choosenSeason,
                 )
-                .then(bill =>
+                .then((bill) =>
                     setBilling(
                         bill.sort(
                             (a: Billing, b: Billing) =>
@@ -126,7 +127,7 @@ function BillingScreen(props: Props) {
                 itemStyle={{
                     justifyContent: 'flex-start',
                 }}
-                onChangeItem={item => setChoosenSeason(item.value)}
+                onChangeItem={(item) => setChoosenSeason(item.value)}
             />
             {pickerOpen && <View style={{height: 150}} />}
             <ScrollView>

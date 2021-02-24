@@ -34,7 +34,7 @@ class REST implements Service {
 
     public async signUp(email: string) {
         const data = {
-            merhod: 'sign-up',
+            method: 'sign-up',
             email,
         };
         return await this.request({method: 'POST', data});

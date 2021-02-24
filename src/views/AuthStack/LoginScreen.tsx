@@ -45,7 +45,7 @@ function LoginScreen(p: Props) {
     const onRegisterPress = (mail: string, then: () => void) => {
         service.signUp(mail).then((res) => {
             if (res.data.error) {
-                const err: any = new Error(res.data.error);
+                const err: any = new Error(res.data.error_msg);
                 setLoginModalVisible(false);
                 setError(err);
             } else {
