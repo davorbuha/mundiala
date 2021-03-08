@@ -35,10 +35,16 @@ interface Props {
 function LoginScreen(p: Props) {
     const [loginModalVisible, setLoginModalVisible] = useState(false);
     const [error, setError] = useState();
+    const [showRegisterSuccess, setShowRegisterSuccess] = useState(false);
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const onOkPress = () => {
         setError(null);
+        setLoginModalVisible(true);
+    };
+    const onOkRegisterPress = (cb: () => void) => () => {
+        cb();
+        setShowRegisterSuccess(false);
         setLoginModalVisible(true);
     };
     useEffect(() => setLoginModalVisible(true), []);
@@ -49,6 +55,8 @@ function LoginScreen(p: Props) {
                 setLoginModalVisible(false);
                 setError(err);
             } else {
+                setShowRegisterSuccess(true);
+                setLoginModalVisible(false);
                 then();
             }
         }).catch;
@@ -114,6 +122,8 @@ function LoginScreen(p: Props) {
         visible: loginModalVisible,
         loading: p.loading,
         onRegisterPress,
+        showRegisterSuccess,
+        onOkRegisterPress: onOkRegisterPress(() => setLoginModalVisible(true)),
     };
     return (
         <>

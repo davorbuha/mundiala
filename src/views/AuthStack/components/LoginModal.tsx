@@ -9,11 +9,13 @@ import {
     TextInput,
     KeyboardAvoidingView,
     ActivityIndicator,
+    TouchableOpacity,
 } from 'react-native';
 import FONTS from '../../../res/fonts';
 import COLORS from '../../../res/colors';
 import DismissKeyboard from '../../../components/DismissKeyboard';
 import CustomButton from '../../../components/CustomButton';
+import RegisterSuccessModal from './RegisterSuccessModal';
 
 interface Props {
     email: string;
@@ -24,6 +26,8 @@ interface Props {
     onLoginPress: () => void;
     loading: {[name: string]: boolean};
     onRegisterPress: (email: string, then: () => void) => void;
+    showRegisterSuccess: boolean;
+    onOkRegisterPress: () => void;
 }
 
 interface LoginModalContentProps extends Props {
@@ -84,11 +88,19 @@ function RegisterModalContent(p: RegisterModalContentProps) {
                 onPress={() => p.onRegisterPress(email, () => p.onBackPress())}
             />
             <View style={{marginTop: 16, width: '100%'}}>
-                <CustomButton
-                    type="cancel"
-                    label={buttonLabel(loading, 'Nazad')}
-                    onPress={p.onBackPress}
-                />
+                <TouchableOpacity onPress={p.onBackPress}>
+                    <Text
+                        style={{
+                            alignSelf: 'center',
+                            marginTop: -8,
+                            fontFamily: FONTS.regular,
+                            color: COLORS.white,
+                            fontSize: 16,
+                            marginBottom: 4,
+                        }}>
+                        Nazad
+                    </Text>
+                </TouchableOpacity>
             </View>
         </View>
     );
@@ -135,21 +147,37 @@ function LoginModalContent(p: LoginModalContentProps) {
                 value={p.password}
                 onChangeText={p.setPassword}
             />
+            <TouchableOpacity>
+                <Text
+                    style={{
+                        marginTop: -8,
+                        fontFamily: FONTS.regular,
+                        color: COLORS.white,
+                        fontSize: 16,
+                        marginBottom: 28,
+                    }}>
+                    Zaboravili ste lozinku?
+                </Text>
+            </TouchableOpacity>
             <CustomButton
                 type="success"
                 label={buttonLabel(p.loading.login)}
                 onPress={p.onLoginPress}
             />
             <View style={{marginTop: 16, width: '100%'}}>
-                <CustomButton
-                    type="cancel"
-                    label={
-                        <Text style={style.successButtonText}>
-                            Registriraj se
-                        </Text>
-                    }
-                    onPress={p.onRegisterPress}
-                />
+                <TouchableOpacity onPress={p.onRegisterPress}>
+                    <Text
+                        style={{
+                            alignSelf: 'center',
+                            marginTop: -8,
+                            fontFamily: FONTS.regular,
+                            color: COLORS.white,
+                            fontSize: 16,
+                            marginBottom: 4,
+                        }}>
+                        Registriraj se
+                    </Text>
+                </TouchableOpacity>
             </View>
         </View>
     );
@@ -161,25 +189,33 @@ function LoginModal(p: Props) {
         setIsLogin(false);
     };
     return (
-        <Modal animationType="slide" transparent visible={p.visible}>
-            <DismissKeyboard>
-                <KeyboardAvoidingView
-                    behavior="height"
-                    style={style.modalContainer}>
-                    {isLogin ? (
-                        <LoginModalContent
-                            {...p}
-                            onRegisterPress={onRegisterPress}
-                        />
-                    ) : (
-                        <RegisterModalContent
-                            onRegisterPress={p.onRegisterPress}
-                            onBackPress={() => setIsLogin(true)}
-                        />
-                    )}
-                </KeyboardAvoidingView>
-            </DismissKeyboard>
-        </Modal>
+        <>
+            {p.showRegisterSuccess ? (
+                <RegisterSuccessModal
+                    onOkPress={p.onOkRegisterPress}
+                    show={p.showRegisterSuccess}
+                />
+            ) : null}
+            <Modal animationType="slide" transparent visible={p.visible}>
+                <DismissKeyboard>
+                    <KeyboardAvoidingView
+                        behavior="height"
+                        style={style.modalContainer}>
+                        {isLogin ? (
+                            <LoginModalContent
+                                {...p}
+                                onRegisterPress={onRegisterPress}
+                            />
+                        ) : (
+                            <RegisterModalContent
+                                onRegisterPress={p.onRegisterPress}
+                                onBackPress={() => setIsLogin(true)}
+                            />
+                        )}
+                    </KeyboardAvoidingView>
+                </DismissKeyboard>
+            </Modal>
+        </>
     );
 }
 
@@ -192,6 +228,7 @@ const style = StyleSheet.create({
         borderRadius: 5,
         alignItems: 'center',
         justifyContent: 'center',
+        width: '80%',
     },
     modalContainer: {
         flex: 1,
@@ -203,7 +240,7 @@ const style = StyleSheet.create({
         backgroundColor: COLORS.white,
         fontFamily: FONTS.regular,
         padding: 4,
-        fontSize: 14,
+        fontSize: 16,
         borderRadius: 5,
         marginBottom: 16,
     },

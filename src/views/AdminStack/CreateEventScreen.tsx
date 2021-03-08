@@ -54,7 +54,6 @@ function CreateEventScreen(p: Props) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     const {control, handleSubmit, watch} = useForm();
-    const type = watch(fields.type);
     const submit = handleSubmit((data) => {
         service
             .createEvent(
