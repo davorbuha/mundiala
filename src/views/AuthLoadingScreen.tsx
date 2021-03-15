@@ -64,7 +64,6 @@ function AuthLoadingScreen(p: Props) {
                                     p.dispatch(setAdmin());
                                 }
                                 const notif = await readNotifications();
-                                console.log(notif);
                                 Object.keys(notif).forEach((key) => {
                                     if (notif[key]) {
                                         firebase

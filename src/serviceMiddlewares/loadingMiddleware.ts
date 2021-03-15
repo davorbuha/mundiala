@@ -20,6 +20,16 @@ class LoadingMiddleware implements Service {
         this.dispatch = dispatch;
         this.next = next;
     }
+
+    public async forgot(email: string): Promise<any> {
+        let res;
+        try {
+            res = await this.next.forgot(email);
+        } catch (e) {
+            throw e;
+        }
+        return res;
+    }
     public async login(
         email: string,
         password: string,

@@ -59,7 +59,6 @@ function BillingScreen(props: Props) {
                         ),
                     ),
             ).then((all) => {
-                console.log(all.flat());
                 setBilling(
                     all
                         .flat()

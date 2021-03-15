@@ -18,6 +18,14 @@ class REST implements Service {
         this.client = client;
         this.url = url;
     }
+    public async forgot(email) {
+        const data = {
+            method: 'password-reset',
+            email,
+        };
+        const res = await this.request({method: 'POST', data});
+        return res;
+    }
     public async login(email: string, password: string) {
         const data = {
             method: 'login',

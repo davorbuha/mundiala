@@ -20,6 +20,7 @@ export interface Service {
         password: string,
         loading: boolean,
     ): Promise<LoginReply>;
+    forgot(email: string): Promise<any>;
     signUp(email: string): Promise<any>;
     checkToken(token: string, loading: boolean): Promise<boolean>;
     getNews(

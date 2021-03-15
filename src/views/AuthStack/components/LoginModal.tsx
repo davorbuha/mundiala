@@ -26,17 +26,24 @@ interface Props {
     onLoginPress: () => void;
     loading: {[name: string]: boolean};
     onRegisterPress: (email: string, then: () => void) => void;
+    onForgotSubmit: (email: string, then: () => void) => void;
     showRegisterSuccess: boolean;
     onOkRegisterPress: () => void;
 }
 
 interface LoginModalContentProps extends Props {
     onRegisterPress: () => void;
+    onForgotPress: () => void;
 }
 
 interface RegisterModalContentProps {
     onBackPress: () => void;
     onRegisterPress: (email: string, then: () => void) => void;
+}
+
+interface ForgotModalContentProps {
+    onBackPress: () => void;
+    onForgotSubmit: (email: string, then: () => void) => void;
 }
 
 const buttonLabel = (loading: boolean, title?: string) => {
@@ -106,6 +113,62 @@ function RegisterModalContent(p: RegisterModalContentProps) {
     );
 }
 
+function ForgotModalContent(p: ForgotModalContentProps) {
+    const [email, setEmail] = React.useState('');
+    const [loading] = React.useState(false);
+    return (
+        <View style={style.modalWrapper}>
+            <Image
+                resizeMethod="auto"
+                resizeMode="contain"
+                style={{
+                    marginTop: 16,
+                    height: 50,
+                    width: Dimensions.get('screen').width * 0.5,
+                }}
+                source={require('../../../res/images/logo-login2.png')}></Image>
+            <Text
+                style={{
+                    fontFamily: FONTS.regular,
+                    color: COLORS.white,
+                    fontSize: 20,
+                    marginBottom: 20,
+                }}>
+                Zaboravili ste lozinku?
+            </Text>
+            <TextInput
+                placeholder="Email"
+                autoCorrect={false}
+                autoCompleteType="off"
+                autoCapitalize="none"
+                style={style.textInput}
+                value={email}
+                onChangeText={setEmail}
+            />
+            <CustomButton
+                type="success"
+                label={buttonLabel(loading, 'Potvrdi')}
+                onPress={() => p.onForgotSubmit(email, () => p.onBackPress())}
+            />
+            <View style={{marginTop: 16, width: '100%'}}>
+                <TouchableOpacity onPress={p.onBackPress}>
+                    <Text
+                        style={{
+                            alignSelf: 'center',
+                            marginTop: -8,
+                            fontFamily: FONTS.regular,
+                            color: COLORS.white,
+                            fontSize: 16,
+                            marginBottom: 4,
+                        }}>
+                        Nazad
+                    </Text>
+                </TouchableOpacity>
+            </View>
+        </View>
+    );
+}
+
 function LoginModalContent(p: LoginModalContentProps) {
     return (
         <View style={style.modalWrapper}>
@@ -147,7 +210,7 @@ function LoginModalContent(p: LoginModalContentProps) {
                 value={p.password}
                 onChangeText={p.setPassword}
             />
-            <TouchableOpacity>
+            <TouchableOpacity onPress={p.onForgotPress}>
                 <Text
                     style={{
                         marginTop: -8,
@@ -183,10 +246,16 @@ function LoginModalContent(p: LoginModalContentProps) {
     );
 }
 
+enum ModalContent {
+    Login,
+    Register,
+    Forgot,
+}
+
 function LoginModal(p: Props) {
-    const [isLogin, setIsLogin] = React.useState(true);
+    const [content, setContent] = React.useState(ModalContent.Login);
     const onRegisterPress = () => {
-        setIsLogin(false);
+        setContent(ModalContent.Register);
     };
     return (
         <>
@@ -201,15 +270,27 @@ function LoginModal(p: Props) {
                     <KeyboardAvoidingView
                         behavior="height"
                         style={style.modalContainer}>
-                        {isLogin ? (
+                        {content === ModalContent.Login ? (
                             <LoginModalContent
                                 {...p}
+                                onForgotPress={() =>
+                                    setContent(ModalContent.Forgot)
+                                }
                                 onRegisterPress={onRegisterPress}
                             />
-                        ) : (
+                        ) : content === ModalContent.Register ? (
                             <RegisterModalContent
                                 onRegisterPress={p.onRegisterPress}
-                                onBackPress={() => setIsLogin(true)}
+                                onBackPress={() =>
+                                    setContent(ModalContent.Login)
+                                }
+                            />
+                        ) : (
+                            <ForgotModalContent
+                                onBackPress={() =>
+                                    setContent(ModalContent.Login)
+                                }
+                                onForgotSubmit={p.onForgotSubmit}
                             />
                         )}
                     </KeyboardAvoidingView>

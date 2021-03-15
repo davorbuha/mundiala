@@ -113,6 +113,20 @@ function LoginScreen(p: Props) {
                 setError(e);
             });
     };
+
+    const onForgotSubmit = (mail: string, then: () => void) => {
+        service.forgot(mail).then((res) => {
+            if (res.data.error) {
+                const err: any = {message: 'Neispravna mail adresa'};
+                setLoginModalVisible(false);
+                setError(err);
+            } else {
+                setShowRegisterSuccess(true);
+                setLoginModalVisible(false);
+                then();
+            }
+        }).catch;
+    };
     const props = {
         password,
         email,
@@ -123,6 +137,7 @@ function LoginScreen(p: Props) {
         loading: p.loading,
         onRegisterPress,
         showRegisterSuccess,
+        onForgotSubmit,
         onOkRegisterPress: onOkRegisterPress(() => setLoginModalVisible(true)),
     };
     return (
